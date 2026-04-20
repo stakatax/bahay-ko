@@ -28,7 +28,7 @@ $currentPage = $page ?? 'dashboard';
             'label' => 'News',
             'roles' => ['Student', 'Faculty', 'Admin']
         ],
-        'contacts' => [
+        'contact' => [
             'label' => 'Contacts',
             'roles' => ['Student', 'Faculty', 'Admin'] // For global view
         ],

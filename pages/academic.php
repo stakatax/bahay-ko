@@ -5,16 +5,16 @@
     <div class="hero-content">
 
 
-        <h1>
+        <h1 class="fade-up">
             ACADEMIC<br>
             OFFERINGS
         </h1>
 
-        <p class="hero-tagline">
+        <p class="hero-tagline fade-up">
             Empowering Mind Through Quality Education
         </p>
 
-        <p class="hero-desc">
+        <p class="hero-desc fade-up">
             Our Lady of Sacred College of Guimba, Inc. is committed to nurturing young minds through
             quality education, strong values, and a Christ-centered learning environment.
         </p>

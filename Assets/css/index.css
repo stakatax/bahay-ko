@@ -1,3 +1,5 @@
+@import url('root.css');
+
 /* RESET */
 * {
   margin: 0;
@@ -13,13 +15,6 @@ html, body {
   overflow-x: hidden; /* allow vertical scroll if needed */
 }
 
-/* VARIABLES */
-:root {
-  --padding: clamp(16px, 4vw, 60px);
-  --title-size: clamp(28px, 6vw, 64px);
-  --text-size: clamp(12px, 2.5vw, 16px);
-}
-
 .fullscreen {
   width: 100%; /* Use 100% instead of 100vw to avoid horizontal scroll bugs */
   min-height: 100vh; /* Changed from height to min-height */
@@ -30,7 +25,7 @@ html, body {
   width: 100%;
   min-height: 100vh; /* Changed from height to min-height */
   padding: clamp(6px, 1vw, 16px);
-  background: linear-gradient(to bottom, #7a0000, #b30000, #d86a2b);
+  background: var(--gradient-hero);
   display: flex; /* Ensures the child (main-card) fills the space */
 }
 

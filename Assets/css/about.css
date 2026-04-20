@@ -1,14 +1,22 @@
-/* ===== ABOUT PAGE ===== */
-body::-webkit-scrollbar{
-    display: none;
+@import url('root.css');
+
+/* HIDE SCROLLBAR */
+body::-webkit-scrollbar {
+  display: none;
 }
 
+/* HEADINGS */
 h2 {
   font-size: 28px;
-  color: #8B0000;
+  color: var(--primary-red);
   margin-bottom: 12px;
 }
 
+h4 {
+  padding-bottom: 10px;
+}
+
+/* HERO */
 .about-hero {
   position: relative;
   height: 95vh;
@@ -22,193 +30,9 @@ h2 {
   object-fit: cover;
 }
 
-.hero-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-}
-
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: 80px;
-  transform: translateY(-50%);
-  color: #fff;
-  max-width: 520px;
-}
-
-.hero-logo {
-  width: 55px;
-  margin-bottom: 15px;
-}
-
-.hero-content h1 {
-  font-size: 60px;
-  font-weight: 800;
-  line-height: 1.05;
-}
-
-.hero-tagline {
-  margin: 12px 0;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.hero-desc {
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-/* BODY */
-.about-body {
-  padding: 60px 80px;
-  background: #f1ebeb;
-}
-
-/* STORY */
-.about-story {
-  display: flex;
-  gap: 50px;
-  align-items: center;
-  margin-bottom: 70px;
-}
-
-.story-img img {
-  width: 85%;
-  border-radius: 22px;
-}
-
-.story-text h2 {
-  font-size: 28px;
-  color: #8B0000;
-  margin-bottom: 12px;
-}
-
-.story-text p {
-  margin-bottom: 10px;
-}
-
-.story-quote {
-  color: #8B0000;
-  font-weight: 600;
-}
-
-/* MV */
-.about-mv {
-  display: flex;
-  gap: 25px;
-  margin-bottom: 70px;
-}
-
-.mv-card {
-  flex: 1;
-  background: #fff;
-  padding: 30px;
-  border-radius: 22px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-}
-
-.mv-card h3 {
-  color: #8B0000;
-  padding-bottom: 15px;
-}
-
-.values-grid {
-  display: flex;
-  flex-wrap: wrap;       /* Allows cards to move to the next line */
-  justify-content: center; /* Centers items on every row */
-  gap: 25px;
-  width: 100%;
-}
-
-.value-card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 22px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-  
-  /* Standardizing the width so they look like a grid */
-  flex: 1 1 calc(25% - 25px); 
-  min-width: 250px; /* Prevents cards from getting too skinny */
-  max-width: 300px; /* Keeps them from getting too wide */
-}
-
-/* PROFILE */
-.about-profile h2 {
-  color: #8B0000;
-  margin-bottom: 25px;
-  margin-top: 25px;
-}
-
-.profile-container {
-  display: flex;
-  gap: 30px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 22px;
-}
-
-.profile-images {
-  display: flex;
-  gap: 15px;
-}
-
-.profile-images img {
-  width: 170px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 15px;
-}
-
-/* Allow scrolling for full pages */
-body.scroll-page {
-  overflow-y: auto;
-}
-
-/* Prevent content cutoff */
-.main-card {
-  height: auto;
-}
-
-/* OVERLAY */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-}
-
-h4{
-  padding-bottom: 10px;
-}
-/* ===== ABOUT PAGE ===== */
-body::-webkit-scrollbar{
-    display: none;
-}
-
-h2 {
-  font-size: 28px;
-  color: #8B0000;
-  margin-bottom: 12px;
-}
-
-.about-hero {
-  position: relative;
-  height: 95vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-.hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
   background: rgba(0,0,0,0.6);
 }
 
@@ -217,7 +41,7 @@ h2 {
   top: 50%;
   left: 80px;
   transform: translateY(-50%);
-  color: #fff;
+  color: var(--text-white);
   max-width: 520px;
 }
 
@@ -246,7 +70,7 @@ h2 {
 /* BODY */
 .about-body {
   padding: 60px 80px;
-  background: #f1ebeb;
+  background: var(--bg-main);
 }
 
 /* STORY */
@@ -259,13 +83,7 @@ h2 {
 
 .story-img img {
   width: 85%;
-  border-radius: 22px;
-}
-
-.story-text h2 {
-  font-size: 28px;
-  color: #8B0000;
-  margin-bottom: 12px;
+  border-radius: var(--radius-xl);
 }
 
 .story-text p {
@@ -273,11 +91,11 @@ h2 {
 }
 
 .story-quote {
-  color: #8B0000;
+  color: var(--primary-red);
   font-weight: 600;
 }
 
-/* MV */
+/* MISSION & VISION */
 .about-mv {
   display: flex;
   gap: 25px;
@@ -286,50 +104,50 @@ h2 {
 
 .mv-card {
   flex: 1;
-  background: #fff;
+  background: var(--bg-card);
   padding: 30px;
-  border-radius: 22px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
 }
 
 .mv-card h3 {
-  color: #8B0000;
+  color: var(--primary-red);
+  padding-bottom: 15px;
 }
 
+/* VALUES */
 .values-grid {
   display: flex;
-  flex-wrap: wrap;       /* Allows cards to move to the next line */
-  justify-content: center; /* Centers items on every row */
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 25px;
   width: 100%;
 }
 
 .value-card {
-  background: #fff;
+  background: var(--bg-card);
   padding: 25px;
-  border-radius: 22px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-  
-  /* Standardizing the width so they look like a grid */
-  flex: 1 1 calc(25% - 25px); 
-  min-width: 250px; /* Prevents cards from getting too skinny */
-  max-width: 300px; /* Keeps them from getting too wide */
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+
+  flex: 1 1 calc(25% - 25px);
+  min-width: 250px;
+  max-width: 300px;
 }
 
 /* PROFILE */
 .about-profile h2 {
   text-align: center;
-  color: #8B0000;
-  margin-bottom: 25px;
-  margin-top: 25px;
+  color: var(--primary-red);
+  margin: 25px 0;
 }
 
 .profile-container {
   display: flex;
   gap: 30px;
-  background: #fff;
+  background: var(--bg-card);
   padding: 30px;
-  border-radius: 22px;
+  border-radius: var(--radius-xl);
 }
 
 .profile-images {
@@ -341,22 +159,14 @@ h2 {
   width: 170px;
   height: 120px;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: var(--radius-md);
 }
 
-/* Allow scrolling for full pages */
+/* SCROLL FIX */
 body.scroll-page {
   overflow-y: auto;
 }
 
-/* Prevent content cutoff */
 .main-card {
   height: auto;
-}
-
-/* OVERLAY */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
 }

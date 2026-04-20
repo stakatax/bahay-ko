@@ -85,14 +85,6 @@
         </div>
 
     </div>
-
-    </div>
-
-    <div class="contact-container">
-
-
-
-
-    </div>
+</div>
 
 </section>

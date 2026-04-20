@@ -1,7 +1,7 @@
 <?php
 $page = $_GET['page'] ?? 'home';
 
-$role = $role ?? 'Student';
+$role = $role ?? 'Faculty';
 
 // whitelist (important, don't skip this)
 $allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar'];

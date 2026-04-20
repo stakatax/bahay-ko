@@ -1,3 +1,5 @@
+@import url('root.css');
+
 /* HIDE SCROLLBAR (OPTIONAL) */
 body::-webkit-scrollbar {
     display: none;
@@ -28,7 +30,7 @@ body::-webkit-scrollbar {
     top: 50%;
     left: 80px;
     transform: translateY(-50%);
-    color: #fff;
+    color: var(--text-white);
     max-width: 520px;
 }
 
@@ -51,8 +53,7 @@ body::-webkit-scrollbar {
 
 /* BODY */
 .academic-body {
-    /* padding: 60px 80px; */
-    background: #f1ebeb;
+    background: var(--bg-main);
 }
 
 /* PROGRAMS */
@@ -72,7 +73,7 @@ body::-webkit-scrollbar {
     gap: 15px 30px;
     align-items: center;
 
-    background: linear-gradient(to right, #f3e4c8, #f1ebeb);
+    background: var(--gradient-beige);
     padding: 60px 80px;
 }
 
@@ -82,14 +83,14 @@ body::-webkit-scrollbar {
     width: 250px;
     height: 200px;
     object-fit: cover;
-    border-radius: 15px;
+    border-radius: var(--radius-md);
 }
 
 /* DESCRIPTION */
 .program-desc {
     grid-area: desc;
     font-size: 18px;
-    color: #555;
+    color: var(--text-gray);
     line-height: 1.6;
     align-self: center;
     justify-self: center;
@@ -100,7 +101,7 @@ body::-webkit-scrollbar {
     grid-area: title;
     font-size: 22px;
     font-weight: 700;
-    color: #8B0000;
+    color: var(--primary-red);
     justify-self: center;
 }
 
@@ -123,7 +124,7 @@ body::-webkit-scrollbar {
     text-align: center;
     font-size: 42px;
     font-weight: 800;
-    color: #8B0000;
+    color: var(--primary-red);
     margin-bottom: 50px;
 }
 
@@ -140,11 +141,11 @@ body::-webkit-scrollbar {
     display: flex;
     gap: 15px;
 
-    background: white;
+    background: var(--bg-card);
     padding: 25px;
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-lg);
     transition: 0.3s;
     position: relative;
 
@@ -155,7 +156,7 @@ body::-webkit-scrollbar {
 /* HOVER */
 .item:hover {
     transform: translateY(-6px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12); /* no variable for this exact shadow */
 }
 
 /* ICON */
@@ -163,14 +164,14 @@ body::-webkit-scrollbar {
     min-width: 50px;
     height: 50px;
 
-    background: #8B0000;
-    color: white;
+    background: var(--primary-red);
+    color: var(--text-white);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     font-size: 20px;
 }
 
@@ -178,12 +179,12 @@ body::-webkit-scrollbar {
 .item-content h2 {
     margin-bottom: 8px;
     font-size: 18px;
-    color: #8B0000;
+    color: var(--primary-red);
 }
 
 .item-content p {
     font-size: 14px;
-    color: #555;
+    color: var(--text-gray);
     line-height: 1.6;
 }
 

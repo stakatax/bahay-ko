@@ -1,0 +1,49 @@
+:root {
+    /* Primary Colors */
+    --primary-red: #8B0000;
+    --primary-red-hover: #6a0000; /* Used for hover states */
+    --accent-orange: #d86a2b;
+    --highlight-yellow: #f4d03f;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(to bottom, #7a0000, #b30000, #d86a2b);
+    --gradient-beige: linear-gradient(to right, #f3e4c8, #f1ebeb);
+    --gradient-dark-radial: radial-gradient(circle at center, #8b0000 0%, #3b0000 60%, #1a0000 100%);
+    --gradient-event: linear-gradient(to bottom, #f3e4c8, #ff8686);
+
+    /* Background Colors */
+    --bg-main: #f1ebeb;
+    --bg-alt: #f5f5f5;
+    --bg-card: #ffffff;
+    --bg-input: #d9d9d9;
+    --bg-soft-red: #fff0f0;
+
+    /* Text Colors */
+    --text-dark: #1a1a1a;
+    --text-gray: #555555;
+    --text-light-gray: #666666;
+    --text-white: #ffffff;
+    --text-black: #000;
+    
+    /* Borders & Shadows */
+    --border-color: #e4e4e4;
+    --shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
+    --shadow-md: 0 8px 25px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.08);
+
+    /* Border Radii */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 22px;
+    --radius-pill: 999px;
+
+    /* Typography */
+    --font-primary: 'Poppins', 'Inter', sans-serif;
+    --font-secondary: 'Mona Sans', sans-serif;
+    
+    /* Responsive Sizing (from index.css) */
+    --padding: clamp(16px, 4vw, 60px);
+    --title-size: clamp(28px, 6vw, 64px);
+    --text-size: clamp(12px, 2.5vw, 16px);
+}
