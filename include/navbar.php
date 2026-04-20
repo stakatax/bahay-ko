@@ -42,15 +42,15 @@ $currentPage = $page ?? 'dashboard';
 
         <ul class="nav-links">
             <?php foreach ($nav as $key => $item): ?>
-            <?php if (in_array($role, $item['roles'])): ?>
-                <li>
-                    <a href="?page=<?php echo $key; ?>" 
-                        class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
-                        <span><?php echo $item['label']; ?></span>
-                    </a>
-                </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
+                <?php if (in_array($role, $item['roles'])): ?>
+                    <li>
+                        <a href="?page=<?php echo $key; ?>"
+                            class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
+                            <span><?php echo $item['label']; ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </ul>
 
         <button id="menuBtn" class="menu-btn">☰</button>
