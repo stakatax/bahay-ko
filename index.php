@@ -7,7 +7,7 @@ $role = $role ?? 'Student';
 $allowedPages = ['home', 'about', 'contact', 'academic'];
 
 if (!in_array($page, $allowedPages)) {
-    $page = 'home';
+  $page = 'home';
 }
 ?>
 
@@ -32,7 +32,7 @@ if (!in_array($page, $allowedPages)) {
       <div class="main-card">
 
         <?php include 'include/navbar.php'; ?>
-        
+
         <?php include __DIR__ . '/pages/' . $page . '.php'; ?>
 
       </div>

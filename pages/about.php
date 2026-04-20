@@ -1,3 +1,9 @@
+<link rel="stylesheet" href="assets/css/style.css">
+
+
+
+
+<!-- HERO SECTION -->
 <section class="hero">
   <div class="overlay"></div>
   <img src="assets/images/hero.jpg" class="hero-img">
