@@ -1,0 +1,272 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden; /* allow vertical scroll if needed */
+}
+
+/* VARIABLES */
+:root {
+  --padding: clamp(16px, 4vw, 60px);
+  --title-size: clamp(28px, 6vw, 64px);
+  --text-size: clamp(12px, 2.5vw, 16px);
+}
+
+/* LAYOUT */
+.fullscreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.gradient-frame {
+  width: 100%;
+  height: 100%;
+  padding: clamp(6px, 1vw, 16px);
+  background: linear-gradient(to bottom, #7a0000, #b30000, #d86a2b);
+}
+
+.main-card {
+  width: 100%;
+  height: 100%;
+  background: #f3f3f3;
+  border-radius: clamp(12px, 2vw, 24px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* NAVBAR */
+.nav-wrapper {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  z-index: 30;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: clamp(6px, 1vw, 12px) clamp(12px, 3vw, 24px);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  width: clamp(28px, 4vw, 40px);
+  height: clamp(28px, 4vw, 40px);
+  border-radius: 50%;
+}
+
+.nav-links {
+  display: none;
+  list-style: none;
+  gap: clamp(10px, 2vw, 24px);
+  font-size: var(--text-size);
+  font-weight: 600;
+}
+
+.nav-links li {
+  cursor: pointer;
+}
+
+.nav-links li:hover {
+  color: #b30000;
+}
+
+.nav-links .active {
+  color: #b30000;
+}
+
+.menu-btn {
+  font-size: clamp(18px, 4vw, 24px);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* MOBILE MENU */
+.mobile-menu {
+  display: none;
+  margin-top: 10px;
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+}
+
+.mobile-menu div {
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+/* HERO */
+.hero {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* OVERLAY */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+/* CONTENT */
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding: var(--padding);
+  color: #fff; /* ✅ always white text */
+  text-align: left;
+}
+
+.content-box {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* TEXT */
+.subtitle {
+  font-size: var(--text-size);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: var(--title-size);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* BUTTONS */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: clamp(8px, 2vw, 12px) clamp(14px, 3vw, 24px);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: var(--text-size);
+  border: none;
+}
+
+.btn-red {
+  background: #b30000;
+  color: white;
+}
+
+.btn-red:hover {
+  background: #8a0000;
+  transform: scale(1.05);
+}
+
+.btn-white {
+  background: white;
+  color: black;
+}
+
+.btn-white:hover {
+  background: #ddd;
+  transform: scale(1.05);
+}
+
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 1s forwards;
+}
+
+.fade-up-delay { animation-delay: 0.3s; }
+.fade-up-delay-2 { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* HERO IMAGE ZOOM */
+.hero-img {
+  animation: zoomIn 8s ease-in-out infinite alternate;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+/* 📱 MOBILE + ZOOMED SCREENS */
+@media (max-width: 900px) {
+  .content {
+    justify-content: center;
+    text-align: center; /* ✅ centers text when zoomed or small */
+  }
+
+  .content-box {
+    margin: 0 auto;
+  }
+
+  .buttons {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: clamp(180px, 60%, 260px);
+  }
+}
+
+/* 📲 SMALL HEIGHT (ZOOM FIX) */
+@media (max-height: 700px) {
+  .content {
+    align-items: center;
+    padding-top: 80px;
+  }
+}
+
+/* 💻 TABLETS & UP */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* 🖥 LARGE SCREENS */
+@media (min-width: 1200px) {
+  .content-box {
+    max-width: 750px;
+  }
+}

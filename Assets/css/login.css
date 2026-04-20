@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+
+body {
+      background: radial-gradient(circle at center, #8b0000 0%, #3b0000 60%, #1a0000 100%);
+      --font-body: 'Mona Sans', sans-serif;
+    }
+
+    /* Card shadow */
+    .card-shadow {
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Input style */
+    .input-style {
+      background: #d9d9d9;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+
+    .input-style::placeholder {
+      color: #6b6b6b;
+    }
+
+    /* Button style */
+    .btn-main {
+      background: #7a2e2e;
+      border-radius: 999px;
+      padding: 14px;
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .btn-main:hover {
+      background: #5c1f1f;
+    }
