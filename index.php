@@ -32,6 +32,8 @@ if (!in_array($page, $allowedPages)) {
 
 <body>
 
+  
+
   <div class="fullscreen">
     <div class="gradient-frame">
       <div class="main-card">
