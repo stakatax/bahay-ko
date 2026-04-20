@@ -1,6 +1,38 @@
 <?php
 // Optional: detect current page for active state
 $current = basename($_SERVER['PHP_SELF']);
+
+$currentPage = $page ?? 'dashboard';
+    $nav = [
+        'home' => [
+            'label' => 'Home',
+            'roles' => ['Student', 'Faculty', 'Admin']
+        ],
+        'about' => [
+            'label' => 'About School',
+            'roles' => ['Student', 'Faculty', 'Admin']
+        ],
+        'posting' => [
+            'label' => 'Posting',
+            'roles' => ['Faculty', 'Admin']
+        ],
+        'events' => [
+            'label' => 'Calendar & Events',
+            'roles' => ['Student', 'Faculty', 'Admin']
+        ],
+        'academic_offerings' => [
+            'label' => 'Academic Offerings',
+            'roles' => ['Student', 'Faculty', 'Admin']
+        ],
+        'news' => [
+            'label' => 'News',
+            'roles' => ['Student', 'Faculty', 'Admin']
+        ],
+        'contacts' => [
+            'label' => 'Contacts',
+            'roles' => ['Student', 'Faculty', 'Admin'] // For global view
+        ],
+    ];
 ?>
 
 <div class="nav-wrapper">
@@ -9,13 +41,16 @@ $current = basename($_SERVER['PHP_SELF']);
         <img src="Assets/Images/ulsco.png" class="logo">
 
         <ul class="nav-links">
-            <li class="<?= ($current == 'index.php') ? 'active' : '' ?>">HOME</li>
-            <li class="<?= ($current == 'about.php') ? 'active' : '' ?>">OUR SCHOOL</li>
-            <li>ACADEMIC OFFERINGS</li>
-            <li>EVENTS</li>
-            <li>NEWS</li>
-            <li>CONTACT</li>
-            <li>LOGIN</li>
+            <?php foreach ($nav as $key => $item): ?>
+            <?php if (in_array($role, $item['roles'])): ?>
+                <li>
+                    <a href="?page=<?php echo $key; ?>" 
+                        class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
+                        <span><?php echo $item['label']; ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
         </ul>
 
         <button id="menuBtn" class="menu-btn">☰</button>
