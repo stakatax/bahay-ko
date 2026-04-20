@@ -1,125 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://cdn.tailwindcss.com"></script>
+<section class="hero">
+  <div class="overlay"></div>
+  <img src="assets/images/hero.jpg" class="hero-img">
 
-  <title>Fullscreen Layout</title>
+  <div class="hero-content">
+    <img src="assets/images/logo.png" class="logo">
 
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-    }
+    <h1>ABOUT OUR SCHOOL</h1>
+    <h3>Rooted in Faith. Grounded in Excellence.</h3>
 
-    .fade-slide {
-      animation: fadeSlide 0.4s ease;
-    }
+    <p>
+      Our Lady of Sacred College of Guimba, Inc. is committed to nurturing
+      young minds through quality education, strong values, and a Christ-centered
+      learning environment.
+    </p>
+  </div>
+</section>
 
-    @keyframes fadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-</head>
+<!-- MAIN CONTENT -->
+<div class="container">
 
-<body class="m-0">
+  <!-- STORY -->
+  <section class="story">
+    <div class="story-img">
+      <img src="assets/images/school.jpg">
+    </div>
 
-  <!-- FULLSCREEN BACKGROUND -->
-  <div class="w-full h-screen flex items-center justify-center
-              bg-gradient-to-r from-[#3b0000] via-[#7a0c0c] to-[#d27a3c]">
-
-    <!-- CONTENT WRAPPER (keeps your original layout size) -->
-    <div class="w-[1100px]">
-
-      <!-- NAVBAR -->
-      <div class="flex justify-center mb-10">
-        <div class="flex items-center gap-6 px-6 py-3 rounded-full
-                    bg-white/20 backdrop-blur-md shadow-md text-white text-sm">
-
-          <img src="https://via.placeholder.com/35" class="rounded-full">
-
-          <button class="nav-btn font-semibold text-yellow-300" data-tab="philosophy">PHILOSOPHY</button>
-          <button class="nav-btn" data-tab="vision">VISION</button>
-          <button class="nav-btn" data-tab="mission">MISSION</button>
-          <button class="nav-btn" data-tab="core">COREVALUES</button>
-          <button class="nav-btn" data-tab="history">HISTORY OF SCHOOL</button>
-          <button class="nav-btn" data-tab="contact">CONTACT</button>
-          <button class="nav-btn" data-tab="login">LOGIN</button>
-
-        </div>
-      </div>
-
-      <!-- TITLE -->
-      <h1 id="title"
-          class="text-center text-5xl font-bold text-yellow-300 tracking-wide mb-6">
-          PHILOSOPHY
-      </h1>
-
-      <!-- IMAGE -->
-      <div class="flex justify-center mb-6">
-        <img id="image"
-          src="https://images.unsplash.com/photo-1596495578065-6e0763fa1178"
-          class="w-[700px] h-[260px] object-cover rounded-xl shadow-lg">
-      </div>
-
-      <!-- CONTENT -->
-      <p id="content"
-        class="text-center text-white text-[15px] leading-relaxed px-10 fade-slide">
-
-        Our Lady of the Sacred Heart College of Guimba, Inc. believes that education shall lead young men and women into human fullness combining their life and work skills with their sacred love for all persons as desired by the oneness of the heart of Jesus and Mary. The school gracefully dedicates its existence in cultivating student-centered learning for the holistic development of a person's intellect and physical well being, and social, and spiritual life.
-
+    <div class="story-text">
+      <h2>Our Story</h2>
+      <p>
+        Founded with a mission to provide faith-based and quality education,
+        Our Lady of Sacred College of Guimba, Inc. has continuously served the
+        community by shaping students into responsible, compassionate, and competent individuals.
       </p>
 
+      <p>
+        From humble beginnings, the school has grown into a trusted institution known for
+        academic excellence, character formation, and strong spiritual foundations.
+      </p>
+
+      <p class="quote">"Rooted in Faith, Grounded in Excellence."</p>
     </div>
-  </div>
+  </section>
 
-  <!-- SCRIPT (unchanged) -->
-  <script>
-    const tabs = {
-      philosophy: {
-        title: "PHILOSOPHY",
-        content: `Our Lady of the Sacred Heart College of Guimba, Inc. believes that education shall lead young men and women into human fullness combining their life and work skills with their sacred love for all persons as desired by the oneness of the heart of Jesus and Mary.`,
-        image: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178"
-      },
-      vision: {
-        title: "VISION",
-        content: `A premier educational institution committed to excellence.`,
-        image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b"
-      }
-    };
+  <!-- MISSION & VISION -->
+  <section class="mv">
+    <div class="card">
+      <h3>Our Mission</h3>
+      <p>
+        To provide holistic education that develops students intellectually, spiritually, morally,
+        and socially, preparing them to become productive members of society.
+      </p>
+    </div>
 
-    const title = document.getElementById("title");
-    const content = document.getElementById("content");
-    const image = document.getElementById("image");
+    <div class="card">
+      <h3>Our Vision</h3>
+      <p>
+        To be a leading Catholic educational institution recognized for excellence in academics,
+        leadership, and Christian values formation.
+      </p>
+    </div>
+  </section>
 
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+  <!-- CORE VALUES -->
+  <section class="values">
+    <h2>Our Core Values</h2>
 
-        document.querySelectorAll(".nav-btn").forEach(b => {
-          b.classList.remove("text-yellow-300", "font-semibold");
-        });
-        btn.classList.add("text-yellow-300", "font-semibold");
+    <div class="values-grid">
+      <div class="value">
+        <h4>Faith</h4>
+        <p>We uphold Christian teachings and moral values.</p>
+      </div>
 
-        const tab = tabs[btn.dataset.tab];
-        if (!tab) return;
+      <div class="value">
+        <h4>Excellence</h4>
+        <p>We pursue academic quality and lifelong learning.</p>
+      </div>
 
-        content.classList.remove("fade-slide");
-        void content.offsetWidth;
-        content.classList.add("fade-slide");
+      <div class="value">
+        <h4>Service</h4>
+        <p>We promote compassion and community involvement.</p>
+      </div>
 
-        title.textContent = tab.title;
-        content.textContent = tab.content;
-        image.src = tab.image;
-      });
-    });
-  </script>
+      <div class="value">
+        <h4>Integrity</h4>
+        <p>We practice honesty, respect, and responsibility.</p>
+      </div>
+    </div>
+  </section>
 
-</body>
-</html>
+  <!-- SCHOOL PROFILE -->
+  <section class="profile">
+    <h2>School Profile</h2>
+
+    <div class="profile-content">
+      <div class="profile-text">
+        <h3>Our Lady of Sacred College of Guimba, Inc.</h3>
+
+        <p><strong>School Name:</strong> Our Lady of Sacred College of Guimba, Inc.</p>
+        <p><strong>Type:</strong> Private Catholic Educational Institution</p>
+        <p><strong>Location:</strong> Guimba, Nueva Ecija</p>
+      </div>
+
+      <div class="profile-images">
+        <img src="assets/images/profile1.jpg">
+        <img src="assets/images/profile2.jpg">
+      </div>
+    </div>
+  </section>
+
+</div>

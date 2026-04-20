@@ -20,7 +20,7 @@ $currentPage = $page ?? 'dashboard';
             'label' => 'Calendar & Events',
             'roles' => ['Student', 'Faculty', 'Admin']
         ],
-        'academic_offerings' => [
+        'academic' => [
             'label' => 'Academic Offerings',
             'roles' => ['Student', 'Faculty', 'Admin']
         ],
