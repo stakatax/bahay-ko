@@ -34,7 +34,7 @@
                 OUR LADY <br>
                 OF SACRED <br>
                 COLLEGE OF <br>
-                GUIMBA, INC.
+                GUIMBA, INCs.
               </h1>
 
               <div class="buttons fade-up fade-up-delay-2">
