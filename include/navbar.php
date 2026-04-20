@@ -16,7 +16,7 @@ $currentPage = $page ?? 'dashboard';
             'label' => 'Posting',
             'roles' => ['Faculty', 'Admin']
         ],
-        'events' => [
+        'calendar' => [
             'label' => 'Calendar & Events',
             'roles' => ['Student', 'Faculty', 'Admin']
         ],
