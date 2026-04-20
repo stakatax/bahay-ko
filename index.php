@@ -4,7 +4,7 @@ $page = $_GET['page'] ?? 'home';
 $role = $role ?? 'Student';
 
 // whitelist (important, don't skip this)
-$allowedPages = ['home', 'about', 'contact', 'academic'];
+$allowedPages = ['home', 'about', 'contact'];
 
 if (!in_array($page, $allowedPages)) {
   $page = 'home';
@@ -21,7 +21,9 @@ if (!in_array($page, $allowedPages)) {
   <link rel="stylesheet" href="Assets/css/index.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="Assets/css/academic.css">
+  <?php if ($page === 'about'): ?>
+    <link rel="stylesheet" href="Assets/css/about.css" />
+  <?php endif; ?>
 
 </head>
 
