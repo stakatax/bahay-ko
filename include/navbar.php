@@ -3,36 +3,36 @@
 $current = basename($_SERVER['PHP_SELF']);
 
 $currentPage = $page ?? 'dashboard';
-    $nav = [
-        'home' => [
-            'label' => 'Home',
-            'roles' => ['Student', 'Faculty', 'Admin']
-        ],
-        'about' => [
-            'label' => 'About School',
-            'roles' => ['Student', 'Faculty', 'Admin']
-        ],
-        'posting' => [
-            'label' => 'Posting',
-            'roles' => ['Faculty', 'Admin']
-        ],
-        'events' => [
-            'label' => 'Calendar & Events',
-            'roles' => ['Student', 'Faculty', 'Admin']
-        ],
-        'academic' => [
-            'label' => 'Academic Offerings',
-            'roles' => ['Student', 'Faculty', 'Admin']
-        ],
-        'news' => [
-            'label' => 'News',
-            'roles' => ['Student', 'Faculty', 'Admin']
-        ],
-        'contacts' => [
-            'label' => 'Contacts',
-            'roles' => ['Student', 'Faculty', 'Admin'] // For global view
-        ],
-    ];
+$nav = [
+    'home' => [
+        'label' => 'Home',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ],
+    'about' => [
+        'label' => 'About School',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ],
+    'posting' => [
+        'label' => 'Posting',
+        'roles' => ['Faculty', 'Admin']
+    ],
+    'events' => [
+        'label' => 'Calendar & Events',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ],
+    'academic' => [
+        'label' => 'Academic Offerings',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ],
+    'news' => [
+        'label' => 'News',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ],
+    'contact' => [
+        'label' => 'Contact',
+        'roles' => ['Student', 'Faculty', 'Admin'] // For global view
+    ],
+];
 ?>
 
 <div class="nav-wrapper">
@@ -42,15 +42,15 @@ $currentPage = $page ?? 'dashboard';
 
         <ul class="nav-links">
             <?php foreach ($nav as $key => $item): ?>
-            <?php if (in_array($role, $item['roles'])): ?>
-                <li>
-                    <a href="?page=<?php echo $key; ?>" 
-                        class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
-                        <span><?php echo $item['label']; ?></span>
-                    </a>
-                </li>
-            <?php endif; ?>
-        <?php endforeach; ?>
+                <?php if (in_array($role, $item['roles'])): ?>
+                    <li>
+                        <a href="?page=<?php echo $key; ?>"
+                            class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
+                            <span><?php echo $item['label']; ?></span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </ul>
 
         <button id="menuBtn" class="menu-btn">☰</button>
