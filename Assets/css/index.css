@@ -6,10 +6,12 @@
 }
 
 html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Poppins', sans-serif;
+  overflow-x: hidden; /* allow vertical scroll if needed */
 }
-
-
 
 /* VARIABLES */
 :root {
@@ -18,22 +20,23 @@ html, body {
   --text-size: clamp(12px, 2.5vw, 16px);
 }
 
-/* LAYOUT */
 .fullscreen {
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%; /* Use 100% instead of 100vw to avoid horizontal scroll bugs */
+  min-height: 100vh; /* Changed from height to min-height */
+  display: flex;
 }
 
 .gradient-frame {
   width: 100%;
-  height: 100%;
+  min-height: 100vh; /* Changed from height to min-height */
   padding: clamp(6px, 1vw, 16px);
   background: linear-gradient(to bottom, #7a0000, #b30000, #d86a2b);
+  display: flex; /* Ensures the child (main-card) fills the space */
 }
 
 .main-card {
   width: 100%;
-  height: 100%;
+  min-height: 100%; /* Ensures it stretches to the bottom */
   background: #f3f3f3;
   border-radius: clamp(12px, 2vw, 24px);
   position: relative;
@@ -54,10 +57,16 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: clamp(6px, 1vw, 12px) clamp(12px, 3vw, 24px);
+  padding: clamp(4px, 1vw, 10px) clamp(10px, 3vw, 2px);
   border-radius: 999px;
   background: rgba(255,255,255,0.8);
   backdrop-filter: blur(10px);
+}
+
+.navbar a {
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .logo {
@@ -78,12 +87,13 @@ html, body {
   cursor: pointer;
 }
 
-.nav-links li:hover {
+.nav-links li a:hover {
   color: #b30000;
 }
 
 .nav-links .active {
-  color: #b30000;
+  color: #FFF;
+  background-color: #d86a2b
 }
 
 .menu-btn {
