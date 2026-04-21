@@ -1,23 +1,16 @@
-@import url('root.css');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
 
 /* SECTION */
-body::-webkit-scrollbar {
-    display: none;
-}
-
 .contact-section {
-    padding: 80px 8%;
-    background: var(--bg-alt);
-    width: 100vw;
-}
-
-/* TITLE */
-.contact-title {
-    text-align: center;
-    font-size: 38px;
-    font-weight: 800;
-    color: var(--primary-red);
-    margin-bottom: 50px;
+    padding: 30px 40px;
+    background: transparent; /* important */
+    padding-bottom: 90px;
+    padding-bottom: 100px;
 }
 
 /* MAIN LAYOUT */
@@ -49,18 +42,17 @@ body::-webkit-scrollbar {
 }
 
 .contact-sub {
-    color: var(--text-light-gray);
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 12.5px;
+    color: #777;
+    margin-bottom: 12px;
 }
 
 /* MAP */
 .map-container {
-    position: relative;
-    height: 230px;
-    border-radius: var(--radius-lg);
+    height: 180px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    margin-bottom: 12px;
 }
 
 .map-container iframe {
@@ -69,122 +61,60 @@ body::-webkit-scrollbar {
     border: none;
 }
 
-/* MAP BUTTON */
-.map-btn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-
-    background: rgba(139, 0, 0, 0.95); /* no exact var */
-    color: var(--text-white);
-    padding: 7px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 12px;
-
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    text-decoration: none;
-    transition: 0.2s;
-}
-
-.map-btn:hover {
-    background: var(--primary-red);
-}
-
-/* INFO CARDS */
-.info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
+/* INFO LIST */
 .info-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    background: var(--bg-card);
-    padding: 14px 16px;
-    border-radius: var(--radius-md);
-
-    border: 1px solid var(--border-color);
-    transition: 0.2s;
-}
-
-.info-card:hover {
-    border-color: var(--primary-red);
-    transform: translateX(4px);
-}
-
-/* ICON */
-.icon {
-    color: var(--primary-red);
-    font-size: 16px;
-    min-width: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .info-card h4 {
-    font-size: 13px;
-    margin-bottom: 2px;
-    color: var(--primary-red);
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
 }
 
 .info-card p {
     font-size: 12.5px;
-    color: var(--text-gray);
-    text-decoration: none;
-}
-
-.info-card a:hover {
-    color: var(--primary-red);
+    color: #777;
 }
 
 /* RIGHT FORM */
 .contact-form {
-    background: var(--bg-card);
-    padding: 30px;
-    border-radius: var(--radius-lg);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-md);
-}
+    background: #f7f7f7;
+    padding: 18px;
+    border-radius: 12px;
 
-/* FORM */
-.contact-form form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
+
+    height: fit-content;
 }
 
 /* INPUTS */
 .contact-form input,
 .contact-form textarea {
-    padding: 11px 14px;
-    border-radius: 10px;
-    border: 1px solid #ddd; /* no var yet */
-    font-size: 13px;
-    outline: none;
-    transition: 0.2s;
+    padding: 10px;
+
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+
+    font-size: 12.5px;
+    background: #fff;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: var(--primary-red);
-    box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.08); /* no var yet */
+.contact-form textarea {
+    height: 110px;
+    resize: none;
 }
 
 /* BUTTON */
 .btn-submit {
-    background: var(--primary-red);
-    color: var(--text-white);
+    margin-top: 5px;
+
     padding: 11px;
-    border-radius: var(--radius-pill);
-    border: none;
+    font-size: 12px;
     font-weight: 600;
 
     background: #f97316;
@@ -193,12 +123,6 @@ body::-webkit-scrollbar {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-submit:hover {
-    background: var(--primary-red-hover);
-    transform: scale(1.03);
 }
 
 /* ALIGN FIX */
