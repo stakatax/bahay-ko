@@ -99,10 +99,6 @@ body::-webkit-scrollbar {
     font-weight: 600;
 }
 
-/* Files Row */
-    padding: 25px; /* Bigger padding */
-}
-
 .box-event h3 {
     font-size: 20px; /* Bigger event name */
 }
