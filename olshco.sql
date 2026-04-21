@@ -1,3 +1,7 @@
+CREATE DATABASE olshcodb;
+
+USE olshcodb;
+
 CREATE TABLE role (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     role_prefix VARCHAR(150) UNIQUE

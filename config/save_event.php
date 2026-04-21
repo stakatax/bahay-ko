@@ -13,7 +13,7 @@ if (!$date || !$title) {
     exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO events (event_date, title) VALUES (?, ?)");
+$stmt = $conn->prepare("INSERT INTO events (event_date, title, status, user_id) VALUES (?, ?, 'active', 1)");
 $stmt->bind_param("ss", $date, $title);
 
 if ($stmt->execute()) {

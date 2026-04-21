@@ -33,7 +33,6 @@ if (!in_array($page, $allowedPages)) {
   <?php if ($page === 'contact'): ?>
     <link rel="stylesheet" href="Assets/css/contact.css" />
   <?php endif; ?>
-
   <?php if ($page === 'calendar'): ?>
     <link rel="stylesheet" href="Assets/css/calendar.css" />
   <?php endif; ?>

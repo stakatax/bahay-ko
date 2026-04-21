@@ -86,44 +86,51 @@ if (addBtn) {
     addBtn.addEventListener("click", () => openModal());
 }
 
-function saveEvent() {
-    const title = document.getElementById("eventTitle").value.trim();
-    const type = document.getElementById("eventType").value;
-    const date = document.getElementById("modalDate").textContent;
+window.saveEvent = function () {
 
-    if (!title) {
-        alert("Please enter an event title.");
-        return;
-    }
+        const title = document.getElementById("eventTitle").value.trim();
 
-    // prevent saving if no valid date selected
-    if (!date || date === "Selected Date" || date === "Add New Event") {
-        alert("Please select a date first.");
-        return;
-    }
-
-    fetch("save_event.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            date: date,
-            title: title,
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === "success") {
-            closeModal();
-            location.href =
-                `?page=calendar&month=<?=$month?>&year=<?=$year?>&date=${selectedDate}#calendar`;
-        } else {
-            alert("Failed to save event.");
+        if (!selectedDate) {
+            alert("Please select a date first.");
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Something went wrong.");
-    });
-}
+
+        if (!title) {
+            alert("Please enter an event title.");
+            return;
+        }
+
+        fetch("config/save_event.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                date: selectedDate,
+                title: title
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            if (data.status === "success") {
+
+                // REMOVE "No Events" if it exists
+                const empty = document.querySelector(".event-mini-card");
+                if (empty && empty.innerText.includes("No Events")) {
+                    empty.remove();
+                }
+
+                closeModal();
+
+                document.getElementById("eventTitle").value = "";
+
+            } else {
+                alert("Failed to save event.");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Something went wrong.");
+        });
+    };

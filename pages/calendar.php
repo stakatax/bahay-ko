@@ -190,7 +190,7 @@
                 </div>
             </div>
 
-            <div id="eventList">
+            <div id="eventList" class="event-list-container">
                 <?php if (empty($selectedEvents)): ?>
                     <div class="event-mini-card">
                         <h4>No Events</h4>
