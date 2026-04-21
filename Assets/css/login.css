@@ -1,10 +1,11 @@
-/* Ensure the page integrates with main-card and gradient-frame parent containers */
+/* --- 1. GLOBAL WRAPPER & HERO (Matched to Login) --- */
 .login-page-wrapper {
     width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    height: 100vh;
     display: flex;
-    overflow: hidden; /* Prevent scrolling outside main-card */
+    overflow: hidden;
+    position: relative;
+    background: #000;
 }
 
 .login-hero {
@@ -13,7 +14,6 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .hero-img {
@@ -22,81 +22,89 @@
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    filter: brightness(0.45); /* Darkened for white text contrast */
 }
 
 .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3); /* Lighter overlay to show background */
+    /* Gradient: mas madilim sa kaliwa para sa branding text */
+    background: linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 100%);
     z-index: 2;
 }
 
-/* 3. Main Content Flex Layout */
+/* --- 2. THE HARD-SIDE LAYOUT (Separated Elements) --- */
 .login-content {
     width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: var(--padding);
+    max-width: none; 
+    padding: 0 8%; /* Buffer mula sa edges ng screen */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Branding LEFT, Form RIGHT */
     align-items: center;
-    gap: 60px;
     position: relative;
     z-index: 10;
 }
 
-/* Left Content Area */
+/* --- 3. LEFT SIDE: BRANDING (Smaller & All White) --- */
 .login-content-box {
-    flex: 1;
-    color: white;
-    font-family: var(--font-primary);
+    flex: 0 1 600px;
+    color: #ffffff; /* Base text color */
+    font-family: var(--font-primary, 'Poppins', sans-serif);
 }
 
 .welcome-logo {
     width: 100px;
     height: 100px;
     margin-bottom: 25px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
 }
 
 .welcome-heading {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 4vw, 2.8rem); /* Small and sleek scale */
     font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 30px;
-    color: white;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
 }
 
 .hub-title {
+    display: block;
     font-size: 0.8em;
+    color: #ffffff; /* Forced white */
 }
 
 .sys-title {
-    font-size: 0.6em;
+    display: block;
+    font-size: 0.55em;
     font-weight: 600;
+    margin-top: 10px;
+    color: #ffffff; 
+    opacity: 0.9;
 }
 
 .subtitle {
     font-size: 1rem;
     font-weight: 600;
-    opacity: 0.9;
-    color: white;
+    margin-top: 30px;
+    padding: 8px 0 8px 20px;
+    border-left: 4px solid #a83d3e;
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(168, 61, 62, 0.25), transparent);
 }
 
-/* Right Side Form Card */
+/* --- 4. RIGHT SIDE: LOGIN CARD (Matched to Spec) --- */
 .login-form-card {
     width: 480px;
     min-height: 580px;
-    border-radius: var(--radius-lg);
-    /* Dark radial gradient matching reference image */
     background: radial-gradient(circle at center, #a83d3e 0%, #760e0f 70%, #510708 100%);
-    border: 3px solid rgba(255, 255, 255, 0.4); /* Glass-like border */
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg, 25px);
     padding: 50px;
-    box-sizing: border-box;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    color: #ffffff; /* All inner text forced to white */
 }
 
 .login-form-content {
@@ -105,28 +113,21 @@
     flex-direction: column;
     align-items: center;
     gap: 25px;
-    color: white;
-    font-family: var(--font-primary);
-}
-
-.form-header {
-    text-align: center;
-    margin-bottom: 10px;
 }
 
 .form-logo {
     width: 130px;
     height: 130px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .account-prompt {
     font-size: 0.9rem;
     font-weight: 600;
-    opacity: 0.8;
+    color: #ffffff;
 }
 
-/* Input Fields */
+/* --- 5. INPUTS & BUTTONS (All White Text) --- */
 .input-group {
     width: 100%;
 }
@@ -134,102 +135,74 @@
 .input-group input {
     width: 100%;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.15); /* Translucent input background */
+    background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-md);
-    color: white;
+    border-radius: var(--radius-md, 12px);
+    color: #ffffff; /* Typed text color */
     font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
 }
 
+/* Force placeholder to be bright white */
 .input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: #ffffff !important;
+    opacity: 0.8;
 }
 
-.input-group input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.6);
-}
-
-/* Footer Section (Remember & Forgot) */
 .form-footer {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
-    margin-top: -10px;
+    color: #ffffff;
 }
 
 .remember-me {
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
-    opacity: 0.9;
+    color: #ffffff;
 }
 
-.remember-me input {
-    accent-color: #a83d3e; /* Standard checkbox color matching form */
-    width: 16px;
-    height: 16px;
-}
-
-.forgot-password {
-    color: white;
+.forgot-password, .sign-up-link {
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #ffffff;
     padding-bottom: 2px;
 }
 
-.forgot-password:hover {
-    border-color: #a83d3e;
-    color: #ffd8d8;
-}
-
-/* Primary Button */
 .btn-get-started {
     width: 100%;
     padding: 18px;
-    background: #a83d3e; /* Specific red-brown button color from image */
-    color: white;
+    background: #a83d3e;
+    color: #ffffff;
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-md, 12px);
     font-weight: 800;
     font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
     text-transform: capitalize;
-    margin-top: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
 }
 
 .btn-get-started:hover {
-    background: #510708; /* Darker red on hover */
+    background: #510708;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1100px) {
+/* --- 6. RESPONSIVE --- */
+@media (max-width: 1150px) {
     .login-content {
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        gap: 40px;
+        padding: 60px 20px;
     }
-
-    .welcome-logo {
-        margin: 0 auto 20px auto;
-    }
-
     .login-form-card {
         width: 100%;
         max-width: 480px;
         min-height: auto;
-        padding: 40px;
     }
 }
