@@ -1,97 +1,54 @@
 <section class="contact-section">
 
-
     <div class="contact-container">
 
+        <!-- LEFT -->
         <div class="contact-info">
-
-            <h2>Get in Touch</h2>
+            <h2 class="contact-title">Nice to meet you.</h2>
             <p class="contact-sub">
-                We'd love to hear from you. Reach out for inquiries, admissions, or support.
+                Want to know more about OLSCHO? Send us a message! We’re here to help with anything you need.
             </p>
-            <form>
-                <!-- MAP -->
-                <div class="map-container">
-                    <form>
-                        <iframe
-                            src="https://www.google.com/maps?q=Afan+Salvador+St,+Guimba&output=embed"
-                            loading="lazy">
-                        </iframe>
 
-                        <!-- MAP BUTTON -->
-                        <a href="https://www.google.com/maps?q=Afan+Salvador+St,+Guimba"
-                            target="_blank"
-                            class="map-btn">
-                            <i class="fas fa-map-marker-alt"></i> Open in Google Maps
-                        </a>
+
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1139.252763825339!2d120.76766541984874!3d15.661201607582324!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33912cdb2318296d%3A0xe4e2117e97dfc92e!2sOur%20Lady%20of%20The%20Sacred%20Heart%20College!5e1!3m2!1sen!2sus!4v1776728814641!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            </div>
+
+            <div class="info-list">
+
+                <div class="info-card">
+                    <h4>ADDRESS</h4>
+                    <p>Afan Salvador St, Guimba</p>
                 </div>
 
-                <!-- INFO CARDS -->
-                <div class="info-list">
-
-                    <div class="info-card">
-                        <i class="fas fa-map-marker-alt icon"></i>
-                        <div>
-                            <h4>Address</h4>
-                            <p>Afan Salvador St, Guimba</p>
-                        </div>
-                    </div>
-
-                    <div class="info-card">
-                        <i class="fas fa-phone icon"></i>
-                        <div>
-                            <h4>Contact</h4>
-                            <p>+63 956 277 4029</p>
-                        </div>
-                    </div>
-
-                    <div class="info-card">
-                        <i class="fas fa-envelope icon"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>olshco@gmail.com</p>
-                        </div>
-                    </div>
-
-                    <div class="info-card">
-                        <i class="fab fa-facebook icon"></i>
-                        <div>
-                            <h4>Facebook</h4>
-                            <a href="https://facebook.com/olshco1947" target="_blank">
-                                facebook.com/olshco1947
-                            </a>
-                        </div>
-                    </div>
-
+                <div class="info-card">
+                    <h4>PHONE</h4>
+                    <p>+63 956 277 4029</p>
                 </div>
 
+                <div class="info-card">
+                    <h4>EMAIL</h4>
+                    <p>olshco@gmail.com</p>
+                </div>
+
+                <div class="info-card">
+                    <h4>SOCIAL</h4>
+                    <p>facebook.com/olshco1947</p>
+                </div>
+
+            </div>
         </div>
-        <!-- RIGHT: FORM (MOVE THIS INSIDE) -->
+
+        <!-- RIGHT -->
         <div class="contact-form">
+            <h2 class="contact-taytel">Get in touch.</h2>
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Message"></textarea>
 
-            <h2>Send a Message</h2>
-
-            <form>
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="text" placeholder="Subject">
-                <textarea placeholder="Your Message" rows="5"></textarea>
-
-                <button type="submit" class="btn-submit">
-                    Send Message
-                </button>
-            </form>
-
+            <button class="btn-submit">SEND EMAIL</button>
         </div>
-
-    </div>
-
-    </div>
-
-    <div class="contact-container">
-
-
-
 
     </div>
 
