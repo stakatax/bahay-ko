@@ -1,0 +1,248 @@
+body::-webkit-scrollbar{
+    display: none;
+}
+
+.hero-title {
+    font-size: clamp(28px, 6vw, 64px);
+}
+
+.calendar-hero {
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    overflow: hidden;
+    background:linear-gradient(to bottom, #7a0000, #b30000, #d86a2b);
+}
+
+.hero-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 80px;
+    transform: translateY(-50%);
+    color: #fff;
+    max-width: 520px;
+}
+
+.event-container {
+    display: flex;
+
+    width: 90vw;
+    max-width: 90vw;
+    height: 50%;
+    gap: 10px;
+
+    overflow-x: auto;   /* Enables horizontal scroll */
+    overflow-y: hidden;
+
+    padding: 10px;
+
+    scroll-behavior: smooth;
+    white-space: nowrap;
+}
+
+.event-container::-webkit-scrollbar {
+    display: none;
+}
+
+.event-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.recent-event {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 250px;  /* Prevent shrinking */
+    height: 300px;
+
+    flex-shrink: 0; /* Important */
+
+    background: linear-gradient(to bottom, #f3e4c8, #ff8686);
+    border-radius: 25px;
+
+    padding: 20px;
+}
+
+.recent-event .event-title {
+    align-self: center;
+}
+
+.recent-event img {
+    justify-self: center;
+    align-self: center;
+
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.calendar-body {
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.calendar-content {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 20px;
+}
+
+/* LEFT PANEL */
+
+.month-list {
+    background: linear-gradient(#b32020,#7c1414);
+    border-radius: 30px;
+    padding: 20px;
+    color: white;
+}
+
+.year-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.year-display {
+    text-align: center;
+}
+
+.months {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.months li {
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.months li.active {
+    background: #f3c74c;
+    color: black;
+}
+
+/* CENTER CALENDAR */
+
+.calendar {
+    background: #efeded;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.calendar-header {
+    margin-bottom: 20px;
+}
+
+.date-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.big-date {
+    font-size: 48px;
+    font-weight: bold;
+    color: #f3c74c;
+}
+
+.month-year {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #555;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 10px;
+}
+
+.day-name {
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+}
+
+.day {
+    background: #dcdcdc;
+    border-radius: 14px;
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.day.highlight {
+    background: #f3c74c;
+}
+
+/* RIGHT PANEL */
+
+.calendar-event-panel {
+    background: #efeded;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.event-header h2 {
+    margin: 5px 0;
+}
+
+.holiday {
+    color: #666;
+}
+
+.event-list {
+    margin-top: 20px;
+}
+
+.event {
+    background: #ddd;
+    padding: 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: #f3c74c;
+    border-radius: 50%;
+}
+
+.add-event {
+    margin-top: 20px;
+    background: #b32020;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 20px;
+    cursor: pointer;
+}
