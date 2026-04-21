@@ -1,87 +1,82 @@
 @import url('root.css');
 
-/* Ensure the section fills the main-card container */
 .news-section {
     width: 100%;
-    height: 100%;
-    padding: var(--padding);
+    padding: 30px 40px;
     box-sizing: border-box;
-    overflow-y: auto; /* Allows scrolling inside the card if content is long */
     display: flex;
     flex-direction: column;
 }
 
-/* Grid Layout adapted for the main-card inner space */
+/* Grid Layout */
+/* Increased the container width and top margin */
 .news-content {
     display: grid;
-    grid-template-columns: 1.8fr 1fr; 
-    grid-template-rows: auto auto;
-    grid-template-areas: 
-        "announcements events"
-        "files events";
-    gap: 30px 40px;
+    grid-template-columns: 1.5fr 1fr; /* Adjusted ratio for better balance */
+    gap: 40px; /* Increased gap */
     width: 100%;
-    margin-top: 20px; /* Space from navbar */
+    max-width: 1300px; /* Increased from 1150px to fill the screen more */
+    margin: 40px auto; /* Added more space from the header */
 }
 
-/* Mapping Areas */
-.announcement-section { grid-area: announcements; }
-.events-view-section { grid-area: events; }
-.uploaded-files-section { grid-area: files; }
-
-/* Titles */
+/* Bigger, bolder titles */
 .section-title {
-    font-family: var(--font-primary);
+    font-size: 36px; /* Increased from 28px */
     font-weight: 800;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    color: var(--text-black);
-    margin-bottom: 15px;
-    display: block;
+    color: #8B0000;
+    margin-bottom: 25px;
 }
 
-/* The Wireframe Shapes from the Image */
-.wireframe-box {
-    border: 3px solid var(--text-black);
-    background-color: transparent;
-    transition: all 0.3s ease;
-}
-
-/* Large Announcement Oval */
+/* Announcement adjustments */
 .box-announcement {
-    width: 100%;
-    min-height: 350px;
-    border-radius: 50px; /* Strong rounding like mockup */
+    min-height: 400px; /* Taller card */
+    padding: 40px; /* More internal padding */
 }
 
-/* Events Stack */
-.events-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.box-announcement h3 {
+    font-size: 28px; /* Bigger heading */
+    margin-bottom: 10px;
 }
 
+.box-announcement p {
+    font-size: 18px; /* More readable body text */
+    line-height: 1.6;
+}
+
+/* Events adjustments */
 .box-event {
-    width: 100%;
-    height: 140px;
-    border-radius: 30px;
+    padding: 25px; /* Bigger padding */
 }
 
-/* Uploaded Files Row */
+.box-event h3 {
+    font-size: 20px; /* Bigger event name */
+}
+
+.box-event p {
+    font-size: 16px; /* Bigger date */
+}
+
+/* Resources / Files Row */
 .files-container {
-    display: flex;
-    gap: 20px;
-    width: 100%;
+    gap: 25px;
+    margin-top: 10px;
 }
 
 .box-file {
-    flex: 1;
-    height: 85px;
-    border-radius: 20px;
+    padding: 25px;
+    min-height: 100px;
 }
 
-/* RESPONSIVE: If main-card gets too narrow */
-@media (max-width: 1100px) {
+.box-file strong {
+    font-size: 16px; /* Bigger filename */
+}
+
+.box-file small {
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
     .news-content {
         grid-template-columns: 1fr;
         grid-template-areas: 
