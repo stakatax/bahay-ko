@@ -1,26 +1,27 @@
+<section class="registration-page-wrapper">
+    <div class="registration-hero">
+        <img src="Assets/Images/poster.png" class="hero-img" alt="OLSHCO Campus">
+        <div class="overlay"></div>
 
-<section class="reg-hero">
-    <img src="Assets/Images/poster.png" class="reg-hero-img">
-    <div class="reg-overlay"></div>
+        <div class="registration-content">
+            <div class="registration-content-box">
+                <h1 class="welcome-heading fade-up fade-up-delay">
+                    WELCOME TO: <br>
+                    <span class="hub-title">OLSHCO Digital Hub</span>
+                    <span class="sys-title">Centralized School Website & Information Management System</span>
+                </h1>
 
-    <div class="content registration-split">
-        <div class="content-box branding-box fade-up">
-            <p class="welcome-prefix">WELCOME TO:</p>
-            <h1 class="title">
-                OUR LADY <br>
-                OF SACRED <br>
-                HEART COLLEGE
-            </h1>
-            <p class="subtitle">Rooted in Faith Grounded in Excellence</p>
-        </div>
-
-        <div class="registration-form-card fade-up fade-up-delay">
-            <div class="form-header">
-                <h3>Student Registration</h3>
-                <p>Complete the details below to join our community.</p>
+                <p class="subtitle fade-up fade-up-delay-2">
+                    Rooted in Faith Grounded in Excellence
+                </p>
             </div>
 
-            <form action="confg/authentication.php" method="POST">
+            <form action="config/authentication.php" method="POST" class="registration-form-card fade-up fade-up-delay-2">
+                <div class="form-header">
+                    <h3>Student Registration</h3>
+                    <p class="account-prompt">Complete the details below to join.</p>
+                </div>
+
                 <div class="form-row three-col">
                     <div class="input-group">
                         <label>First Name</label>
@@ -39,7 +40,7 @@
                 <div class="form-row">
                     <div class="input-group flex-3">
                         <label>Student ID</label>
-                        <input type="text" name="studID" placeholder="17-XXXXX" required>
+                        <input type="text" name="studentID" placeholder="17-XXXXX" required>
                     </div>
                     <div class="input-group flex-1">
                         <label>Age</label>
@@ -72,8 +73,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="password" name="password" placeholder="*******" required>
+                </div>
 
-                <button type="submit" class="btn-register-now">Register Now</button>
+                <button type="submit" name="signup" class="btn-register-now">Register Now</button>
             </form>
         </div>
     </div>

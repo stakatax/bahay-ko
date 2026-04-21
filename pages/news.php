@@ -16,24 +16,45 @@ if ($result) {
     }
 }
 
-$announcements = [
-    [
-        'title' => 'Welcome Back Students!',
-        'content' => 'Classes resume on Monday. Please check your schedules.',
-        'date' => 'Aug 20, 2026'
-    ],
-    [
-        'title' => 'Birthday ni Ky',
-        'content' => 'Celebration of 21st Birthday of Ky',
-        'date' => 'Apr 22, 2026'
-    ]
-];
+$announcements = [];
 
+$query = "SELECT title, content, created_at
+          FROM announcements
+          WHERE status = 'active'
+          ORDER BY created_at DESC
+          LIMIT 5";
 
-$uploadedFiles = [
-    ['filename' => 'Syllabus_2026.pdf', 'size' => '2.4 MB'],
-    ['filename' => 'Campus_Map.png', 'size' => '1.1 MB']
-];
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $announcements[] = [
+            'title' => $row['title'],
+            'content' => $row['content'],
+            'date' => date('M d, Y', strtotime($row['created_at']))
+        ];
+    }
+}
+
+$uploadedFiles = [];
+
+$query = "SELECT  file_name, file_type, created_at
+          FROM documents
+          WHERE status = 'active'
+          ORDER BY created_at DESC
+          LIMIT 10";
+
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $uploadedFiles[] = [
+            'file_name' => $row['file_name'],
+            'file_type' => strtoupper($row['file_type']),
+            'date' => date('M d, Y', strtotime($row['created_at']))
+        ];
+    }
+}
 ?>
 
 <section class="news-section">
@@ -46,20 +67,24 @@ $uploadedFiles = [
                 <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
 
                 <div class="slides-container">
-                    <?php 
-                    // Example PHP Loop
-                    $active = true;
-                    foreach ($announcements as $index => $item): 
-                    ?>
-                        <div class="slide <?= $active ? 'active' : '' ?>">
+                    <?php if (!empty($announcements)): ?>
+                        <?php $active = true; foreach ($announcements as $item): ?>
+                            <div class="slide <?= $active ? 'active' : '' ?>">
+                                <span class="info-label">LATEST UPDATE</span>
+                        
+                                <h3><?= htmlspecialchars($item['title']) ?></h3>
+                                <p><?= nl2br(htmlspecialchars($item['content'])) ?></p>
+                                <small><?= htmlspecialchars($item['date']) ?></small>
+                            </div>
+                        <?php $active = false; endforeach; ?>
+                        
+                    <?php else: ?>
+                        <div class="slide active">
                             <span class="info-label">LATEST UPDATE</span>
-                            <h3><?= htmlspecialchars($item['title']) ?></h3>
-                            <p><?= htmlspecialchars($item['content']) ?></p>
+                            <h3>No Announcements Yet</h3>
+                            <p>Please check back later.</p>
                         </div>
-                    <?php 
-                        $active = false;
-                    endforeach; 
-                    ?>
+                    <?php endif; ?>
                 </div>
 
                 <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
@@ -84,26 +109,42 @@ $uploadedFiles = [
             </div>
         </div>
 
-        <div class="uploaded-files-section">
+        <div class="uploaded-files-section">           
             <h2 class="section-title">Uploaded Files</h2>
             <div class="files-container">
-                <?php foreach ($uploadedFiles as $file): ?>
+                <?php if (!empty($uploadedFiles)): ?>
+                    <?php foreach ($uploadedFiles as $file): ?>
+                        <div class="news-card box-file">
+                            <div class="file-info">
+                                <span class="info-label"><?= htmlspecialchars($file['file_type']) ?></span>
+                                <p class="file-name"><?= htmlspecialchars($file['file_name']) ?></p>
+                                <small><?= htmlspecialchars($file['date']) ?></small>
+                            </div>
+                            <div class="file-actions">
+                                <a href="uploads/documents/<?= htmlspecialchars($file['file_name']) ?>" 
+                                    target="_blank" 
+                                    class="action-btn view" 
+                                    title="View Document">
+                                    <i class="fa-regular fa-eye"></i>
+                                </a>
+
+                                <a href="uploads/documents/<?= htmlspecialchars($file['file_name']) ?>" 
+                                    download 
+                                    class="action-btn download" 
+                                    title="Download File">
+                                    <i class="fa-solid fa-arrow-down-long"></i>
+                                </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <div class="news-card box-file">
                         <div class="file-info">
                             <span class="info-label">FILE</span>
-                            <p class="file-name"><?= htmlspecialchars($file['name']) ?></p>
+                            <p class="file-name">No uploaded documents yet.</p>
                         </div>
-
-                        <!-- <div class="file-actions">
-                            <a href="uploads/" target="_blank" class="action-btn view" title="View">
-                                <i class="fas fa-eye"></i> View
-                            </a>
-                            <a href="uploads/" download class="action-btn download" title="Download">
-                                <i class="fas fa-download"></i>
-                            </a>
-                        </div> -->
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     require_once "dbconnect.php";
 
     function logActivity($conn, $actionName, $description) {

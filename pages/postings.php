@@ -7,7 +7,7 @@
             <button type="button" class="type-btn" onclick="switchType('document', this)">Document</button>
         </div>
 
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="config/upload_announcement.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="post_type" id="post_type" value="announcement">
             <div class="input-group">
                 <label for="title">Title:</label>
@@ -31,10 +31,18 @@
             <div id="department-selection" class="input-group" style="<?= ($role === 'Faculty') ? 'display:block;' : 'display:none;' ?>">
                 <label for="department">Select Department:</label>
                 <select id="department" name="department">
-                    <option value="elementary">Elementary</option>
-                    <option value="highschool">High School</option>
-                    <option value="shs">Senior High School</option>
-                    <option value="college">College</option>
+                    <?php
+                        require_once __DIR__ . "/../config/dbconnect.php";
+
+                        $deptQuery = "SELECT department_id, department_name FROM department";
+                        $deptResult = $conn->query($deptQuery);
+
+                        while ($row = $deptResult->fetch_assoc()) {
+                            echo "<option value='{$row['department_id']}'>
+                                    {$row['department_name']}
+                                  </option>";
+                        }
+                    ?>
                 </select>
             </div>
 

@@ -11,7 +11,7 @@ function switchType(type, element) {
     const contentLabel = document.getElementById('content-label');
 
     if (type === 'event') {
-        form.action = "/config/upload_event.php";
+        form.action = "config/upload_event.php";
 
         eventFields.style.display = 'block';
         uploadText.innerText = "Upload Event Poster (Optional) or";
@@ -19,7 +19,7 @@ function switchType(type, element) {
         contentLabel.innerText = "Event Description:";
     } 
     else if (type === 'document') {
-        form.action = "/config/upload_document.php";
+        form.action = "config/upload_document.php";
 
         eventFields.style.display = 'none';
         uploadText.innerText = "Upload PDF/Document (Required) or";
@@ -27,7 +27,7 @@ function switchType(type, element) {
         contentLabel.innerText = "Document Summary:";
     } 
     else {
-        form.action = "/config/upload_announcement.php";
+        form.action = "config/upload_announcement.php";
 
         eventFields.style.display = 'none';
         uploadText.innerText = "Drag & Drop Image or";

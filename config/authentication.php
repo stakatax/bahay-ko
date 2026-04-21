@@ -1,6 +1,8 @@
 <?php
 
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     require_once "dbconnect.php";
     require_once "logging.php";
 
@@ -21,26 +23,26 @@
 
         $role_prefix = "Student";
 
-        $stmtRole = 
-            $conn->prepare(
-                "SELECT role_id
-                 FROM role
-                 WHERE role_prefix = ?
-                "
-            );
-        
+        $stmtRole = $conn->prepare(
+            "SELECT role_id, role_prefix 
+             FROM role 
+             WHERE role_prefix = ?"
+        );
+
         $stmtRole->bind_param("s", $role_prefix);
         $stmtRole->execute();
 
         $resultRole = $stmtRole->get_result();
         $roleRow = $resultRole->fetch_assoc();
 
-        if ($roleRow) {
-            $_SESSION['role_id'] = $row['role_id'];
-            $_SESSION['role'] = $row['role_prefix'];
-        } else {
+        if (!$roleRow) {
             die("Role not found");
         }
+
+        $role_id = $roleRow['role_id'];
+
+        $_SESSION['role_id'] = $role_id;
+        $_SESSION['role'] = $role_prefix;
 
         $stmt = $conn->prepare(
             "INSERT INTO user
@@ -66,33 +68,37 @@
         );
 
         if ($stmt->execute()) {
-            $_SESSION['user_id'] = $stmt->insert_id;
 
-            $_SESSION['role_id'] = $role_id;
+            $_SESSION['user_id'] = $stmt->insert_id;
+            $_SESSION['name'] = $fname . " " . $lname;
 
             logActivity(
                 $conn,
-                "SIGNUP",
-                "New user registered"
+                "REGISTER_ACCOUNT",
+                "New user registered: " . $_SESSION['name']
             );
 
             header("Location: ../index.php");
             exit();
+
         } else {
-            echo "sign up failed";
+            echo "Sign up failed: " . $stmt->error;
         }
     }
 
+
     // LOGIN //
 
-    if (isset($_POST['signIn'])) {
+    if (isset($_POST['signin'])) {
 
         $studID = $_POST['studentID'];
         $pass = $_POST['password'];
 
         $stmt = $conn->prepare(
-            "SELECT * FROM user
-             WHERE studID = ?"
+            "SELECT u.*, r.role_prefix 
+             FROM user u
+             JOIN role r ON u.role_id = r.role_id
+             WHERE u.studID = ?"
         );
 
         $stmt->bind_param("s", $studID);
@@ -104,21 +110,33 @@
 
             if (password_verify($pass, $row['password'])) {
 
+                // ✅ SESSION DATA
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['role_id'] = $row['role_id'];
+                $_SESSION['role'] = $row['role_prefix']; // ⭐ THIS IS THE KEY FIX
+                $_SESSION['name'] = $row['first_name'] . " " . $row['last_name'];
+
+                // optional: role-based redirect
+                if ($row['role_prefix'] === 'Admin') {
+                    header("Location: ../index.php?page=dashboard");
+                } elseif ($row['role_prefix'] === 'Faculty') {
+                    header("Location: ../index.php?page=home");
+                } else {
+                    header("Location: ../index.php?page=home");
+                }
 
                 logActivity(
                     $conn,
                     "LOGIN",
-                    $_SESSION['name'] . " logged in"
+                    $_SESSION['name'] . " logged in as " . $_SESSION['role']
                 );
 
-                header("Location: ../index.php");
                 exit();
 
             } else {
                 echo "Wrong password";
             }
+
         } else {
             echo "User not found";
         }
