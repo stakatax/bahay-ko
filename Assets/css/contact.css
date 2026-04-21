@@ -20,21 +20,34 @@ body::-webkit-scrollbar {
     margin-bottom: 50px;
 }
 
-/* LAYOUT */
+/* MAIN LAYOUT */
 .contact-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
+    max-width: 1150px;
+    margin: 0 auto;
+
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 30px;
 }
 
 /* LEFT SIDE */
 .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    padding-left: 10px;
 }
 
-/* SUBTEXT */
+.contact-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #8B0000;
+    margin-top: 100px;
+}
+
+.contact-taytel {
+    font-size: 32px;
+    font-weight: 700;
+    color: #8B0000;
+   margin-bottom: 8px;
+}
+
 .contact-sub {
     color: var(--text-light-gray);
     font-size: 14px;
@@ -112,15 +125,13 @@ body::-webkit-scrollbar {
     min-width: 20px;
 }
 
-/* TEXT */
 .info-card h4 {
     font-size: 13px;
     margin-bottom: 2px;
     color: var(--primary-red);
 }
 
-.info-card p,
-.info-card a {
+.info-card p {
     font-size: 12.5px;
     color: var(--text-gray);
     text-decoration: none;
@@ -130,7 +141,7 @@ body::-webkit-scrollbar {
     color: var(--primary-red);
 }
 
-/* RIGHT SIDE FORM */
+/* RIGHT FORM */
 .contact-form {
     background: var(--bg-card);
     padding: 30px;
@@ -175,6 +186,12 @@ body::-webkit-scrollbar {
     border-radius: var(--radius-pill);
     border: none;
     font-weight: 600;
+
+    background: #f97316;
+    color: #fff;
+
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
     transition: 0.2s;
 }
@@ -184,13 +201,14 @@ body::-webkit-scrollbar {
     transform: scale(1.03);
 }
 
-/* RESPONSIVE */
+/* ALIGN FIX */
+.contact-container > div {
+    align-self: start;
+}
+
+/* MOBILE */
 @media (max-width: 900px) {
     .contact-container {
         grid-template-columns: 1fr;
-    }
-
-    .contact-title {
-        font-size: 30px;
     }
 }
