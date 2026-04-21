@@ -180,6 +180,7 @@ html, body {
   transition: 0.3s;
   font-size: var(--text-size);
   border: none;
+  text-decoration: none;
 }
 
 .btn-red {

@@ -1,18 +1,34 @@
 <?php
-// Mock data simulating database fetches
+
+include './config/dbconnect.php';
+
+$events = [];
+
+$query = "SELECT title, event_date FROM events WHERE status = 'active' ORDER BY event_date ASC";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $events[] = [
+            'title' => $row['title'],
+            'date' => date('M d, Y', strtotime($row['event_date']))
+        ];
+    }
+}
+
 $announcements = [
     [
         'title' => 'Welcome Back Students!',
         'content' => 'Classes resume on Monday. Please check your schedules.',
         'date' => 'Aug 20, 2026'
+    ],
+    [
+        'title' => 'Birthday ni Ky',
+        'content' => 'Celebration of 21st Birthday of Ky',
+        'date' => 'Apr 22, 2026'
     ]
 ];
 
-$events = [
-    ['title' => 'Science Fair', 'date' => 'Sep 15'],
-    ['title' => 'Parent-Teacher Meet', 'date' => 'Sep 22'],
-    ['title' => 'Sports Fest', 'date' => 'Oct 10']
-];
 
 $uploadedFiles = [
     ['filename' => 'Syllabus_2026.pdf', 'size' => '2.4 MB'],
@@ -25,17 +41,39 @@ $uploadedFiles = [
         
         <div class="announcement-section">
             <h2 class="section-title">Announcements</h2>
-            <?php foreach ($announcements as $announcement): ?>
-                <div class="wireframe-box box-announcement">
-                    <h3><?= htmlspecialchars($announcement['title']) ?></h3>
-                    <small><?= htmlspecialchars($announcement['date']) ?></small>
-                    <p><?= htmlspecialchars($announcement['content']) ?></p>
-                </div>
-            <?php endforeach; ?>
-        </div>
+            <div class="news-card box-announcement announcement-slider">
+                
+                <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
 
+                <div class="slides-container">
+                    <?php 
+                    // Example PHP Loop
+                    $active = true;
+                    foreach ($announcements as $index => $item): 
+                    ?>
+                        <div class="slide <?= $active ? 'active' : '' ?>">
+                            <span class="info-label">LATEST UPDATE</span>
+                            <h3><?= htmlspecialchars($item['title']) ?></h3>
+                            <p><?= htmlspecialchars($item['content']) ?></p>
+                        </div>
+                    <?php 
+                        $active = false;
+                    endforeach; 
+                    ?>
+                </div>
+
+                <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+        </div>
         <div class="events-view-section">
             <h2 class="section-title">Events</h2>
+            <div class="tags-container">
+                <span class="tag active">All</span>
+                <span class="tag">Academic</span>
+                <span class="tag">Holidays</span>
+                <span class="tag">Sports</span>
+                <span class="tag">Faculty</span>
+            </div>
             <div class="events-container">
                 <?php foreach ($events as $event): ?>
                     <div class="wireframe-box box-event">
@@ -50,13 +88,24 @@ $uploadedFiles = [
             <h2 class="section-title">Uploaded Files</h2>
             <div class="files-container">
                 <?php foreach ($uploadedFiles as $file): ?>
-                    <div class="wireframe-box box-file" style="padding: 1rem;">
-                        <strong><?= htmlspecialchars($file['filename']) ?></strong><br>
-                        <small><?= htmlspecialchars($file['size']) ?></small>
+                    <div class="news-card box-file">
+                        <div class="file-info">
+                            <span class="info-label">FILE</span>
+                            <p class="file-name"><?= htmlspecialchars($file['name']) ?></p>
+                        </div>
+
+                        <!-- <div class="file-actions">
+                            <a href="uploads/" target="_blank" class="action-btn view" title="View">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="uploads/" download class="action-btn download" title="Download">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div> -->
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
-
-    </div> 
+    </div>
 </section>
+

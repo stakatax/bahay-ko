@@ -63,6 +63,9 @@ if (!in_array($page, $allowedPages)) {
   <?php if ($page === 'calendar'): ?>
     <script src="Assets/js/calendar.js"></script>
   <?php endif; ?>
+  <?php if ($page === 'news'): ?>
+    <script src="Assets/js/news.js"></script>
+  <?php endif; ?>
 
 </body>
 

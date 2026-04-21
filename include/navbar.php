@@ -58,12 +58,15 @@ $currentPage = $page ?? 'dashboard';
 
     <!-- MOBILE MENU -->
     <div id="mobileMenu" class="mobile-menu">
-        <div>HOME</div>
-        <div>OUR SCHOOL</div>
-        <div>ACADEMIC OFFERINGS</div>
-        <div>EVENTS</div>
-        <div>NEWS</div>
-        <div>CONTACT</div>
-        <div>LOGIN</div>
+        <?php foreach ($nav as $key => $item): ?>
+            <?php if (in_array($role, $item['roles'])): ?>
+                <div>
+                    <a style="text-decoration: none; color: #000;" href="?page=<?php echo $key; ?>"
+                        class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
+                        <span><?php echo $item['label']; ?></span>
+                    </a>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </div>

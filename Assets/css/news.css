@@ -1,17 +1,16 @@
-@import url('root.css');
-
-/* Ensure the section fills the main-card container */
-.news-section {
-    width: 100%;
-    height: 100%;
-    padding: var(--padding);
-    box-sizing: border-box;
-    overflow-y: auto; /* Allows scrolling inside the card if content is long */
-    display: flex;
-    flex-direction: column;
+body::-webkit-scrollbar {
+    display: none;
 }
 
-/* Grid Layout adapted for the main-card inner space */
+.news-section {
+    width: 100%;
+    min-height: 100%;
+    padding: var(--padding);
+    padding-top: 120px; /* Aligned with Contacts padding */
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+}
+
 .news-content {
     display: grid;
     grid-template-columns: 1.8fr 1fr; 
@@ -19,69 +18,272 @@
     grid-template-areas: 
         "announcements events"
         "files events";
-    gap: 30px 40px;
+    gap: 40px; /* Consistent gap with Contacts grid */
     width: 100%;
-    margin-top: 20px; /* Space from navbar */
 }
 
-/* Mapping Areas */
+/* Section Area Mapping */
 .announcement-section { grid-area: announcements; }
 .events-view-section { grid-area: events; }
 .uploaded-files-section { grid-area: files; }
 
-/* Titles */
+/* Consistent Heading Style */
 .section-title {
-    font-family: var(--font-primary);
+    font-size: 2rem;
     font-weight: 800;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    color: var(--text-black);
-    margin-bottom: 15px;
-    display: block;
+    color: var(--primary-red); /* Using the same red as "Nice to meet you" */
+    margin-bottom: 25px;
+    text-transform: none; /* Removed uppercase to match Contacts title style */
 }
 
-/* The Wireframe Shapes from the Image */
-.wireframe-box {
-    border: 3px solid var(--text-black);
-    background-color: transparent;
-    transition: all 0.3s ease;
+/* Card Styling - Same as "Form-Wrapper" in Contacts */
+.news-card {
+    background: var(--bg-card); /* White background */
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md); /* Added subtle shadow for depth */
+    border: 1px solid var(--border-color); /* Matches Contact info borders */
+    transition: transform 0.3s ease;
 }
 
-/* Large Announcement Oval */
+.news-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Announcement Box */
 .box-announcement {
-    width: 100%;
-    min-height: 350px;
-    border-radius: 50px; /* Strong rounding like mockup */
+    min-height: 400px;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-md);
+    border-radius: 30px;
+    padding: 30px;
 }
 
-/* Events Stack */
+/* Events Column */
 .events-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
+    overflow-y: auto;
+    max-height: 540px;
 }
 
 .box-event {
-    width: 100%;
-    height: 140px;
+    min-height: 100px;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-md);
     border-radius: 30px;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
 }
 
-/* Uploaded Files Row */
+.box-event:hover {
+    transform: translateY(-2px);
+}
+
+.box-event h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-dark);
+}
+
+.event-date {
+    font-size: 0.85rem;
+    color: var(--accent-orange); /* Using your accent orange for the date */
+    font-weight: 600;
+}
+
+/* Files Row */
 .files-container {
     display: flex;
     gap: 20px;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.file-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+    /* Prevents long filenames from breaking the layout */
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Actions Container */
+.file-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Individual Action Buttons */
+.action-btn {
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* View Style (Outline) */
+.action-btn.view {
+    color: var(--text-gray);
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+}
+
+.action-btn.view:hover {
+    background: var(--bg-card);
+    color: var(--text-dark);
+    border-color: var(--text-dark);
+}
+
+/* Download Style (Solid Accent) */
+.action-btn.download {
+    background: var(--accent-orange);
+    color: white;
+    width: 35px; /* Square button for the icon */
+    height: 35px;
+    justify-content: center;
+    padding: 0;
+    border-radius: 50%; /* Circular download button */
+}
+
+.action-btn.download:hover {
+    background: var(--primary-red);
+    transform: scale(1.1);
+}
+/* Slider Grid Logic */
+.announcement-slider {
+    display: grid;
+    /* prevBtn (10%) | Announcement (80%) | nextBtn (10%) */
+    grid-template-columns: 60px 1fr 60px;
+    align-items: center;
+    padding: 20px !important; /* Overriding base card padding for control */
+    min-height: 400px;
+    position: relative;
+}
+
+.slides-container {
     width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
 }
 
-.box-file {
-    flex: 1;
-    height: 85px;
-    border-radius: 20px;
+/* Individual Slide Styling */
+.slide {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+    animation: fadeIn 0.5s ease;
 }
 
-/* RESPONSIVE: If main-card gets too narrow */
-@media (max-width: 1100px) {
+.slide.active {
+    display: flex; /* Only show active slide */
+}
+
+/* Label styling to match Contacts 'ADDRESS/PHONE' labels */
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    letter-spacing: 1px;
+}
+
+/* Button Styling */
+.slider-btn {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-btn:hover {
+    background: var(--primary-red);
+    color: white;
+    border-color: var(--primary-red);
+}
+
+/* Tags Container Styling */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tag {
+    padding: 6px 18px;
+    background: var(--bg-alt); /* Light gray from your root */
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: var(--bg-soft-red);
+    color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+.tag.active {
+    background: var(--primary-red);
+    color: white;
+    border-color: var(--primary-red);
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* Reusing the label style from the Contacts/Announcement logic */
+.info-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    color: var(--text-light-gray);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
     .news-content {
         grid-template-columns: 1fr;
         grid-template-areas: 

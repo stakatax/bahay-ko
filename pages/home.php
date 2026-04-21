@@ -17,8 +17,8 @@
             </h1>
 
             <div class="buttons fade-up fade-up-delay-2">
-                <button class="btn btn-red">Inquire now</button>
-                <button class="btn btn-white">About us</button>
+                <a href="?page=contact" class="btn btn-red">Inquire now</a>
+                <a href="?page=about" class="btn btn-white">About us</a>
             </div>
 
         </div>
