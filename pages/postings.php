@@ -16,12 +16,18 @@
             <div class="input-group">
                 <label for="scope">Publish To:</label>
                 <select id="scope" name="scope" onchange="toggleDepartment(this.value)">
-                    <option value="schoolwide">Schoolwide</option>
-                    <option value="departmental">Departmental Only</option>
+                    <?php if ($role === 'Faculty'): ?>
+                        <option value="departmental" selected>Departmental Only</option>
+
+                    <?php else: ?>
+                        <!-- Other roles (Admin, etc.) -->
+                        <option value="schoolwide">Schoolwide</option>
+                        <option value="departmental">Departmental Only</option>
+                    <?php endif; ?>
                 </select>
             </div>
 
-            <div id="department-selection" class="input-group" style="display: none;">
+            <div id="department-selection" class="input-group" style="<?= ($role === 'Faculty') ? 'display:block;' : 'display:none;' ?>">
                 <label for="department">Select Department:</label>
                 <select id="department" name="department">
                     <option value="elementary">Elementary</option>
