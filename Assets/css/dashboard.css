@@ -1,0 +1,26 @@
+.dash-hero {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dash-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dash-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.dash-hero-content {
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+  color: var(--text-white);
+  max-width: 520px;
+}

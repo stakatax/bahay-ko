@@ -1,37 +1,235 @@
-@import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+/* Ensure the page integrates with main-card and gradient-frame parent containers */
+.login-page-wrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    overflow: hidden; /* Prevent scrolling outside main-card */
+}
 
-body {
-      background: radial-gradient(circle at center, #8b0000 0%, #3b0000 60%, #1a0000 100%);
-      --font-body: 'Mona Sans', sans-serif;
+.login-hero {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3); /* Lighter overlay to show background */
+    z-index: 2;
+}
+
+/* 3. Main Content Flex Layout */
+.login-content {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: var(--padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Left Content Area */
+.login-content-box {
+    flex: 1;
+    color: white;
+    font-family: var(--font-primary);
+}
+
+.welcome-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+.welcome-heading {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.hub-title {
+    font-size: 0.8em;
+}
+
+.sys-title {
+    font-size: 0.6em;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.9;
+    color: white;
+}
+
+/* Right Side Form Card */
+.login-form-card {
+    width: 480px;
+    min-height: 580px;
+    border-radius: var(--radius-lg);
+    /* Dark radial gradient matching reference image */
+    background: radial-gradient(circle at center, #a83d3e 0%, #760e0f 70%, #510708 100%);
+    border: 3px solid rgba(255, 255, 255, 0.4); /* Glass-like border */
+    padding: 50px;
+    box-sizing: border-box;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    color: white;
+    font-family: var(--font-primary);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.form-logo {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 15px;
+}
+
+.account-prompt {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* Input Fields */
+.input-group {
+    width: 100%;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.15); /* Translucent input background */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Footer Section (Remember & Forgot) */
+.form-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-top: -10px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.remember-me input {
+    accent-color: #a83d3e; /* Standard checkbox color matching form */
+    width: 16px;
+    height: 16px;
+}
+
+.forgot-password {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid white;
+    padding-bottom: 2px;
+}
+
+.forgot-password:hover {
+    border-color: #a83d3e;
+    color: #ffd8d8;
+}
+
+/* Primary Button */
+.btn-get-started {
+    width: 100%;
+    padding: 18px;
+    background: #a83d3e; /* Specific red-brown button color from image */
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-get-started:hover {
+    background: #510708; /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1100px) {
+    .login-content {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 40px;
     }
 
-    /* Card shadow */
-    .card-shadow {
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    .welcome-logo {
+        margin: 0 auto 20px auto;
     }
 
-    /* Input style */
-    .input-style {
-      background: #d9d9d9;
-      border-radius: 999px;
-      padding: 14px 18px;
-      font-size: 14px;
+    .login-form-card {
+        width: 100%;
+        max-width: 480px;
+        min-height: auto;
+        padding: 40px;
     }
-
-    .input-style::placeholder {
-      color: #6b6b6b;
-    }
-
-    /* Button style */
-    .btn-main {
-      background: #7a2e2e;
-      border-radius: 999px;
-      padding: 14px;
-      color: white;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-
-    .btn-main:hover {
-      background: #5c1f1f;
-    }
+}

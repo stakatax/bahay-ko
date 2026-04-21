@@ -5,6 +5,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 /* SECTION */
 .contact-section {
     padding: 30px 40px;

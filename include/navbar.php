@@ -4,13 +4,17 @@ $current = basename($_SERVER['PHP_SELF']);
 
 $currentPage = $page ?? 'dashboard';
 $nav = [
+    'dashboard' => [
+        'label' => 'Dashboard',
+        'roles' => ['Admin']
+    ],
     'home' => [
         'label' => 'Home',
-        'roles' => ['Student', 'Faculty', 'Admin']
+        'roles' => ['Guest', 'Student', 'Faculty']
     ],
     'about' => [
         'label' => 'About School',
-        'roles' => ['Student', 'Faculty', 'Admin']
+        'roles' => ['Guest', 'Student', 'Faculty', 'Admin']
     ],
     'calendar' => [
         'label' => 'Calendar & Events',
@@ -18,7 +22,7 @@ $nav = [
     ],
     'academic' => [
         'label' => 'Academic Offerings',
-        'roles' => ['Student', 'Faculty', 'Admin']
+        'roles' => ['Guest', 'Student', 'Faculty', 'Admin']
     ],
     'news' => [
         'label' => 'News',
@@ -26,12 +30,24 @@ $nav = [
     ],
     'contact' => [
         'label' => 'Contacts',
-        'roles' => ['Student', 'Faculty', 'Admin'] // For global view
+        'roles' => ['Guest', 'Student', 'Faculty', 'Admin']
     ],
     'postings' => [
         'label' => 'Postings',
-        'roles' => ['Faculty', 'Admin'] // Only for faculty and admin
+        'roles' => ['Faculty', 'Admin'] 
     ],
+    'login' => [
+        'label' => 'Sign In',
+        'roles' => ['Guest']
+    ],
+    'register' => [
+        'label' => 'Sign Up',
+        'roles' => ['Guest']
+    ],
+    'logout' => [
+        'label' => 'Logout',
+        'roles' => ['Student', 'Faculty', 'Admin']
+    ]
 
 ];
 ?>

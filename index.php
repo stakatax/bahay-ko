@@ -1,10 +1,10 @@
 <?php
 $page = $_GET['page'] ?? 'home';
 
-$role = $role ?? 'Faculty';
+$role = $role ?? 'Student';
 
 // whitelist (important, don't skip this)
-$allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar', 'postings'];
+$allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar', 'postings', 'login', 'dashboard'];
 
 if (!in_array($page, $allowedPages)) {
   $page = 'home';
@@ -38,6 +38,9 @@ if (!in_array($page, $allowedPages)) {
   <?php endif; ?>
   <?php if ($page === 'postings'): ?>
     <link rel="stylesheet" href="Assets/css/posting.css" />
+  <?php endif; ?>
+  <?php if ($page === 'login'): ?>
+    <link rel="stylesheet" href="Assets/css/login.css" />
   <?php endif; ?>
 
 </head>

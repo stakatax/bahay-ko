@@ -20,7 +20,6 @@
                 <a href="?page=contact" class="btn btn-red">Inquire now</a>
                 <a href="?page=about" class="btn btn-white">About us</a>
             </div>
-
         </div>
     </div>
 </div>
