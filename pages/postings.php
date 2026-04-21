@@ -7,7 +7,8 @@
             <button type="button" class="type-btn" onclick="switchType('document', this)">Document</button>
         </div>
 
-        <form action="upload_handler.php" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="post_type" id="post_type" value="announcement">
             <div class="input-group">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" placeholder="Enter title..." required>

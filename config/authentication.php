@@ -10,10 +10,12 @@
         $fname = $_POST['first_name'];
         $mname = $_POST['middle_name'];
         $lname = $_POST['last_name'];
+        $studID = $_POST['studentID'];
+        $age = $_POST['age'];
         $email = $_POST['email'];
         $gender = $_POST['gender'];
         $dept = $_POST['department'];
-        $studID = $_POST['studentID'];
+        
 
         $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -43,14 +45,14 @@
         $stmt = $conn->prepare(
             "INSERT INTO user
             (studID, first_name, middle_name, last_name,
-            email, password, gender,
+            email, password, gender, age,
             role_id, department_id, created_at)
 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
         );
 
         $stmt->bind_param(
-            "sssssssii",
+            "sssssssiii",
             $studID,
             $fname,
             $mname,
@@ -58,6 +60,7 @@
             $email,
             $pass,
             $gender,
+            $age,
             $role_id,
             $dept
         );

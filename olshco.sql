@@ -29,6 +29,8 @@ CREATE TABLE user (
 
     gender ENUM('Male','Female','Other') NOT NULL,
 
+    age INT NOT NULL,
+
     role_id INT,
     department_id INT,
 
@@ -55,6 +57,19 @@ CREATE TABLE announcements (
 
     user_id INT,
 
+    FOREIGN KEY (user_id)
+        REFERENCES user(user_id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE documents (
+    document_id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'active',
+    user_id INT,
+    
     FOREIGN KEY (user_id)
         REFERENCES user(user_id)
         ON DELETE SET NULL
