@@ -76,7 +76,7 @@ $uploadedFiles = [
             </div>
             <div class="events-container">
                 <?php foreach ($events as $event): ?>
-                    <div class="wireframe-box box-event">
+                    <div class="news-card box-event">
                         <h3><?= htmlspecialchars($event['title']) ?></h3>
                         <p><?= htmlspecialchars($event['date']) ?></p>
                     </div>

@@ -1,0 +1,155 @@
+@import url('root.css');
+
+/* HIDE SCROLLBAR */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Main Layout Centering */
+.post-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 120px auto 80px auto; 
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* The Card Container */
+.post-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    /* This gap controls the distance BETWEEN each group */
+    gap: 28px; 
+}
+
+/* Type Selector Toggles */
+.type-selector {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 25px;
+    margin-bottom: 10px; /* Extra push before the form starts */
+}
+
+.type-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    background: #fcfcfc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.type-btn.active {
+    background: var(--primary-red);
+    color: white;
+    border-color: var(--primary-red);
+    box-shadow: 0 4px 12px rgba(102, 0, 0, 0.2);
+}
+
+/* Input Groups */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    /* Space between the label and its input box */
+    gap: 10px; 
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-top: 25px; /* Space before the label, separating it from the previous group */
+    /* Removed padding-top to let the card's 'gap' handle the layout naturally */
+}
+
+/* Form Controls */
+input[type="text"], 
+input[type="datetime-local"], 
+select, 
+textarea {
+    width: 100%;
+    background-color: #fcfcfc;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 1rem;
+    color: #333;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: #fff;
+    border-color: var(--primary-red);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(102, 0, 0, 0.08);
+}
+
+/* File Upload Area */
+.file-drop-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 45px 20px;
+    border: 2px dashed #d1d1d1;
+    border-radius: 10px;
+    background-color: #fafafa;
+    text-align: center;
+    transition: 0.3s;
+    margin-top: 10px; /* Gives the upload area breathing room from the text area */
+}
+
+.file-drop-area:hover {
+    border-color: var(--primary-red);
+    background-color: #fff9f9;
+}
+
+.file-input {
+    position: absolute;
+    left: 0; top: 0; height: 100%; width: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.browse-text {
+    color: var(--primary-red);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.publish-btn {
+    width: 100%;
+    background-color: var(--primary-red);
+    color: #ffffff;
+    border: none;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    margin-top: 15px; /* Final spacing before the button */
+}
+
+.publish-btn:hover {
+    background-color: #4a0000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 0, 0, 0.2);
+}

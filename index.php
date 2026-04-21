@@ -4,7 +4,7 @@ $page = $_GET['page'] ?? 'home';
 $role = $role ?? 'Faculty';
 
 // whitelist (important, don't skip this)
-$allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar'];
+$allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar', 'postings'];
 
 if (!in_array($page, $allowedPages)) {
   $page = 'home';
@@ -36,12 +36,15 @@ if (!in_array($page, $allowedPages)) {
   <?php if ($page === 'calendar'): ?>
     <link rel="stylesheet" href="Assets/css/calendar.css" />
   <?php endif; ?>
+  <?php if ($page === 'postings'): ?>
+    <link rel="stylesheet" href="Assets/css/posting.css" />
+  <?php endif; ?>
 
 </head>
 
 <body>
 
-  
+
 
   <div class="fullscreen">
     <div class="gradient-frame">
