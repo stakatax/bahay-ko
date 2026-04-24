@@ -1,3 +1,41 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php
+/**
+ * FEEDBACK LOGIC
+ * Nakikinig ito sa 'success' o 'error' parameters mula sa config/authentication.php
+ */
+if (isset($_GET['success'])) {
+    $msg = htmlspecialchars($_GET['success']);
+    echo "
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Registration Successful!',
+            text: '$msg',
+            background: 'radial-gradient(circle at center, #a83d3e 0%, #510708 100%)',
+            color: '#ffffff',
+            confirmButtonColor: '#a83d3e'
+        }).then(() => { window.location.href='?page=login'; });
+    </script>";
+}
+
+if (isset($_GET['error'])) {
+    $msg = htmlspecialchars($_GET['error']);
+    echo "
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: '$msg',
+            background: 'radial-gradient(circle at center, #a83d3e 0%, #510708 100%)',
+            color: '#ffffff',
+            confirmButtonColor: '#a83d3e'
+        });
+    </script>";
+}
+?>
+
 <section class="registration-page-wrapper">
     <div class="registration-hero">
         <img src="Assets/Images/poster.png" class="hero-img" alt="OLSHCO Campus">
@@ -5,24 +43,21 @@
 
         <div class="registration-content">
             <div class="registration-content-box">
-                <h1 class="welcome-heading fade-up fade-up-delay">
+                <h1 class="welcome-heading fade-up">
                     WELCOME TO: <br>
                     <span class="hub-title">OLSHCO Digital Hub</span>
                     <span class="sys-title">Centralized School Website & Information Management System</span>
                 </h1>
-
-                <p class="subtitle fade-up fade-up-delay-2">
-                    Rooted in Faith Grounded in Excellence
-                </p>
+                <p class="subtitle fade-up">Rooted in Faith Grounded in Excellence</p>
             </div>
 
-            <form action="config/authentication.php" method="POST" class="registration-form-card fade-up fade-up-delay-2">
+            <form id="registrationForm" action="config/authentication.php" method="POST" class="registration-form-card fade-up">
                 <div class="form-header">
                     <h3>Student Registration</h3>
                     <p class="account-prompt">Complete the details below to join.</p>
                 </div>
 
-                <div class="form-row three-col">
+                <div class="form-row">
                     <div class="input-group">
                         <label>First Name</label>
                         <input type="text" name="first_name" placeholder="Juan" required>
@@ -73,13 +108,22 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="input-group">
-                    <label>Email Address</label>
+                    <label>Password</label>
                     <input type="password" name="password" placeholder="*******" required>
                 </div>
 
-                <button type="submit" name="signup" class="btn-register-now">Register Now</button>
+                <button type="button" onclick="confirmRegistration()" class="btn-register-now">Register Now</button>
+
+                <input type="submit" name="signup" id="hiddenSubmit" style="display: none;">
+
+                <p class="account-prompt" style="margin-top: 10px; text-align: center;">
+                    Already have an account? <a href="?page=login" style="color: white; font-weight: 800;">Log In</a>
+                </p>
             </form>
         </div>
     </div>
 </section>
+
+<script src="Assets/js/register.js"></script>

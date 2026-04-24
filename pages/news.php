@@ -59,25 +59,27 @@ if ($result) {
 
 <section class="news-section">
     <div class="news-content">
-        
+
         <div class="announcement-section">
             <h2 class="section-title">Announcements</h2>
             <div class="news-card box-announcement announcement-slider">
-                
+
                 <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
 
                 <div class="slides-container">
                     <?php if (!empty($announcements)): ?>
-                        <?php $active = true; foreach ($announcements as $item): ?>
+                        <?php $active = true;
+                        foreach ($announcements as $item): ?>
                             <div class="slide <?= $active ? 'active' : '' ?>">
                                 <span class="info-label">LATEST UPDATE</span>
-                        
+
                                 <h3><?= htmlspecialchars($item['title']) ?></h3>
                                 <p><?= nl2br(htmlspecialchars($item['content'])) ?></p>
                                 <small><?= htmlspecialchars($item['date']) ?></small>
                             </div>
-                        <?php $active = false; endforeach; ?>
-                        
+                        <?php $active = false;
+                        endforeach; ?>
+
                     <?php else: ?>
                         <div class="slide active">
                             <span class="info-label">LATEST UPDATE</span>
@@ -109,7 +111,7 @@ if ($result) {
             </div>
         </div>
 
-        <div class="uploaded-files-section">           
+        <div class="uploaded-files-section">
             <h2 class="section-title">Uploaded Files</h2>
             <div class="files-container">
                 <?php if (!empty($uploadedFiles)): ?>
@@ -121,16 +123,16 @@ if ($result) {
                                 <small><?= htmlspecialchars($file['date']) ?></small>
                             </div>
                             <div class="file-actions">
-                                <a href="uploads/documents/<?= htmlspecialchars($file['file_name']) ?>" 
-                                    target="_blank" 
-                                    class="action-btn view" 
+                                <a href="./Assets/uploads<?= htmlspecialchars($file['file_name']) ?>"
+                                    target="_blank"
+                                    class="action-btn view"
                                     title="View Document">
                                     <i class="fa-regular fa-eye"></i>
                                 </a>
 
-                                <a href="uploads/documents/<?= htmlspecialchars($file['file_name']) ?>" 
-                                    download 
-                                    class="action-btn download" 
+                                <a href="./Assets/uploads<?= htmlspecialchars($file['file_name']) ?>"
+                                    download
+                                    class="action-btn download"
                                     title="Download File">
                                     <i class="fa-solid fa-arrow-down-long"></i>
                                 </a>
@@ -149,4 +151,3 @@ if ($result) {
         </div>
     </div>
 </section>
-
