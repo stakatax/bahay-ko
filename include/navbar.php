@@ -46,7 +46,8 @@ $nav = [
     ],
     'logout' => [
         'label' => 'Logout',
-        'roles' => ['Student', 'Faculty', 'Admin']
+        'roles' => ['Student', 'Faculty', 'Admin'],
+        'action' => 'logout'
     ]
 
 ];
@@ -61,10 +62,16 @@ $nav = [
             <?php foreach ($nav as $key => $item): ?>
                 <?php if (in_array($role, $item['roles'])): ?>
                     <li>
-                        <a href="?page=<?php echo $key; ?>"
-                            class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
-                            <span><?php echo $item['label']; ?></span>
-                        </a>
+                        <?php if ($key === 'logout'): ?>
+                            <a href="config/logout.php" class="nav-link">
+                                <span><?php echo $item['label']; ?></span>
+                            </a>
+                        <?php else: ?>
+                            <a href="?page=<?php echo $key; ?>"
+                                class="nav-link<?php echo $currentPage === $key ? ' active' : ''; ?>">
+                                <span><?php echo $item['label']; ?></span>
+                            </a>
+                        <?php endif; ?>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

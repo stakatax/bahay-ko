@@ -101,7 +101,7 @@ body::-webkit-scrollbar {
 /* SECTION */
 .calendar-remodel-section {
     font-family: var(--font-primary);
-    background-color: var(--bg-alt);
+    background-color: #F1EAE6;
     padding: 40px 20px;
     color: var(--text-dark);
 }

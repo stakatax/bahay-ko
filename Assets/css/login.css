@@ -1,3 +1,7 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
 /* --- 1. GLOBAL WRAPPER & HERO (Matched to Login) --- */
 .login-page-wrapper {
     width: 100%;

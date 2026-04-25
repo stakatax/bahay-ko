@@ -1,7 +1,13 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/config/dbconnect.php';
+
 $page = $_GET['page'] ?? 'home';
 
-$role = $role ?? 'Guest';
+$role = $_SESSION['role'] ?? 'Guest';
 
 // whitelist (important, don't skip this)
 $allowedPages = ['home', 'about', 'contact', 'academic', 'news', 'calendar', 'postings', 'login', 'dashboard', 'register'];
@@ -20,7 +26,8 @@ if (!in_array($page, $allowedPages)) {
   <title>OLSCO Landing</title>
   <link rel="stylesheet" href="Assets/css/index.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <?php if ($page === 'about'): ?>
     <link rel="stylesheet" href="Assets/css/about.css" />
   <?php endif; ?>
