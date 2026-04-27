@@ -46,10 +46,8 @@ $nav = [
     ],
     'logout' => [
         'label' => 'Logout',
-        'roles' => ['Student', 'Faculty', 'Admin'],
-        'action' => 'logout'
+        'roles' => ['Student', 'Faculty', 'Admin']
     ]
-
 ];
 ?>
 
@@ -63,7 +61,7 @@ $nav = [
                 <?php if (in_array($role, $item['roles'])): ?>
                     <li>
                         <?php if ($key === 'logout'): ?>
-                            <a href="config/logout.php" class="nav-link">
+                            <a href="index.php?page=logout" class="nav-link">
                                 <span><?php echo $item['label']; ?></span>
                             </a>
                         <?php else: ?>

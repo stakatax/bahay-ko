@@ -39,7 +39,7 @@ if (isset($_GET['error'])) {
             <button type="button" class="type-btn" onclick="switchType('document', this)">Document</button>
         </div>
 
-        <form id="postForm" action="config/upload_announcement.php" method="POST" enctype="multipart/form-data">
+        <form id="postForm" action="index.php?page=post_store" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="post_type" id="post_type" value="announcement">
 
             <div class="input-group">

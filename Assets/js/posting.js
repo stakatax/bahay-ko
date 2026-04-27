@@ -13,20 +13,21 @@ function switchType(type, btn) {
 
     // 2. BAGUHIN ANG ACTION NG FORM DITO:
     if (type === 'event') {
-        form.action = 'config/upload_event.php'; // Mapupunta na ito sa events table
         eventFields.style.display = 'block';
         submitBtn.innerText = "Publish Event";
+        console.log(typeInput.value);
     } 
     else if (type === 'document') {
-        form.action = 'config/upload_document.php'; // Mapupunta sa documents table
         eventFields.style.display = 'none';
         submitBtn.innerText = "Upload Document";
+        console.log(typeInput.value);
     } 
     else {
-        form.action = 'config/upload_announcement.php'; // Balik sa announcement
         eventFields.style.display = 'none';
         submitBtn.innerText = "Publish Announcement";
+        console.log(typeInput.value);
     }
+
 }
 
 // Function for Department Toggle

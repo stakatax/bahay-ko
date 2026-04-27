@@ -52,7 +52,7 @@ if (isset($_GET['success'])) {
                 </p>
             </div>
 
-            <form action="config/authentication.php" method="POST" class="login-form-card fade-up">
+            <form action="index.php?page=login_action" method="POST" class="login-form-card fade-up">
                 <div class="login-form-content">
 
                     <div class="form-header">

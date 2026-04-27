@@ -51,7 +51,7 @@ if (isset($_GET['error'])) {
                 <p class="subtitle fade-up">Rooted in Faith Grounded in Excellence</p>
             </div>
 
-            <form id="registrationForm" action="config/authentication.php" method="POST" class="registration-form-card fade-up">
+            <form id="registrationForm" action="index.php?page=register_action" method="POST" class="registration-form-card fade-up">
                 <div class="form-header">
                     <h3>Student Registration</h3>
                     <p class="account-prompt">Complete the details below to join.</p>

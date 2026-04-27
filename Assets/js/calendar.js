@@ -100,7 +100,7 @@ window.saveEvent = function () {
             return;
         }
 
-        fetch("config/save_event.php", {
+        fetch("index.php?page=event_store", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -115,18 +115,20 @@ window.saveEvent = function () {
 
             if (data.status === "success") {
 
-                // REMOVE "No Events" if it exists
-                const empty = document.querySelector(".event-mini-card");
-                if (empty && empty.innerText.includes("No Events")) {
-                    empty.remove();
+                if (!EVENTS[selectedDate]) {
+                    EVENTS[selectedDate] = [];
                 }
-
+            
+                EVENTS[selectedDate].push({
+                    title: title,
+                    type: "Event"
+                });
+                
+                renderEvents(selectedDate);
+            
                 closeModal();
-
+            
                 document.getElementById("eventTitle").value = "";
-
-            } else {
-                alert("Failed to save event.");
             }
         })
         .catch(err => {

@@ -1,60 +1,5 @@
 <?php
 
-include './config/dbconnect.php';
-
-$events = [];
-
-$query = "SELECT title, event_date FROM events WHERE status = 'active' ORDER BY event_date ASC";
-$result = mysqli_query($conn, $query);
-
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $events[] = [
-            'title' => $row['title'],
-            'date' => date('M d, Y', strtotime($row['event_date']))
-        ];
-    }
-}
-
-$announcements = [];
-
-$query = "SELECT title, content, created_at
-          FROM announcements
-          WHERE status = 'active'
-          ORDER BY created_at DESC
-          LIMIT 5";
-
-$result = mysqli_query($conn, $query);
-
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $announcements[] = [
-            'title' => $row['title'],
-            'content' => $row['content'],
-            'date' => date('M d, Y', strtotime($row['created_at']))
-        ];
-    }
-}
-
-$uploadedFiles = [];
-
-$query = "SELECT  file_name, file_type, created_at
-          FROM documents
-          WHERE status = 'active'
-          ORDER BY created_at DESC
-          LIMIT 10";
-
-$result = mysqli_query($conn, $query);
-
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $uploadedFiles[] = [
-            'file_name' => $row['file_name'],
-            'file_type' => strtoupper($row['file_type']),
-            'date' => date('M d, Y', strtotime($row['created_at']))
-        ];
-    }
-}
 ?>
 
 <section class="news-section">
@@ -75,7 +20,7 @@ if ($result) {
 
                                 <h3><?= htmlspecialchars($item['title']) ?></h3>
                                 <p><?= nl2br(htmlspecialchars($item['content'])) ?></p>
-                                <small><?= htmlspecialchars($item['date']) ?></small>
+                                <small><?= date('M d, Y', strtotime($item['created_at'])) ?></small>
                             </div>
                         <?php $active = false;
                         endforeach; ?>
@@ -105,7 +50,7 @@ if ($result) {
                 <?php foreach ($events as $event): ?>
                     <div class="news-card box-event">
                         <h3><?= htmlspecialchars($event['title']) ?></h3>
-                        <p><?= htmlspecialchars($event['date']) ?></p>
+                        <p><?= date('M d, Y', strtotime($event['event_date'])) ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -114,13 +59,13 @@ if ($result) {
         <div class="uploaded-files-section">
             <h2 class="section-title">Uploaded Files</h2>
             <div class="files-container">
-                <?php if (!empty($uploadedFiles)): ?>
-                    <?php foreach ($uploadedFiles as $file): ?>
+                <?php if (!empty($documents)): ?>
+                    <?php foreach ($documents as $file): ?>
                         <div class="news-card box-file">
                             <div class="file-info">
                                 <span class="info-label"><?= htmlspecialchars($file['file_type']) ?></span>
                                 <p class="file-name"><?= htmlspecialchars($file['file_name']) ?></p>
-                                <small><?= htmlspecialchars($file['date']) ?></small>
+                                <small><?= htmlspecialchars($file['created_at']) ?></small>
                             </div>
                             <div class="file-actions">
                                 <a href="./Assets/uploads<?= htmlspecialchars($file['file_name']) ?>"
