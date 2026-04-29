@@ -308,33 +308,25 @@ source /path/to/olshco.sql;
 ```
 
 **3. Seed required data**
+
+You can use the provided .sql file to run the query (modify the queries if needed)
+
 ```sql
 USE olshcodb;
-
--- Roles (required for registration and login)
-INSERT INTO role (role_prefix) VALUES ('Admin'), ('Student');
-
--- Departments (required for registration)
-INSERT INTO department (department_name) VALUES
-    ('College'), ('Senior High'), ('Junior High'), ('Elementary');
-
--- Action names (required for activity logging)
-INSERT INTO actions (action_name) VALUES
-    ('LOGIN'), ('LOGOUT'), ('REGISTER_ACCOUNT'),
-    ('POST_EVENT'), ('UPLOAD_ANNOUNCEMENT'), ('UPLOAD_DOCUMENT');
 ```
+
 
 **4. Configure DB credentials** (if your setup differs from the defaults)  
 Edit `config/dbconnect.php` — change `$user`, `$pass`, and `$db` as needed.
 
-**5. Set upload folder permissions**
+**5. Set upload folder permissions** (if needed)
 ```bash
 chmod 755 Assets/uploads/
 ```
 
 **6. Open in browser**
 ```
-http://localhost/bahay-ko/
+localhost/bahay-ko/index.php
 ```
 
 ---
