@@ -40,3 +40,57 @@ function moveSlide(direction) {
     // after a manual button click
     startAutoSlide();
 }
+
+// File types the browser can render inline inside an iframe
+const PREVIEWABLE_TYPES = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+
+function openPreview(fileName, fileType) {
+    const ext = fileType.toLowerCase().trim();
+    const fileUrl = './Assets/uploads/' + fileName;
+
+    // Strip timestamp prefix for a cleaner display name
+    const displayName = fileName.replace(/^\d+_/, '');
+
+    // Update header
+    document.getElementById('previewFileName').textContent = displayName;
+    document.getElementById('previewBadge').textContent = ext.toUpperCase();
+    document.getElementById('previewDownload').href = fileUrl;
+
+    const frame    = document.getElementById('previewFrame');
+    const fallback = document.getElementById('previewFallback');
+
+    if (PREVIEWABLE_TYPES.includes(ext)) {
+        frame.src = fileUrl;
+        frame.style.display = 'block';
+        fallback.style.display = 'none';
+    } else {
+        frame.src = '';
+        frame.style.display = 'none';
+        document.getElementById('fallbackDownload').href = fileUrl;
+        fallback.style.display = 'flex';
+    }
+
+    document.getElementById('previewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+    const modal = document.getElementById('previewModal');
+    const frame = document.getElementById('previewFrame');
+
+    modal.classList.remove('active');
+    frame.src = '';                   // Stop loading / release memory
+    document.body.style.overflow = '';
+}
+
+// Close when clicking the dark backdrop (not the container itself)
+function handleOverlayClick(e) {
+    if (e.target === document.getElementById('previewModal')) {
+        closePreview();
+    }
+}
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePreview();
+});

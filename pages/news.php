@@ -68,14 +68,14 @@
                                 <small><?= htmlspecialchars($file['created_at']) ?></small>
                             </div>
                             <div class="file-actions">
-                                <a href="./Assets/uploads<?= htmlspecialchars($file['file_name']) ?>"
-                                    target="_blank"
+                                <button
+                                    onclick="openPreview('<?= htmlspecialchars($file['file_name']) ?>', '<?= htmlspecialchars($file['file_type']) ?>')"
                                     class="action-btn view"
-                                    title="View Document">
+                                    title="Preview File">
                                     <i class="fa-regular fa-eye"></i>
-                                </a>
+                                </button>
 
-                                <a href="./Assets/uploads<?= htmlspecialchars($file['file_name']) ?>"
+                                <a href="./Assets/uploads/<?= htmlspecialchars($file['file_name']) ?>"
                                     download
                                     class="action-btn download"
                                     title="Download File">
@@ -96,3 +96,40 @@
         </div>
     </div>
 </section>
+
+<!-- FILE PREVIEW MODAL -->
+<div id="previewModal" class="preview-overlay" onclick="handleOverlayClick(event)">
+    <div class="preview-container">
+
+        <div class="preview-header">
+            <div class="preview-file-info">
+                <span id="previewBadge" class="preview-badge">PDF</span>
+                <span id="previewFileName" class="preview-title">document.pdf</span>
+            </div>
+            <div class="preview-header-actions">
+                <a id="previewDownload" href="#" download class="preview-action-btn download-btn" title="Download">
+                    <i class="fa-solid fa-arrow-down-long"></i>
+                </a>
+                <button onclick="closePreview()" class="preview-action-btn close-btn" title="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="preview-body">
+            <!-- PDF: rendered inline via iframe -->
+            <iframe id="previewFrame" src="" class="preview-frame" style="display:none;"></iframe>
+
+            <!-- Non-previewable types (e.g. docx) -->
+            <div id="previewFallback" class="preview-fallback" style="display:none;">
+                <i class="fa-regular fa-file-lines preview-fallback-icon"></i>
+                <p class="preview-fallback-title">Preview not available</p>
+                <p class="preview-fallback-sub">This file type cannot be displayed in the browser.<br>Use the download button to open it on your device.</p>
+                <a id="fallbackDownload" href="#" download class="fallback-download-btn">
+                    <i class="fa-solid fa-arrow-down-long"></i> Download File
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
