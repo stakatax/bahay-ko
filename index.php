@@ -57,6 +57,7 @@
 
       case 'event_store':
         (new EventController())->store();
+        exit;
 
       case 'academic':
           $title = 'Academics';

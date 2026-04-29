@@ -85,14 +85,17 @@
                 return;
             }
 
-            $result = $this->event->create($date, $title);
+            $user_id = $_SESSION['user_id'] ?? null;
+            $result = $this->service->storeEvent($title, $date, $user_id);
             if ($result) {
+                $this->log("POST_EVENT", "User created event: {$title}");
                 echo json_encode([
                     'status' => 'success'
                 ]);
             } else {
                 echo json_encode([
-                    'status' => 'error'
+                    'status' => 'error',
+                    'message' => 'Failed to save event'
                 ]);
             }
         }

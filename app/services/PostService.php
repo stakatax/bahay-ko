@@ -24,7 +24,12 @@
             ];
         }
 
-        public function create($data, $files, $user_id) {
+    public function create($data, $files, $user_id) {
+        require_once __DIR__ . '/../../config/logging.php';
+        global $conn;
+
+        $user_name = $_SESSION['name'] ?? 'Unknown user';
+
         switch ($data['post_type']) {
             case 'announcement':
                 $result = $this->announcement->create(
@@ -33,9 +38,10 @@
                     $user_id
                 );
 
-                $this->document->log(
+                logActivity(
+                    $conn,
                     "UPLOAD_ANNOUNCEMENT",
-                    "{$user_name} uploaded a document"
+                    "{$user_name} posted an announcement"
                 );
 
                 return $result;
@@ -47,7 +53,8 @@
                     $user_id
                 );
 
-                $this->event->log(
+                logActivity(
+                    $conn,
                     "POST_EVENT",
                     "{$user_name} created an event"
                 );
@@ -57,7 +64,8 @@
             case 'document':
                 $result = $this->handleUpload($files, $user_id);
 
-                $this->document->log(
+                logActivity(
+                    $conn,
                     "UPLOAD_DOCUMENT",
                     "{$user_name} uploaded a document"
                 );

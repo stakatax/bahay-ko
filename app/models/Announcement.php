@@ -3,7 +3,7 @@
 
     class Announcement extends BaseModel {
 
-        public function create($title, $content, $user_id, $username, $post_type = 'announcement') {
+        public function create($title, $content, $user_id) {
     
             $stmt = $this->conn->prepare("
                 INSERT INTO announcements

@@ -9,6 +9,10 @@
             $this->model = new Event();
         }
 
+        public function storeEvent($title, $date, $user_id) {
+            return $this->model->create($title, $date, $user_id);
+        }
+
         public function getCalendarEvents($year) {
 
             $events = [];
