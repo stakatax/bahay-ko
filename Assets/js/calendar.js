@@ -1,136 +1,637 @@
-const container = document.querySelector('.event-container');
-const modal = document.getElementById("eventModal");
-const modalDate = document.getElementById("modalDate");
-const addBtn = document.querySelector(".add-event-btn");
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+        'use strict';
 
-container.addEventListener('wheel', (e) => {
-    if (e.deltaY !== 0) {
-        e.preventDefault();
-        container.scrollLeft += e.deltaY;
-    }
-});
 
-let selectedDate = null
 
-document.addEventListener("click", function (e) {
+        const eventList =
+            document.getElementById(
+                'eventList'
+            );
 
-    const cell = e.target.closest(".day-cell");
-    if (!cell) return;
+            const createEventLink =
+    document.getElementById(
+        'createCalendarEventLink'
+    );
 
-    e.preventDefault();
+        const selectedDayNumber =
+            document.querySelector(
+                '.calendar-selected-date-icon strong'
+            );
 
-    selectedDate = cell.dataset.date;
+        const selectedMonth =
+            document.querySelector(
+                '.calendar-selected-date-icon small'
+            );
 
-    document.querySelectorAll(".day-cell.selected")
-        .forEach(el => el.classList.remove("selected"));
+        const selectedDateHeading =
+            document.querySelector(
+                '.calendar-selected-header h3'
+            );
 
-    cell.classList.add("selected");
+        const scrollingContainer =
+            document.querySelector(
+                '.event-container'
+            );
 
-    renderEvents(selectedDate);
-});
+        const eventMap =
+            typeof EVENTS !== 'undefined' &&
+            EVENTS &&
+            typeof EVENTS === 'object'
+                ? EVENTS
+                : {};
 
-function renderEvents(date) {
+        const holidayMap =
+            typeof HOLIDAYS !== 'undefined' &&
+            HOLIDAYS &&
+            typeof HOLIDAYS === 'object'
+                ? HOLIDAYS
+                : {};
 
-    const container = document.getElementById("eventList");
-    const events = EVENTS[date] || [];
+        let selectedDate =
+            document.querySelector(
+                '.day-cell.selected'
+            )?.dataset.date ||
+            null;
 
-    let html = "";
+        /* ======================================
+           HORIZONTAL EVENT SCROLLING
+        ======================================= */
 
-    if (events.length === 0) {
-        html = `
-            <div class="event-mini-card">
-                <h4>No Events</h4>
-                <p>No scheduled events for this date.</p>
-            </div>
-        `;
-    } else {
-        events.forEach(ev => {
-            html += `
-                <div class="event-mini-card">
-                    <h4>${ev.title}</h4>
-                    <p>${ev.type}</p>
-                    <small>${date}</small>
-                </div>
-            `;
-        });
-    }
+        scrollingContainer?.addEventListener(
+            'wheel',
+            (event) => {
+                if (event.deltaY === 0) {
+                    return;
+                }
 
-    container.innerHTML = html;
-}
+                event.preventDefault();
 
-/* OPEN MODAL */
-function openModal() {
-    if (!selectedDate) {
-        console.log("Please select a date first.");
+                scrollingContainer.scrollLeft +=
+                    event.deltaY;
+            },
+            {
+                passive: false
+            }
+        );
+
+        /* ======================================
+           ELEMENT HELPERS
+        ======================================= */
+
+        function createElement(
+            tagName,
+            className = '',
+            text = ''
+        ) {
+            const element =
+                document.createElement(
+                    tagName
+                );
+
+            if (className !== '') {
+                element.className =
+                    className;
+            }
+
+            if (text !== '') {
+                element.textContent =
+                    text;
+            }
+
+            return element;
+        }
+
+        function formatDate(
+            date
+        ) {
+            const parsedDate =
+                new Date(
+                    `${date}T00:00:00`
+                );
+
+            if (
+                Number.isNaN(
+                    parsedDate.getTime()
+                )
+            ) {
+                return date;
+            }
+
+            return new Intl.DateTimeFormat(
+                'en-PH',
+                {
+                    month: 'long',
+                    day: '2-digit',
+                    year: 'numeric'
+                }
+            ).format(
+                parsedDate
+            );
+        }
+
+        function formatHolidayType(
+            holidayType
+        ) {
+            const labels = {
+                Regular:
+                    'Regular Holiday',
+
+                SpecialNonWorking:
+                    'Special Non-Working Holiday',
+
+                SpecialWorking:
+                    'Special Working Holiday',
+
+                Local:
+                    'Local Holiday',
+
+                School:
+                    'School Holiday'
+            };
+
+            return labels[holidayType] ||
+                'Holiday';
+        }
+
+        function updateSelectedDateHeader(
+            date
+        ) {
+            const parsedDate =
+                new Date(
+                    `${date}T00:00:00`
+                );
+
+            if (
+                Number.isNaN(
+                    parsedDate.getTime()
+                )
+            ) {
+                return;
+            }
+
+            if (selectedDayNumber) {
+                selectedDayNumber.textContent =
+                    String(
+                        parsedDate.getDate()
+                    ).padStart(
+                        2,
+                        '0'
+                    );
+            }
+
+            if (selectedMonth) {
+                selectedMonth.textContent =
+                    new Intl.DateTimeFormat(
+                        'en-PH',
+                        {
+                            month: 'short'
+                        }
+                    )
+                    .format(parsedDate)
+                    .toUpperCase();
+            }
+
+            if (selectedDateHeading) {
+                selectedDateHeading.textContent =
+                    formatDate(
+                        date
+                    );
+            }
+        }
+
+        /* ======================================
+           SELECTED-DATE CARDS
+        ======================================= */
+
+        function createHolidayCard(
+            holiday
+        ) {
+const holidayTypeClasses = {
+    Regular:
+        'holiday-regular',
+
+    SpecialNonWorking:
+        'holiday-special-non-working',
+
+    SpecialWorking:
+        'holiday-special-working',
+
+    Local:
+        'holiday-local',
+
+    School:
+        'holiday-school'
+};
+
+const holidayTypeClass =
+    holidayTypeClasses[
+        holiday.holiday_type
+    ] ||
+    'holiday-other';
+
+const article =
+    createElement(
+        'article',
+        `calendar-selected-event calendar-selected-holiday ${holidayTypeClass}`
+    );
+
+            const icon =
+                createElement(
+                    'span',
+                    'calendar-selected-event-icon calendar-selected-holiday-icon'
+                );
+
+            const iconElement =
+                createElement(
+                    'i',
+                    'fa-solid fa-star'
+                );
+
+            icon.appendChild(
+                iconElement
+            );
+
+            const content =
+                createElement(
+                    'div'
+                );
+
+content.appendChild(
+    createElement(
+        'span',
+        'calendar-selected-event-type',
+        formatHolidayType(
+            holiday.holiday_type
+        )
+    )
+);
+
+
+content.appendChild(
+    createElement(
+        'h4',
+        '',
+        holiday.title ||
+            'Philippine Holiday'
+    )
+);
+
+            if (holiday.description) {
+                content.appendChild(
+                    createElement(
+                        'p',
+                        '',
+                        holiday.description
+                    )
+                );
+            }
+
+const reference =
+    holiday.proclamation_reference ||
+    '';
+
+            if (reference !== '') {
+                const referenceElement =
+                    createElement(
+                        'small'
+                    );
+
+                referenceElement.appendChild(
+                    createElement(
+                        'i',
+                        'fa-solid fa-landmark'
+                    )
+                );
+
+                referenceElement.append(
+                    document.createTextNode(
+                        ` ${reference}`
+                    )
+                );
+
+                content.appendChild(
+                    referenceElement
+                );
+            }
+
+            article.append(
+                icon,
+                content
+            );
+
+            return article;
+        }
+
+        function createEventCard(
+            event
+        ) {
+            const article =
+                createElement(
+                    'article',
+                    'calendar-selected-event'
+                );
+
+            const icon =
+                createElement(
+                    'span',
+                    'calendar-selected-event-icon'
+                );
+
+            icon.appendChild(
+                createElement(
+                    'i',
+                    'fa-solid fa-calendar-check'
+                )
+            );
+
+            const content =
+                createElement(
+                    'div'
+                );
+
+            content.appendChild(
+                createElement(
+                    'span',
+                    'calendar-selected-event-type',
+                    event.type ||
+                        'School Event'
+                )
+            );
+
+            content.appendChild(
+                createElement(
+                    'h4',
+                    '',
+                    event.title ||
+                        'Untitled Event'
+                )
+            );
+
+            if (event.description) {
+                content.appendChild(
+                    createElement(
+                        'p',
+                        '',
+                        event.description
+                    )
+                );
+            }
+
+            if (event.location) {
+                const location =
+                    createElement(
+                        'small'
+                    );
+
+                location.appendChild(
+                    createElement(
+                        'i',
+                        'fa-solid fa-location-dot'
+                    )
+                );
+
+                location.append(
+                    document.createTextNode(
+                        ` ${event.location}`
+                    )
+                );
+
+                content.appendChild(
+                    location
+                );
+            }
+
+            article.append(
+                icon,
+                content
+            );
+
+            return article;
+        }
+
+        function createEmptyState() {
+            const emptyState =
+                createElement(
+                    'div',
+                    'calendar-no-date-events'
+                );
+
+            const icon =
+                createElement(
+                    'span'
+                );
+
+            icon.appendChild(
+                createElement(
+                    'i',
+                    'fa-regular fa-calendar'
+                )
+            );
+
+            emptyState.append(
+                icon,
+                createElement(
+                    'h4',
+                    '',
+                    'No scheduled activities'
+                ),
+                createElement(
+                    'p',
+                    '',
+                    'No events or holidays are listed for this date.'
+                )
+            );
+
+            return emptyState;
+        }
+
+function updateCreateEventLink(
+    date
+) {
+    if (
+        !createEventLink ||
+        !date
+    ) {
         return;
     }
 
-    document.getElementById("modalDate").textContent = selectedDate;
-    modal.style.display = "flex";
+    const currentDate =
+        createEventLink.dataset
+            .currentDate ||
+        '';
+
+    const isPastDate =
+        currentDate !== '' &&
+        date < currentDate;
+
+    const linkText =
+    createEventLink.querySelector(
+        'span'
+    );
+
+if (linkText) {
+    linkText.textContent =
+        isPastDate
+            ? 'Past Date'
+            : 'Create Event';
 }
 
-/* CLOSE MODAL */
-function closeModal() {
-    modal.style.display = "none";
-}
+    createEventLink.classList.toggle(
+        'is-disabled',
+        isPastDate
+    );
 
-/* CLOSE WHEN CLICKING OUTSIDE */
-window.onclick = function (e) {
-    if (e.target === modal) {
-        closeModal();
+    createEventLink.setAttribute(
+        'aria-disabled',
+        String(
+            isPastDate
+        )
+    );
+
+    if (isPastDate) {
+        createEventLink.removeAttribute(
+            'href'
+        );
+
+        createEventLink.setAttribute(
+            'title',
+            'Events cannot be created for a past date.'
+        );
+
+        return;
     }
-};
 
-/* OPEN BUTTON */
-if (addBtn) {
-    addBtn.addEventListener("click", () => openModal());
+
+
+    createEventLink.setAttribute(
+        'href',
+        'index.php?page=postings'
+            + '&type=event'
+            + '&calendar_date='
+            + encodeURIComponent(
+                date
+            )
+    );
+
+    createEventLink.removeAttribute(
+        'title'
+    );
 }
 
-window.saveEvent = function () {
+        function renderSelectedDate(
+            date
+        ) {
+            if (!eventList || !date) {
+                return;
+            }
 
-        const title = document.getElementById("eventTitle").value.trim();
+            const events =
+                Array.isArray(
+                    eventMap[date]
+                )
+                    ? eventMap[date]
+                    : [];
 
-        if (!selectedDate) {
-            alert("Please select a date first.");
-            return;
+            const holidays =
+                Array.isArray(
+                    holidayMap[date]
+                )
+                    ? holidayMap[date]
+                    : [];
+
+            eventList.replaceChildren();
+
+            holidays.forEach(
+                (holiday) => {
+                    eventList.appendChild(
+                        createHolidayCard(
+                            holiday
+                        )
+                    );
+                }
+            );
+
+            events.forEach(
+                (event) => {
+                    eventList.appendChild(
+                        createEventCard(
+                            event
+                        )
+                    );
+                }
+            );
+
+            if (
+                holidays.length === 0 &&
+                events.length === 0
+            ) {
+                eventList.appendChild(
+                    createEmptyState()
+                );
+            }
+
+            updateSelectedDateHeader(
+                date
+            );
+
+            updateCreateEventLink(
+    date
+);
         }
 
-        if (!title) {
-            alert("Please enter an event title.");
-            return;
-        }
+        /* ======================================
+           DATE SELECTION
+        ======================================= */
 
-        fetch("config/save_event.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                date: selectedDate,
-                title: title
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
+        document.addEventListener(
+            'click',
+            (event) => {
+                const cell =
+                    event.target.closest(
+                        '.day-cell'
+                    );
 
-            if (data.status === "success") {
-
-                // REMOVE "No Events" if it exists
-                const empty = document.querySelector(".event-mini-card");
-                if (empty && empty.innerText.includes("No Events")) {
-                    empty.remove();
+                if (!cell) {
+                    return;
                 }
 
-                closeModal();
+                event.preventDefault();
 
-                document.getElementById("eventTitle").value = "";
+                selectedDate =
+                    cell.dataset.date ||
+                    null;
 
-            } else {
-                alert("Failed to save event.");
+                document
+                    .querySelectorAll(
+                        '.day-cell.selected'
+                    )
+                    .forEach(
+                        (selectedCell) => {
+                            selectedCell.classList
+                                .remove(
+                                    'selected'
+                                );
+                        }
+                    );
+
+                cell.classList.add(
+                    'selected'
+                );
+
+                renderSelectedDate(
+                    selectedDate
+                );
             }
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Something went wrong.");
-        });
-    };
+        );
+
+
+
+        if (selectedDate) {
+            renderSelectedDate(
+                selectedDate
+            );
+        }
+    }
+);

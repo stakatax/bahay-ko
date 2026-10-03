@@ -1,0 +1,7 @@
+<?php
+// Local development only. Generate a unique random key (at least 64 characters).
+// Production uses OLSHCO_APP_KEY and OLSHCO_APP_URL from the server environment.
+return [
+    'application_key' => '',
+    'application_url' => 'http://localhost/bahay-ko'
+];

@@ -1,290 +1,1216 @@
-<section class="calendar-hero">
-    <div class="hero-overlay"></div>
-    <img src="Assets/Images/about 2.jpg" alt="" class="hero-img"/>
-    
-
-    <div class="hero-content">
-        <h2 class="hero-title">Recent Events</h2>
-
-        <div class="event-container">
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-            <div class="recent-event">
-                <img src="Assets/Images/default.png" alt="" class="event-image">
-                <h3 class="event-title">Event TItle</h3>
-                <p>
-                    <strong>Event Date: </strong> 
-                    <span> render date here </span>
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-
 <?php
-    date_default_timezone_set('Asia/Manila');
 
-    require_once './config/dbconnect.php';
+$isLoggedIn =
+    !empty($_SESSION['user_id']);
 
-    /* SAFE MONTH/YEAR */
-    $month = isset($_GET['month']) && $_GET['month'] >= 1 && $_GET['month'] <= 12
-        ? (int)$_GET['month']
-        : date('n');
+$currentRole =
+    $_SESSION['role']
+    ?? 'Guest';
 
-    $year = isset($_GET['year']) && $_GET['year'] >= 1970 && $_GET['year'] <= 2100
-        ? (int)$_GET['year']
-        : date('Y');
+$pageWrapperClass =
+    $isLoggedIn
+    ? 'app-page calendar-app-page'
+    : 'public-calendar-page';
 
-    /* FIRST DAY OF MONTH */
-    $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
-    $daysInMonth = date('t', $firstDayOfMonth);
-    $dayOfWeek = date('w', $firstDayOfMonth);
 
-    $monthName = date('F', $firstDayOfMonth);
+$viewData =
+    isset($viewData) &&
+    is_array($viewData)
+    ? $viewData
+    : [];
 
-    /* TODAY */
-    $currentDate = date('Y-m-d');
+$month =
+    $viewData['month']
+    ?? null;
 
-    /* PREV / NEXT MONTH (SAFE SHIFT) */
-    $prev = strtotime("-1 month", $firstDayOfMonth);
-    $next = strtotime("+1 month", $firstDayOfMonth);
+$year =
+    $viewData['year']
+    ?? null;
 
-    $prevMonth = date('n', $prev);
-    $prevYear  = date('Y', $prev);
+$monthName =
+    $viewData['monthName']
+    ?? null;
 
-    $nextMonth = date('n', $next);
-    $nextYear  = date('Y', $next);
+$daysInMonth =
+    $viewData['daysInMonth']
+    ?? null;
 
-    function getFirstFridays($year) {
-        $firstFridays = [];
+$dayOfWeek =
+    $viewData['dayOfWeek']
+    ?? null;
 
-        for ($month = 1; $month <= 12; $month++) {
+$currentDate =
+    $viewData['currentDate']
+    ?? null;
 
-            $date = strtotime("$year-$month-01");
+$selectedDate =
+    $viewData['selectedDate']
+    ?? null;
 
-            while (date('N', $date) != 5) { // 5 = Friday
-                $date = strtotime("+1 day", $date);
-            }
+$prevMonth =
+    $viewData['prevMonth']
+    ?? null;
 
-            $firstFridays[] = date('Y-m-d', $date);
+$prevYear =
+    $viewData['prevYear']
+    ?? null;
+
+$nextMonth =
+    $viewData['nextMonth']
+    ?? null;
+
+$nextYear =
+    $viewData['nextYear']
+    ?? null;
+
+$events =
+    $viewData['events']
+    ?? [];
+
+$selectedEvents =
+    $viewData['selectedEvents']
+    ?? [];
+
+
+$holidays =
+    is_array(
+        $viewData['holidays']
+            ?? null
+    )
+    ? $viewData['holidays']
+    : [];
+
+$selectedHolidays =
+    is_array(
+        $viewData['selectedHolidays']
+            ?? null
+    )
+    ? $viewData['selectedHolidays']
+    : [];
+/*
+|--------------------------------------------------------------------------
+| SAFE DATA INITIALIZATION
+|--------------------------------------------------------------------------
+| These values should come from EventController::calendar().
+| The fallbacks prevent undefined-variable warnings.
+*/
+
+$month =
+    isset($month)
+    ? (int) $month
+    : (int) date('n');
+
+$year =
+    isset($year)
+    ? (int) $year
+    : (int) date('Y');
+
+$monthName =
+    $monthName
+    ?? date(
+        'F',
+        mktime(
+            0,
+            0,
+            0,
+            $month,
+            1,
+            $year
+        )
+    );
+
+$daysInMonth =
+    $daysInMonth
+    ?? cal_days_in_month(
+        CAL_GREGORIAN,
+        $month,
+        $year
+    );
+
+$dayOfWeek =
+    $dayOfWeek
+    ?? (int) date(
+        'w',
+        strtotime(
+            sprintf(
+                '%04d-%02d-01',
+                $year,
+                $month
+            )
+        )
+    );
+
+$currentDate =
+    $currentDate
+    ?? date('Y-m-d');
+
+$selectedDate =
+    $selectedDate
+    ?? $currentDate;
+
+$prevMonth =
+    isset($prevMonth)
+    ? (int) $prevMonth
+    : (
+        $month === 1
+        ? 12
+        : $month - 1
+    );
+
+$prevYear =
+    isset($prevYear)
+    ? (int) $prevYear
+    : (
+        $month === 1
+        ? $year - 1
+        : $year
+    );
+
+$nextMonth =
+    isset($nextMonth)
+    ? (int) $nextMonth
+    : (
+        $month === 12
+        ? 1
+        : $month + 1
+    );
+
+$nextYear =
+    isset($nextYear)
+    ? (int) $nextYear
+    : (
+        $month === 12
+        ? $year + 1
+        : $year
+    );
+
+$events =
+    $events
+    ?? (
+        $viewData['events']
+        ?? []
+    );
+
+$selectedEvents =
+    $selectedEvents
+    ?? (
+        $viewData['selectedEvents']
+        ?? []
+    );
+
+$recentEvents =
+    $viewData['recentEvents']
+    ?? $viewData['recent_events']
+    ?? [];
+
+if (
+    empty($recentEvents)
+    && !empty($events)
+) {
+    /*
+     * The calendar may store events grouped by date.
+     * Flatten them into one list for the upcoming-events cards.
+     */
+    foreach (
+        $events as $eventDate => $dateEvents
+    ) {
+        if (!is_array($dateEvents)) {
+            continue;
         }
 
-        return $firstFridays;
+        /*
+         * Supports either:
+         * [date => [event, event]]
+         * or a single event array.
+         */
+        $isSingleEvent =
+            isset($dateEvents['title']);
+
+        if ($isSingleEvent) {
+            $dateEvents = [
+                $dateEvents
+            ];
+        }
+
+        foreach ($dateEvents as $event) {
+            if (!is_array($event)) {
+                continue;
+            }
+
+            if (
+                empty($event['event_date'])
+            ) {
+                $event['event_date'] =
+                    $eventDate;
+            }
+
+            $recentEvents[] =
+                $event;
+        }
     }
-    /* DYNAMIC: FIRST FRIDAY MASS (ALL MONTHS) */
-    $firstFridays = getFirstFridays($year);
+}
 
-    $events = [];
+/*
+|--------------------------------------------------------------------------
+| SORT AND LIMIT UPCOMING EVENTS
+|--------------------------------------------------------------------------
+*/
 
-    foreach ($firstFridays as $date) {
-        $events[$date][] = [
-            "title" => "FIRST FRIDAY MASS",
-            "type" => "Church Event"
-        ];
+usort(
+    $recentEvents,
+    function (
+        array $first,
+        array $second
+    ): int {
+        $firstDate =
+            strtotime(
+                $first['event_date']
+                    ?? $first['date']
+                    ?? $first['created_at']
+                    ?? '1970-01-01'
+            );
+
+        $secondDate =
+            strtotime(
+                $second['event_date']
+                    ?? $second['date']
+                    ?? $second['created_at']
+                    ?? '1970-01-01'
+            );
+
+        return $firstDate
+            <=> $secondDate;
     }
+);
 
-    $stmt = $conn->prepare("
-        SELECT event_id, title, event_date
-        FROM events
-        WHERE status = 'active'
-        AND YEAR(event_date) = ?
-    ");
+$upcomingEvents = array_values(
+    array_filter(
+        $recentEvents,
+        function (
+            array $event
+        ) use (
+            $currentDate
+        ): bool {
+            $eventDate =
+                $event['event_date']
+                ?? $event['date']
+                ?? null;
 
-    $stmt->bind_param("i", $year);
-    $stmt->execute();
-    $result = $stmt->get_result();
+            if (!$eventDate) {
+                return true;
+            }
 
-    while ($row = $result->fetch_assoc()) {
-        $date = date('Y-m-d', strtotime($row['event_date']));
+            return date(
+                'Y-m-d',
+                strtotime($eventDate)
+            ) >= $currentDate;
+        }
+    )
+);
 
-        $events[$date][] = [
-            "title" => $row['title'],
-            "type"  => "Event"
-        ];
-    }
 
-    $selectedDate = isset($_GET['date']) ? date('Y-m-d', strtotime($_GET['date'])): $currentDate;
-    $selectedEvents = [];
 
-    if (isset($events[$selectedDate])) {
-        $selectedEvents = $events[$selectedDate];
-    }
+$upcomingEvents =
+    array_slice(
+        $upcomingEvents,
+        0,
+        4
+    );
+
+$canManageEvents =
+    in_array(
+        $currentRole,
+        [
+            'Admin',
+            'Faculty'
+        ],
+        true
+    );
+
+$selectedDateFormatted =
+    date(
+        'F d, Y',
+        strtotime($selectedDate)
+    );
+
+$isSelectedDatePast =
+    $selectedDate <
+    $currentDate;
+
+
 ?>
 
-<section id="calendar" class="calendar-remodel-section">
 
-    <div class="calendar-header-text">
-        <h1>Event Calendar</h1>
-        <p>Stay up to date with our schedule. Reach out for event inquiries or support.</p>
-    </div>
+<section
+    class="<?= htmlspecialchars(
+                $pageWrapperClass,
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>">
 
-    <div class="calendar-container">
+    <!-- ======================================
+         PAGE INTRODUCTION
+    ======================================= -->
 
-        <!-- LEFT PANEL -->
-        <div class="cal-left-panel">
+    <header class="calendar-page-header">
 
-            <div class="cal-nav-card">
-                <div class="month-controls">
-                    <a href="?page=calendar&month=<?=$prevMonth?>&year=<?=$prevYear?>#calendar">&lt;</a>
+        <div class="calendar-header-copy">
 
-                    <div>
-                        <h2><?=$monthName?></h2>
-                        <p><?=$year?></p>
-                    </div>
+            <span class="calendar-eyebrow">
+                School Calendar
+            </span>
 
-                    <a href="?page=calendar&month=<?=$nextMonth?>&year=<?=$nextYear?>#calendar">&gt;</a>
-                </div>
-            </div>
+            <h1>
+                Stay informed about important dates.
+            </h1>
 
-            <div id="eventList" class="event-list-container">
-                <?php if (empty($selectedEvents)): ?>
-                    <div class="event-mini-card">
-                        <h4>No Events</h4>
-                        <p>No scheduled events for this date.</p>
-                    </div>
+            <p>
+                View school activities, department events,
+                scheduled programs, deadlines, and other
+                calendar-based announcements in one place.
+            </p>
+
+            <div class="calendar-header-actions">
+
+                <a
+                    href="#calendar"
+                    class="app-button primary">
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    Open Monthly Calendar
+                </a>
+
+                <?php if ($isLoggedIn): ?>
+
+                    <a
+                        href="index.php?page=news"
+                        class="app-button secondary">
+                        <i class="fa-solid fa-bullhorn"></i>
+
+                        Information Hub
+                    </a>
+
                 <?php else: ?>
-                    <?php foreach ($selectedEvents as $event): ?>
-                        <div class="event-mini-card">
-                            <h4><?= htmlspecialchars($event['title']) ?></h4>
-                            <p><?= htmlspecialchars($event['type']) ?></p>
-                            <small style="color: var(--text-gray);">
-                                <?= date('F d, Y', strtotime($selectedDate)) ?>
-                            </small>
-                        </div>
-                    <?php endforeach; ?>
+
+                    <a
+                        href="index.php?page=login"
+                        class="app-button secondary">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+
+                        Sign In
+                    </a>
+
                 <?php endif; ?>
+
             </div>
 
         </div>
 
-        <!-- RIGHT PANEL -->
-        <div class="cal-right-panel">
+        <div class="calendar-summary-card">
 
-            <h3><?=$monthName?> <?=$year?></h3>
+            <span class="calendar-summary-icon">
 
-            <div class="grid-wrapper">
+                <i class="fa-regular fa-calendar-check"></i>
 
-                <?php
-                /* DAY HEADERS */
-                $dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                foreach ($dayNames as $dn) {
-                    echo "<div class='day-name'>$dn</div>";
-                }
+            </span>
 
-                /* EMPTY CELLS BEFORE START */
-                for ($i = 0; $i < $dayOfWeek; $i++) {
-                    echo "<div class='day-cell empty'></div>";
-                }
+            <div>
 
-                /* DAYS */
-                for ($day = 1; $day <= $daysInMonth; $day++) {
+                <span>
+                    Current Schedule
+                </span>
 
-                    $cellDate = sprintf('%04d-%02d-%02d', $year, $month, $day);
-                    $isToday = ($cellDate === $currentDate);
-                    $isSelected = ($cellDate === $selectedDate);
+                <strong>
+                    <?= htmlspecialchars(
+                        $monthName,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>
+                    <?= (int) $year ?>
+                </strong>
 
-                    $hasEvent = isset($events[$cellDate]);
-
-                    $class = "day-cell";
-
-                    if ($isToday) {$class .= " today";}
-                    if ($isSelected) {$class .= " selected";}
-                    if ($hasEvent) {$class .= " has-event";}
-
-                    echo "
-                        <a href='?page=calendar&month=$month&year=$year&date=$cellDate#calendar' class='$class day-cell' data-date='$cellDate'>
-                            $day
-
-                            " . ($isToday ? "<span class='today-dot'></span>" : "") . "
-
-                            " . ($hasEvent ? "<span class='event-dot'></span>" : "") . "
-                        </a>
-                    ";
-                }               
-                ?>
+                <p>
+                    Select a calendar date to view
+                    its scheduled events and activities.
+                </p>
 
             </div>
-            
-            <?php if ($role != 'Student'): ?>
-                <button class="add-event-btn">+ Add Event</button>
+
+            <div class="calendar-summary-tags">
+
+                <span>
+                    <i class="fa-solid fa-circle calendar-tag-today"></i>
+                    Today
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-circle calendar-tag-event"></i>
+                    Has Event
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-star calendar-tag-holiday"></i>
+                    Philippine Holiday
+                </span>
+
+                <span>
+                    <i class="fa-solid fa-circle calendar-tag-selected"></i>
+                    Selected
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ======================================
+         UPCOMING EVENTS
+    ======================================= -->
+
+    <section class="calendar-content-section">
+
+        <div class="calendar-section-heading">
+
+            <div>
+
+                <span class="calendar-eyebrow">
+                    Upcoming Activities
+                </span>
+
+                <h2>
+                    Events to watch
+                </h2>
+
+                <p>
+                    Review the nearest scheduled school
+                    and department activities.
+                </p>
+
+            </div>
+
+            <a
+                href="#calendar"
+                class="calendar-inline-action">
+                View Full Calendar
+
+                <i class="fa-solid fa-arrow-down"></i>
+            </a>
+
+        </div>
+
+        <?php if (
+            empty($upcomingEvents)
+        ): ?>
+
+            <div class="calendar-empty-state">
+
+                <span>
+
+                    <i class="fa-regular fa-calendar-xmark"></i>
+
+                </span>
+
+                <h3>
+                    No upcoming events
+                </h3>
+
+                <p>
+                    There are no scheduled activities
+                    available at this time.
+                </p>
+
+            </div>
+
+        <?php else: ?>
+
+            <div class="calendar-upcoming-grid">
+
+                <?php foreach (
+                    $upcomingEvents as $event
+                ): ?>
+
+                    <?php
+
+                    $eventTitle =
+                        trim(
+                            (string) (
+                                $event['title']
+                                ?? 'Untitled Event'
+                            )
+                        );
+
+                    $eventDescription =
+                        trim(
+                            (string) (
+                                $event['description']
+                                ?? ''
+                            )
+                        );
+
+                    $eventLocation =
+                        trim(
+                            (string) (
+                                $event['location']
+                                ?? 'Location to be announced'
+                            )
+                        );
+
+                    $eventDate =
+                        $event['event_date']
+                        ?? $event['date']
+                        ?? $selectedDate;
+
+                    $eventTimestamp =
+                        strtotime($eventDate);
+
+                    $eventImage =
+                        trim(
+                            (string) (
+                                $event['image_path']
+                                ?? ''
+                            )
+                        );
+
+                    $hasEventImage =
+                        $eventImage !== '';
+
+                    ?>
+
+                    <article class="calendar-event-card">
+
+                        <div class="calendar-event-image">
+
+                            <?php if ($hasEventImage): ?>
+
+                                <img
+                                    src="<?= htmlspecialchars(
+                                                $eventImage,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>"
+                                    alt="<?= htmlspecialchars(
+                                                $eventTitle,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>">
+
+                            <?php else: ?>
+
+                                <span
+                                    class="calendar-event-placeholder"
+                                    aria-hidden="true">
+
+                                    <i class="fa-regular fa-calendar"></i>
+
+                                </span>
+
+                            <?php endif; ?>
+
+                        </div>
+
+                        <div class="calendar-event-content">
+
+                            <span class="calendar-event-label">
+                                School Event
+                            </span>
+
+                            <h3>
+                                <?= htmlspecialchars(
+                                    $eventTitle,
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ) ?>
+                            </h3>
+
+                            <?php if (
+                                $eventDescription !== ''
+                            ): ?>
+
+                                <p>
+                                    <?= htmlspecialchars(
+                                        $eventDescription,
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+                                </p>
+
+                            <?php endif; ?>
+
+                            <div class="calendar-event-meta">
+
+                                <span>
+
+                                    <i class="fa-regular fa-clock"></i>
+
+                                    <?= htmlspecialchars(
+                                        date(
+                                            'F d, Y',
+                                            $eventTimestamp
+                                        ),
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+
+                                </span>
+
+                                <span>
+
+                                    <i class="fa-solid fa-location-dot"></i>
+
+                                    <?= htmlspecialchars(
+                                        $eventLocation,
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                <?php endforeach; ?>
+
+            </div>
+
+        <?php endif; ?>
+
+    </section>
+
+    <!-- ======================================
+         MONTHLY CALENDAR
+    ======================================= -->
+
+    <section
+        id="calendar"
+        class="calendar-content-section calendar-main-section">
+
+        <div class="calendar-section-heading">
+
+            <div>
+
+                <span class="calendar-eyebrow">
+                    Monthly Schedule
+                </span>
+
+                <h2>
+                    Event calendar
+                </h2>
+
+                <p>
+                    Select a date to review its activities.
+                </p>
+
+            </div>
+
+            <?php if ($canManageEvents): ?>
+
+                <a
+                    id="createCalendarEventLink"
+                    <?php if (!$isSelectedDatePast): ?>
+                    href="index.php?page=postings&type=event&calendar_date=<?= urlencode(
+                                                                                $selectedDate
+                                                                            ) ?>"
+                    <?php endif; ?>
+                    class="calendar-add-event-button<?= $isSelectedDatePast
+                                                        ? ' is-disabled'
+                                                        : '' ?>"
+                    data-current-date="<?= htmlspecialchars(
+                                            $currentDate,
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>"
+                    aria-disabled="<?= $isSelectedDatePast
+                                        ? 'true'
+                                        : 'false' ?>">
+
+                    <i
+                        class="fa-solid fa-calendar-plus"
+                        aria-hidden="true"></i>
+
+                    <span>
+                        <?= $isSelectedDatePast
+                            ? 'Past Date'
+                            : 'Create Event'
+                        ?>
+                    </span>
+
+                </a>
+
             <?php endif; ?>
 
         </div>
 
-    </div>
+        <div class="calendar-layout">
+
+            <!-- ==============================
+                 CALENDAR GRID
+            =============================== -->
+
+            <article class="calendar-grid-card">
+
+                <div class="calendar-month-navigation">
+
+                    <a
+                        href="index.php?page=calendar&month=<?= (int) $prevMonth ?>&year=<?= (int) $prevYear ?>#calendar"
+                        aria-label="Previous month">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+
+                    <div>
+
+                        <span>
+                            Monthly Calendar
+                        </span>
+
+                        <h3>
+                            <?= htmlspecialchars(
+                                $monthName,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                            <?= (int) $year ?>
+                        </h3>
+
+                    </div>
+
+                    <a
+                        href="index.php?page=calendar&month=<?= (int) $nextMonth ?>&year=<?= (int) $nextYear ?>#calendar"
+                        aria-label="Next month">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+
+                </div>
+
+                <div class="calendar-week-grid">
+
+                    <?php
+
+                    $dayNames = [
+                        'Sun',
+                        'Mon',
+                        'Tue',
+                        'Wed',
+                        'Thu',
+                        'Fri',
+                        'Sat'
+                    ];
+
+                    foreach (
+                        $dayNames as $dayName
+                    ):
+
+                    ?>
+
+                        <div class="calendar-day-name">
+
+                            <?= htmlspecialchars(
+                                $dayName,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+
+                        </div>
+
+                    <?php endforeach; ?>
+
+                    <?php for (
+                        $emptyDay = 0;
+                        $emptyDay < $dayOfWeek;
+                        $emptyDay++
+                    ): ?>
+
+                        <div
+                            class="calendar-day-cell empty"
+                            aria-hidden="true"></div>
+
+                    <?php endfor; ?>
+
+                    <?php for (
+                        $day = 1;
+                        $day <= $daysInMonth;
+                        $day++
+                    ): ?>
+
+                        <?php
+
+                        $cellDate =
+                            sprintf(
+                                '%04d-%02d-%02d',
+                                $year,
+                                $month,
+                                $day
+                            );
+
+                        $isToday =
+                            $cellDate ===
+                            $currentDate;
+
+                        $isSelected =
+                            $cellDate ===
+                            $selectedDate;
+
+                        $hasEvent =
+                            isset(
+                                $events[$cellDate]
+                            )
+                            && !empty($events[$cellDate]);
+
+                        $cellHolidays =
+                            is_array(
+                                $holidays[$cellDate]
+                                    ?? null
+                            )
+                            ? $holidays[$cellDate]
+                            : [];
+
+                        $hasHoliday =
+                            !empty($cellHolidays);
+
+                        $primaryHoliday =
+                            $hasHoliday
+                            ? $cellHolidays[0]
+                            : [];
+
+                        $holidayType =
+                            trim(
+                                (string) (
+                                    $primaryHoliday['holiday_type']
+                                    ?? ''
+                                )
+                            );
+
+                        $holidayTitle =
+                            trim(
+                                (string) (
+                                    $primaryHoliday['title']
+                                    ?? 'Holiday'
+                                )
+                            );
+
+                        $dayClasses = [
+                            'calendar-day-cell',
+                            'day-cell'
+                        ];
+
+                        if ($isToday) {
+                            $dayClasses[] =
+                                'today';
+                        }
+
+                        if ($isSelected) {
+                            $dayClasses[] =
+                                'selected';
+                        }
+
+                        if ($hasEvent) {
+                            $dayClasses[] =
+                                'has-event';
+                        }
+
+                        if ($hasHoliday) {
+                            $dayClasses[] =
+                                'has-holiday';
+
+                            if ($holidayType !== '') {
+                                $dayClasses[] =
+                                    'holiday-'
+                                    . strtolower(
+                                        preg_replace(
+                                            '/(?<!^)[A-Z]/',
+                                            '-$0',
+                                            $holidayType
+                                        )
+                                            ?? $holidayType
+                                    );
+                            }
+                        }
+
+                        ?>
+
+                        <a
+                            href="index.php?page=calendar&month=<?= (int) $month ?>&year=<?= (int) $year ?>&date=<?= urlencode($cellDate) ?>#calendar"
+                            class="<?= htmlspecialchars(
+                                        implode(
+                                            ' ',
+                                            $dayClasses
+                                        ),
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>"
+                            data-date="<?= htmlspecialchars(
+                                            $cellDate,
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>"
+                            aria-label="<?= htmlspecialchars(
+                                            date(
+                                                'F d, Y',
+                                                strtotime($cellDate)
+                                            ),
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>">
+
+                            <span class="calendar-day-number">
+                                <?= (int) $day ?>
+                            </span>
+
+                            <?php if ($hasEvent): ?>
+
+                                <span class="calendar-event-indicator">
+
+                                    <i class="fa-solid fa-circle"></i>
+
+                                    Event
+
+                                </span>
+
+                            <?php endif; ?>
+
+                            <?php if ($hasHoliday): ?>
+
+                                <span
+                                    class="calendar-holiday-indicator"
+                                    title="<?= htmlspecialchars(
+                                                $holidayTitle,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>">
+
+                                    <i
+                                        class="fa-solid fa-star"
+                                        aria-hidden="true"></i>
+
+                                    <?= htmlspecialchars(
+                                        $holidayTitle,
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+
+                                </span>
+
+                            <?php endif; ?>
+
+                            <?php if ($isToday): ?>
+
+                                <span class="calendar-today-label">
+                                    Today
+                                </span>
+
+                            <?php endif; ?>
+
+                        </a>
+
+                    <?php endfor; ?>
+
+                </div>
+
+            </article>
+
+            <!-- ==============================
+                 SELECTED DATE EVENTS
+            =============================== -->
+
+            <aside class="calendar-selected-card">
+
+                <div class="calendar-selected-header">
+
+                    <span class="calendar-selected-date-icon">
+
+                        <strong>
+                            <?= htmlspecialchars(
+                                date(
+                                    'd',
+                                    strtotime($selectedDate)
+                                ),
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </strong>
+
+                        <small>
+                            <?= htmlspecialchars(
+                                strtoupper(
+                                    date(
+                                        'M',
+                                        strtotime($selectedDate)
+                                    )
+                                ),
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </small>
+
+                    </span>
+
+                    <div>
+
+                        <span>
+                            Selected Date
+                        </span>
+
+                        <h3>
+                            <?= htmlspecialchars(
+                                $selectedDateFormatted,
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </h3>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="eventList"
+                    class="calendar-selected-events">
+
+                    <?php if (
+                        empty($selectedEvents)
+                    ): ?>
+
+                        <div class="calendar-no-date-events">
+
+                            <span>
+
+                                <i class="fa-regular fa-calendar"></i>
+
+                            </span>
+
+                            <h4>
+                                No scheduled events
+                            </h4>
+
+                            <p>
+                                Nothing is currently scheduled
+                                for this date.
+                            </p>
+
+                        </div>
+
+                    <?php else: ?>
+
+                        <?php foreach (
+                            $selectedEvents as $event
+                        ): ?>
+
+                            <?php
+
+                            $selectedEventTitle =
+                                $event['title']
+                                ?? 'Untitled Event';
+
+                            $selectedEventType =
+                                $event['type']
+                                ?? 'School Event';
+
+                            $selectedEventLocation =
+                                $event['location']
+                                ?? '';
+
+                            $selectedEventDescription =
+                                $event['description']
+                                ?? '';
+
+                            ?>
+
+                            <article class="calendar-selected-event">
+
+                                <span class="calendar-selected-event-icon">
+
+                                    <i class="fa-solid fa-calendar-check"></i>
+
+                                </span>
+
+                                <div>
+
+                                    <span>
+                                        <?= htmlspecialchars(
+                                            $selectedEventType,
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>
+                                    </span>
+
+                                    <h4>
+                                        <?= htmlspecialchars(
+                                            $selectedEventTitle,
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>
+                                    </h4>
+
+                                    <?php if (
+                                        $selectedEventDescription !== ''
+                                    ): ?>
+
+                                        <p>
+                                            <?= htmlspecialchars(
+                                                $selectedEventDescription,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>
+                                        </p>
+
+                                    <?php endif; ?>
+
+                                    <?php if (
+                                        $selectedEventLocation !== ''
+                                    ): ?>
+
+                                        <small>
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                            <?= htmlspecialchars(
+                                                $selectedEventLocation,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>
+
+                                        </small>
+
+                                    <?php endif; ?>
+
+                                </div>
+
+                            </article>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
 </section>
 
-<div id="eventModal" class="modal">
-    <div class="modal-content">
-        <h2>Add Event</h2>
-        <h3 id="modalDate">Selected Date</h3>
-        
-        <input type="text" id="eventTitle" placeholder="Event Title">
-        <select id="eventType">
-            <option>Holiday</option>
-            <option>School Event</option>
-            <option>Personal</option>
-        </select>
 
-        <button onclick="saveEvent()">Save</button>
-        <button onclick="closeModal()">Cancel</button>
-    </div>
-</div>
 
 <script>
-    const EVENTS = <?= json_encode($events) ?>;
+    const EVENTS = <?= json_encode(
+                        $events,
+                        JSON_HEX_TAG |
+                            JSON_HEX_APOS |
+                            JSON_HEX_AMP |
+                            JSON_HEX_QUOT
+                    ) ?>;
+
+    const HOLIDAYS = <?= json_encode(
+                            $holidays,
+                            JSON_HEX_TAG |
+                                JSON_HEX_APOS |
+                                JSON_HEX_AMP |
+                                JSON_HEX_QUOT
+                        ) ?>;
 </script>

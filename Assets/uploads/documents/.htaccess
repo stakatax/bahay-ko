@@ -1,0 +1,2 @@
+# PHP may read these files; direct HTTP requests must never serve them.
+Require all denied

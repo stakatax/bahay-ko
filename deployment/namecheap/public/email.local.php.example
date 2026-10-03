@@ -1,0 +1,3 @@
+<?php
+// Install as APP_ROOT/config/email.local.php after replacing the account path.
+return require '/home/CPANEL_USER/olshco-private/email.php';

@@ -38,80 +38,7 @@ html, body {
   overflow: hidden;
 }
 
-/* NAVBAR */
-.nav-wrapper {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95%;
-  z-index: 30;
-}
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: clamp(4px, 1vw, 10px) clamp(10px, 3vw, 2px);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(10px);
-}
-
-.navbar a {
-  text-decoration: none;
-  padding: 8px;
-  border-radius: 10px;
-}
-
-.logo {
-  width: clamp(28px, 4vw, 40px);
-  height: clamp(28px, 4vw, 40px);
-  border-radius: 50%;
-}
-
-.nav-links {
-  display: none;
-  list-style: none;
-  gap: clamp(10px, 2vw, 24px);
-  font-size: var(--text-size);
-  font-weight: 600;
-}
-
-.nav-links li {
-  cursor: pointer;
-}
-
-.nav-links li a:hover {
-  color: #b30000;
-}
-
-.nav-links .active {
-  color: #FFF;
-  background-color: #d86a2b
-}
-
-.menu-btn {
-  font-size: clamp(18px, 4vw, 24px);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* MOBILE MENU */
-.mobile-menu {
-  display: none;
-  margin-top: 10px;
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-  text-align: center;
-}
-
-.mobile-menu div {
-  padding: 8px 0;
-  cursor: pointer;
-}
 
 /* HERO */
 .hero {
@@ -260,16 +187,6 @@ html, body {
   }
 }
 
-/* 💻 TABLETS & UP */
-@media (min-width: 768px) {
-  .nav-links {
-    display: flex;
-  }
-
-  .menu-btn {
-    display: none;
-  }
-}
 
 /* 🖥 LARGE SCREENS */
 @media (min-width: 1200px) {

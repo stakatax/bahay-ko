@@ -1,0 +1,12 @@
+<?php
+// Replace every blank value privately on the host. Never commit the completed file.
+return [
+    'OLSHCO_APP_ENV' => 'production',
+    'OLSHCO_APP_KEY' => '', // One stable value: bin2hex(random_bytes(32)).
+    'OLSHCO_APP_URL' => '', // Canonical https://domain or https://domain/subfolder.
+    'OLSHCO_DB_HOST' => 'localhost', // Confirm with hosting support.
+    'OLSHCO_DB_USER' => '', // Complete cPanel-prefixed dedicated username.
+    'OLSHCO_DB_PASSWORD' => '',
+    'OLSHCO_DB_NAME' => '', // Complete cPanel-prefixed database name.
+    'OLSHCO_DB_PORT' => '3306'
+];

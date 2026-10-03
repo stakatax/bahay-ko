@@ -1,0 +1,3 @@
+<?php
+// Install as APP_ROOT/config/push.local.php after replacing the account path.
+return require '/home/CPANEL_USER/olshco-private/push.php';

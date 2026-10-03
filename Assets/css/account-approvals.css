@@ -1,0 +1,1208 @@
+.account-approvals-page {
+    display: grid;
+    gap: 20px;
+}
+
+.account-approvals-header {
+    align-items: center;
+}
+
+.account-approval-summary {
+    min-width: 180px;
+    padding: 13px 16px;
+
+    border:
+        1px solid
+        var(--border-color, #e5e7eb);
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.account-approval-summary > span {
+    width: 39px;
+    height: 39px;
+
+    flex: 0 0 39px;
+
+    border-radius: 11px;
+
+    background: #f2e6e6;
+    color:
+        var(--primary-red, #8b0000);
+
+    display: grid;
+    place-items: center;
+}
+
+.account-approval-summary strong,
+.account-approval-summary small {
+    display: block;
+}
+
+.account-approval-summary strong {
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 0.88rem;
+}
+
+.account-approval-summary small {
+    margin-top: 2px;
+
+    color:
+        var(--text-light-gray, #858c96);
+
+    font-size: 0.56rem;
+}
+
+/* ==========================================
+   ALERTS
+========================================== */
+
+.account-approval-alert {
+    padding: 13px 15px;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 0.62rem;
+    font-weight: 600;
+}
+
+.account-approval-alert.success {
+    border-color: #b9e3ca;
+
+    background: #f1fbf5;
+    color: #176b3b;
+}
+
+.account-approval-alert.error {
+    border-color: #efc4c4;
+
+    background: #fff5f5;
+    color:
+        var(--primary-red, #8b0000);
+}
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+
+.account-approval-layout {
+    display: grid;
+    grid-template-columns:
+        minmax(280px, 0.72fr)
+        minmax(0, 1.28fr);
+
+    align-items: start;
+    gap: 18px;
+}
+
+.account-approval-queue,
+.account-approval-review {
+    min-width: 0;
+}
+
+.account-approval-queue {
+    position: sticky;
+    top: 20px;
+}
+
+.account-approval-list {
+    display: grid;
+    gap: 9px;
+}
+
+.account-approval-list-item {
+    min-width: 0;
+    min-height: 76px;
+
+    padding: 12px;
+
+    border:
+        1px solid
+        var(--border-color, #e5e7eb);
+
+    border-radius: 12px;
+
+    background: #fafbfc;
+    color: inherit;
+
+    display: grid;
+    grid-template-columns:
+        39px
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+    gap: 11px;
+
+    text-decoration: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.account-approval-list-item:hover {
+    border-color:
+        rgba(139, 0, 0, 0.28);
+
+    background: #fff8f8;
+
+    transform: translateX(2px);
+}
+
+.account-approval-list-item.active {
+    border-color:
+        rgba(139, 0, 0, 0.42);
+
+    background: #fff7f7;
+
+    box-shadow:
+        inset 3px 0 0
+        var(--primary-red, #8b0000);
+}
+
+.account-approval-avatar {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 11px;
+
+    background: #f2e6e6;
+    color:
+        var(--primary-red, #8b0000);
+
+    display: grid;
+    place-items: center;
+}
+
+.account-approval-list-item strong,
+.account-approval-list-item small {
+    display: block;
+}
+
+.account-approval-list-item strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 0.66rem;
+}
+
+.account-approval-list-item small {
+    margin-top: 3px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color:
+        var(--text-light-gray, #858c96);
+
+    font-size: 0.53rem;
+}
+
+.account-approval-list-item > i {
+    color: #a0a6ae;
+
+    font-size: 0.62rem;
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.account-approval-empty {
+    min-height: 330px;
+
+    padding: 30px;
+
+    color:
+        var(--text-light-gray, #858c96);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    text-align: center;
+}
+
+.account-approval-empty > span {
+    width: 54px;
+    height: 54px;
+
+    border-radius: 15px;
+
+    background: #f2e6e6;
+    color:
+        var(--primary-red, #8b0000);
+
+    display: grid;
+    place-items: center;
+
+    font-size: 1.05rem;
+}
+
+.account-approval-empty strong {
+    margin-top: 4px;
+
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 0.82rem;
+}
+
+.account-approval-empty p {
+    max-width: 390px;
+
+    margin: 0;
+
+    font-size: 0.59rem;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   REVIEW DETAILS
+========================================== */
+
+.account-review-header {
+    padding-bottom: 18px;
+
+    border-bottom:
+        1px solid
+        var(--border-color, #e5e7eb);
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.account-review-header h2 {
+    margin: 5px 0;
+
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 1rem;
+}
+
+.account-review-header p {
+    margin: 0;
+
+    color:
+        var(--text-gray, #69717d);
+
+    font-size: 0.61rem;
+    line-height: 1.55;
+}
+
+.account-role-badge {
+    padding: 8px 11px;
+
+    border:
+        1px solid
+        rgba(139, 0, 0, 0.16);
+
+    border-radius: 999px;
+
+    background: #fff7f7;
+    color:
+        var(--primary-red, #8b0000);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    font-size: 0.56rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.account-review-section {
+    padding: 19px 0;
+
+    border-bottom:
+        1px solid
+        var(--border-color, #e5e7eb);
+}
+
+.account-review-section h3 {
+    margin: 0 0 13px;
+
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 0.72rem;
+}
+
+.account-review-grid {
+    margin: 0;
+
+    display: grid;
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 10px;
+}
+
+.account-review-grid > div {
+    min-width: 0;
+
+    padding: 12px;
+
+    border:
+        1px solid
+        var(--border-color, #e5e7eb);
+
+    border-radius: 11px;
+
+    background: #fafbfc;
+}
+
+.account-review-grid dt {
+    margin-bottom: 5px;
+
+    color:
+        var(--text-light-gray, #858c96);
+
+    font-size: 0.52rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.account-review-grid dd {
+    margin: 0;
+
+    overflow-wrap: anywhere;
+
+    color:
+        var(--text-dark, #20242a);
+
+    font-size: 0.64rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+/* ==========================================
+   APPROVAL FORM
+========================================== */
+
+.account-approval-form {
+    padding-top: 19px;
+
+    display: grid;
+    gap: 14px;
+}
+
+.account-approval-form > label > span {
+    margin-bottom: 7px;
+
+    color:
+        var(--text-dark, #20242a);
+
+    display: block;
+
+    font-size: 0.61rem;
+    font-weight: 700;
+}
+
+.account-approval-form > label > span small {
+    margin-left: 4px;
+
+    color:
+        var(--text-light-gray, #858c96);
+
+    font-size: 0.51rem;
+    font-weight: 500;
+}
+
+.account-approval-form textarea {
+    width: 100%;
+    min-height: 105px;
+
+    padding: 12px 13px;
+
+    border:
+        1px solid
+        var(--border-color, #dfe3e7);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #fafbfc;
+    color:
+        var(--text-dark, #20242a);
+
+    resize: vertical;
+
+    font: inherit;
+    font-size: 0.61rem;
+    line-height: 1.55;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.account-approval-form textarea:focus {
+    border-color:
+        var(--primary-red, #8b0000);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 0, 0, 0.1);
+}
+
+.account-approval-confirmation {
+    padding: 12px;
+
+    border:
+        1px solid
+        var(--border-color, #e5e7eb);
+
+    border-radius: 11px;
+
+    background: #fafbfc;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+
+    cursor: pointer;
+}
+
+.account-approval-confirmation input {
+    margin-top: 2px;
+
+    accent-color:
+        var(--primary-red, #8b0000);
+}
+
+.account-approval-confirmation span {
+    margin: 0 !important;
+
+    color:
+        var(--text-gray, #69717d) !important;
+
+    font-size: 0.57rem !important;
+    font-weight: 500 !important;
+    line-height: 1.5;
+}
+
+.account-approval-form .app-button {
+    justify-self: end;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+    .account-approval-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .account-approval-queue {
+        position: static;
+    }
+}
+
+@media (max-width: 680px) {
+    .account-approvals-header {
+        align-items: stretch;
+    }
+
+    .account-approval-summary {
+        min-width: 0;
+    }
+
+    .account-review-header {
+        flex-direction: column;
+    }
+
+    .account-review-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-approval-form .app-button {
+        width: 100%;
+
+        justify-self: stretch;
+    }
+}
+
+
+/* ==========================================
+   REJECTION FORM
+========================================== */
+
+.account-rejection-form {
+    margin-top: 19px;
+    padding: 17px;
+
+    border:
+        1px solid
+        #efc4c4;
+
+    border-radius: 12px;
+
+    background: #fff7f7;
+
+    display: grid;
+    gap: 13px;
+}
+
+.account-rejection-form label > span {
+    margin-bottom: 7px;
+
+    color:
+        var(--text-dark, #20242a);
+
+    display: block;
+
+    font-size: 0.61rem;
+    font-weight: 700;
+}
+
+.account-rejection-form label > span small {
+    margin-left: 4px;
+
+    color:
+        var(--primary-red, #8b0000);
+
+    font-size: 0.51rem;
+}
+
+.account-rejection-form textarea {
+    width: 100%;
+    min-height: 105px;
+
+    padding: 12px 13px;
+
+    border: 1px solid #e6b6b6;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #ffffff;
+    color:
+        var(--text-dark, #20242a);
+
+    resize: vertical;
+
+    font: inherit;
+    font-size: 0.61rem;
+    line-height: 1.55;
+}
+
+.account-rejection-form textarea:focus {
+    border-color:
+        var(--primary-red, #8b0000);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 0, 0, 0.1);
+}
+
+.account-rejection-confirmation {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+
+    cursor: pointer;
+}
+
+.account-rejection-confirmation input {
+    margin-top: 2px;
+
+    accent-color:
+        var(--primary-red, #8b0000);
+}
+
+.account-rejection-confirmation span {
+    margin: 0 !important;
+
+    color:
+        var(--text-gray, #69717d) !important;
+
+    font-size: 0.57rem !important;
+    font-weight: 500 !important;
+    line-height: 1.5;
+}
+
+.account-rejection-button {
+    justify-self: end;
+
+    border:
+        1px solid
+        var(--primary-red, #8b0000);
+
+    background: #ffffff;
+    color:
+        var(--primary-red, #8b0000);
+}
+
+.account-rejection-button:hover {
+    background:
+        var(--primary-red, #8b0000);
+    color: #ffffff;
+}
+
+@media (max-width: 680px) {
+    .account-rejection-button {
+        width: 100%;
+
+        justify-self: stretch;
+    }
+}
+
+/* ==========================================
+   ACCOUNT DECISION LAYOUT
+========================================== */
+
+.account-review-actions {
+    display: grid;
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.account-decision-card {
+    padding: 20px;
+    border: 1px solid #e2e6eb;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.account-decision-card > header {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.account-decision-card > header > span {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+}
+
+.account-decision-card.approval {
+    border-color: #b9dfcb;
+    background: #fbfffc;
+}
+
+.account-decision-card.approval
+> header > span {
+    background: #dcf4e6;
+    color: #13733b;
+}
+
+.account-decision-card.rejection {
+    border-color: #efcaca;
+    background: #fffafa;
+}
+
+.account-decision-card.rejection
+> header > span {
+    background: #fee2e2;
+    color: #a71919;
+}
+
+.account-decision-card h3 {
+    margin: 0 0 4px;
+    color: #20242a;
+    font-size: 0.84rem;
+}
+
+.account-decision-card header p {
+    margin: 0;
+    color: #707985;
+    font-size: 0.66rem;
+    line-height: 1.6;
+}
+
+.account-decision-notice {
+    padding: 11px 12px;
+    border-radius: 9px;
+    background: #edf8f1;
+    color: #286343;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 0.64rem;
+    line-height: 1.55;
+}
+
+.account-decision-notice.danger {
+    background: #fff0f0;
+    color: #902828;
+}
+
+.account-field-error {
+    color: #b42323;
+    font-size: 0.63rem;
+    font-weight: 600;
+}
+
+.account-rejection-form textarea.has-error {
+    border-color: #d83f3f;
+    box-shadow:
+        0 0 0 3px
+        rgba(216, 63, 63, 0.1);
+}
+
+/* ==========================================
+   DECISION CONFIRMATION MODAL
+========================================== */
+
+body.account-decision-open {
+    overflow: hidden;
+}
+
+.account-decision-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.account-decision-modal[hidden] {
+    display: none;
+}
+
+.account-decision-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(3px);
+}
+
+.account-decision-dialog {
+    width: min(100%, 470px);
+    padding: 28px;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow:
+        0 24px 70px
+        rgba(15, 23, 42, 0.25);
+    position: relative;
+    z-index: 1;
+    animation:
+        accountDecisionEnter
+        0.2s ease-out;
+}
+
+.account-decision-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: #f2f4f6;
+    color: #68717d;
+    cursor: pointer;
+}
+
+.account-decision-dialog-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 17px;
+    border-radius: 13px;
+    background: #dcf4e6;
+    color: #13733b;
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+}
+
+.account-decision-modal.is-rejection
+.account-decision-dialog-icon {
+    background: #fee2e2;
+    color: #a71919;
+}
+
+.account-decision-dialog h3 {
+    margin: 8px 0 8px;
+    color: #20242a;
+    font-size: 1.08rem;
+}
+
+.account-decision-dialog > p {
+    margin: 0;
+    color: #68717d;
+    font-size: 0.7rem;
+    line-height: 1.65;
+}
+
+.account-decision-reason {
+    margin-top: 17px;
+    padding: 13px;
+    border: 1px solid #efcaca;
+    border-radius: 10px;
+    background: #fff6f6;
+}
+
+.account-decision-reason small {
+    color: #a71919;
+    font-size: 0.61rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.account-decision-reason p {
+    margin: 5px 0 0;
+    color: #6f3434;
+    font-size: 0.67rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.account-decision-dialog-actions {
+    margin-top: 23px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.account-approval-alert {
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.account-approval-alert.is-hiding {
+    opacity: 0;
+    transform: translateY(-8px);
+}
+
+@keyframes accountDecisionEnter {
+    from {
+        opacity: 0;
+        transform:
+            translateY(12px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@media (max-width: 640px) {
+    .account-decision-card {
+        padding: 16px;
+    }
+
+    .account-decision-dialog {
+        padding: 23px 18px;
+    }
+
+    .account-decision-dialog-actions {
+        flex-direction: column-reverse;
+    }
+
+    .account-decision-dialog-actions
+    .app-button {
+        width: 100%;
+    }
+}
+/* Child review uses the shared typography, colors and form geometry. */
+.child-review-section {
+    font-family: var(--font-primary);
+    color: var(--text-dark);
+}
+
+.child-review-guidance {
+    margin: 20px 0 0;
+    padding: 16px;
+    border-left: 3px solid var(--primary-red);
+    border-radius: var(--radius-sm);
+    background: var(--bg-alt);
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.child-review-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+    margin-top: 24px;
+    padding-top: 0;
+}
+
+.child-review-form > label {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    min-width: 0;
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.child-review-form > :not([for="reviewChildName"]):not([for="reviewChildId"]) {
+    grid-column: 1 / -1;
+}
+
+.child-review-form input:not([type="checkbox"]),
+.child-review-form select,
+.child-review-form textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 12px;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-dark);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.child-review-form textarea {
+    min-height: 112px;
+    resize: vertical;
+}
+
+.child-review-form input:focus-visible,
+.child-review-form select:focus-visible,
+.child-review-form textarea:focus-visible {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 2px;
+}
+
+.child-review-form input:disabled,
+.child-review-form select:disabled {
+    background: var(--bg-alt);
+    color: var(--text-light-gray);
+}
+
+.child-review-form .child-review-help {
+    margin: -8px 0 0;
+    color: var(--text-gray);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+}
+
+.child-review-form > .child-review-confirmation {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-alt);
+    cursor: pointer;
+}
+
+.child-review-form .child-review-confirmation > span {
+    margin: 0;
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.child-review-form input[type="checkbox"] {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    accent-color: var(--primary-red);
+}
+
+.child-review-form .app-button {
+    min-height: 44px;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+    .child-review-form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .child-review-guidance,
+    .child-review-form > .child-review-confirmation {
+        padding: 12px;
+    }
+
+    .child-review-form .app-button {
+        width: 100%;
+        justify-self: stretch;
+    }
+}
+
+/* Read-only Parent claims remain distinct from the registration decision. */
+.child-review-section > h3 {
+    margin-bottom: 6px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.child-review-intro {
+    margin: 0 0 16px;
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.child-review-section .account-review-grid {
+    gap: 12px;
+}
+
+.child-review-section .account-review-grid > div {
+    padding: 16px;
+    background: var(--bg-alt);
+    border-color: var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.child-review-section .account-review-grid dt {
+    margin-bottom: 6px;
+    color: var(--text-gray);
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.child-review-section .account-review-grid dd {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.child-review-management {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+.child-review-management > summary {
+    color: var(--primary-red);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+.child-review-management > summary:focus-visible {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+    .child-review-section .account-review-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Registration review uses the shared root text and spacing hierarchy. */
+.account-approvals-page { font-family: var(--font-primary); gap: var(--space-section, 24px); }
+.account-review-header h2,
+.account-review-section h3,
+.account-decision-card h3,
+.account-decision-dialog h3 {
+    font-size: var(--font-size-section, 1.125rem);
+    line-height: var(--line-height-label, 1.5);
+    overflow-wrap: anywhere;
+}
+.account-approval-list-item strong,
+.account-review-grid dd,
+.account-approval-form > label > span,
+.account-rejection-form label > span,
+.account-approvals-page .app-button {
+    font-size: var(--font-size-label, 0.875rem);
+    line-height: var(--line-height-label, 1.5);
+}
+.account-review-header p,
+.account-approval-list-item small,
+.account-approval-summary small,
+.account-role-badge,
+.account-review-grid dt,
+.account-approval-form > label > span small,
+.account-rejection-form label > span small {
+    font-size: var(--font-size-meta, 0.8125rem);
+    line-height: var(--line-height-label, 1.5);
+    overflow-wrap: anywhere;
+}
+.account-review-grid dt { text-transform: none; letter-spacing: 0; color: var(--text-gray); }
+.account-review-grid dd { font-weight: 500; overflow-wrap: anywhere; }
+.account-decision-card header p,
+.account-decision-notice,
+.account-decision-dialog > p,
+.account-decision-reason p,
+.account-approval-empty p {
+    font-size: var(--font-size-body, 0.9375rem);
+    line-height: var(--line-height-body, 1.7);
+    overflow-wrap: anywhere;
+}
+.account-approval-form textarea,
+.account-rejection-form textarea {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-control, 1rem);
+    line-height: var(--line-height-body, 1.7);
+    border-radius: var(--radius-sm);
+}
+.account-approval-layout, .account-review-actions { gap: var(--space-section, 24px); }
+.account-review-grid { gap: var(--space-related, 12px); }
+.account-review-grid > div { padding: var(--space-control, 16px); border-radius: var(--radius-sm); }
+.account-review-grid dd { margin-top: var(--space-text, 8px); }
+.account-approval-list-item { padding: var(--space-control, 16px); }
+.account-approval-form, .account-rejection-form { gap: var(--space-control, 16px); }
+.account-decision-card { padding: var(--space-group, 20px); }
+.account-decision-card > header { align-items: flex-start; }
+.account-decision-card > header > div,
+.account-review-header > div { min-width: 0; overflow-wrap: anywhere; }
+.account-approvals-page .app-button { min-height: 44px; white-space: normal; }
+.account-approvals-page :is(a, button, textarea, select, input, summary):focus-visible {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 3px;
+}
+@media (max-width: 850px) {
+    .account-approvals-page, .account-approval-layout { gap: var(--space-group, 20px); }
+}
+@media (max-width: 640px) {
+    .account-review-grid { grid-template-columns: minmax(0, 1fr); }
+    .account-decision-card { padding: var(--space-control, 16px); }
+}

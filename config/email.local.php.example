@@ -1,0 +1,15 @@
+<?php
+// Copy to email.local.php only if that file does not already exist.
+// Keep credentials private. Disabled email also disables password-reset delivery.
+return [
+    'enabled' => false,
+    'host' => '',
+    'port' => 587,
+    'encryption' => 'tls',
+    'username' => '',
+    'password' => '',
+    'from_email' => '',
+    'from_name' => 'OLSHCO Digital Hub',
+    'reply_to_email' => '',
+    'timeout' => 20
+];

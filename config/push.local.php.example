@@ -1,0 +1,8 @@
+<?php
+// Copy to push.local.php only if that file does not already exist.
+// Provision one stable VAPID key pair; never commit the private key.
+return [
+    'subject' => 'mailto:administrator@example.invalid',
+    'public_key' => '',
+    'private_key' => ''
+];

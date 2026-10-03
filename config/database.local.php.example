@@ -1,0 +1,10 @@
+<?php
+// Development only. Production uses the OLSHCO_DB_* environment variables.
+return [
+    'environment' => 'development',
+    'host' => 'localhost',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'olshcodb',
+    'port' => 3306
+];

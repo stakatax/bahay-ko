@@ -1,0 +1,25 @@
+# Deployment template only; do not apply to the local working application.
+# Apache-compatible rewrite/access support is REQUIRED. Do not remove denial
+# rules to solve a hosting error; confirm equivalent protection with support.
+Options -Indexes
+DirectoryIndex index.php
+RewriteEngine On
+
+# Internal PHP can include these paths; only direct HTTP access is denied.
+RewriteRule ^(?:app|config|include|pages|vendor|scripts|database|dev|docs|tests|logs|deployment|private)(?:/|$) - [F,L,NC]
+# Retired document directories are not authorized download endpoints.
+RewriteRule ^Assets/(?:documents|documents-covers|post)(?:/|$) - [F,L,NC]
+# Preserve .well-known for certificate validation; block other hidden paths.
+RewriteRule (?:^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
+
+<FilesMatch "(?i)(?:\.(?:env|ini|log|sql|bak|backup|old|example|md|zip|tar|gz|7z)$|^(?:composer\.(?:json|lock)|AGENTS\.md|rule\.md|project-structure\.txt)$)">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Enable cPanel's Force HTTPS Redirect AFTER the certificate works.
+# Confirm PHP sees HTTPS and creates Secure session cookies.
+# Do not trust arbitrary X-Forwarded-Proto headers in these rules.

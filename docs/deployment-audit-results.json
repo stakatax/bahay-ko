@@ -1,0 +1,237 @@
+[
+  {
+    "test": "abuse_protection.php",
+    "passed": true,
+    "reported_checks": 53
+  },
+  {
+    "test": "abuse_protection_http.php",
+    "passed": true,
+    "reported_checks": 110
+  },
+  {
+    "test": "academic_input_validation.php",
+    "passed": true,
+    "reported_checks": 18
+  },
+  {
+    "test": "advisory_posting.php",
+    "passed": true,
+    "reported_checks": 51
+  },
+  {
+    "test": "content_access.php",
+    "passed": true,
+    "reported_checks": 124
+  },
+  {
+    "test": "content_access_http.php",
+    "passed": true,
+    "reported_checks": 95
+  },
+  {
+    "test": "database_baseline.php",
+    "passed": true,
+    "reported_checks": 12
+  },
+  {
+    "test": "database_configuration.php",
+    "passed": true,
+    "reported_checks": 38
+  },
+  {
+    "test": "deployment_configuration.php",
+    "passed": true,
+    "reported_checks": 34
+  },
+  {
+    "test": "document_upload_http.php",
+    "passed": true,
+    "reported_checks": 125
+  },
+  {
+    "test": "faculty_personal_profile.php",
+    "passed": true,
+    "reported_checks": 21
+  },
+  {
+    "test": "faculty_scope.php",
+    "passed": true,
+    "reported_checks": 162
+  },
+  {
+    "test": "faculty_scope_http.php",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "feed_audience.php",
+    "passed": true,
+    "reported_checks": 130
+  },
+  {
+    "test": "feed_interests.php",
+    "passed": true,
+    "reported_checks": 27
+  },
+  {
+    "test": "feed_legacy_counts.php",
+    "passed": true,
+    "reported_checks": 9
+  },
+  {
+    "test": "form_input_validation.php",
+    "passed": true,
+    "reported_checks": 10
+  },
+  {
+    "test": "global_guards_http.php",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "home_connections.php",
+    "passed": true,
+    "reported_checks": 28
+  },
+  {
+    "test": "notification_action_urls.php",
+    "passed": true,
+    "reported_checks": 26
+  },
+  {
+    "test": "notification_category_roles.php",
+    "passed": true,
+    "reported_checks": 11
+  },
+  {
+    "test": "parent_child_http.php",
+    "passed": true,
+    "reported_checks": 30
+  },
+  {
+    "test": "parent_child_registration.php",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "parent_child_views.php",
+    "passed": true,
+    "reported_checks": 13
+  },
+  {
+    "test": "pending_badge.php",
+    "passed": true,
+    "reported_checks": 20
+  },
+  {
+    "test": "profile_cycle_lifecycle.php",
+    "passed": true,
+    "reported_checks": 29
+  },
+  {
+    "test": "profile_cycle_notifications.php",
+    "passed": true,
+    "reported_checks": 14
+  },
+  {
+    "test": "profile_home_feed.php",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "publication_durability.php",
+    "passed": true,
+    "reported_checks": 82
+  },
+  {
+    "test": "publication_outbox_schema.php",
+    "passed": true,
+    "reported_checks": 14
+  },
+  {
+    "test": "question_identifiers.php",
+    "passed": true,
+    "reported_checks": 10
+  },
+  {
+    "test": "request_errors_http.php",
+    "passed": true,
+    "reported_checks": 80
+  },
+  {
+    "test": "request_input.php",
+    "passed": true,
+    "reported_checks": 29
+  },
+  {
+    "test": "request_performance.php",
+    "passed": true,
+    "reported_checks": 101
+  },
+  {
+    "test": "required_password_change.php",
+    "passed": true,
+    "reported_checks": 22
+  },
+  {
+    "test": "rich_text_sanitization.php",
+    "passed": true,
+    "reported_checks": 8
+  },
+  {
+    "test": "scheduler_monitoring.php",
+    "passed": true,
+    "reported_checks": 33
+  },
+  {
+    "test": "session_security.php",
+    "passed": true,
+    "reported_checks": 35
+  },
+  {
+    "test": "session_security_http.php",
+    "passed": true,
+    "reported_checks": 105
+  },
+  {
+    "test": "student_guard_writes.php",
+    "passed": true,
+    "reported_checks": 16
+  },
+  {
+    "test": "survey_privacy.php",
+    "passed": true,
+    "reported_checks": 166
+  },
+  {
+    "test": "upload_directory_http.php",
+    "passed": true,
+    "reported_checks": 68
+  },
+  {
+    "test": "workspace_counts.php",
+    "passed": true,
+    "reported_checks": 37
+  },
+  {
+    "test": "faculty_scope_ui.js",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "parent_child_ui.js",
+    "passed": true,
+    "reported_checks": null
+  },
+  {
+    "test": "browser_push_input.php",
+    "passed": true,
+    "reported_checks": 11
+  },
+  {
+    "test": "push_endpoint.php",
+    "passed": true,
+    "reported_checks": 29
+  }
+]

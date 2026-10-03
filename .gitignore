@@ -1,0 +1,98 @@
+# Local credentials and completed settings; retain example templates.
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local.php
+*.local.json
+*.local.ini
+.user.ini
+*.pem
+*.key
+*.p12
+*.pfx
+*.p8
+*.jks
+*.keystore
+id_rsa
+id_ed25519
+.rnd
+
+# Installed dependencies; retain Composer manifests and lockfile.
+/vendor/
+node_modules/
+
+# Runtime uploads; retain access controls at every directory level.
+/Assets/uploads/**
+/uploads/**
+!/Assets/uploads/**/
+!/Assets/uploads/**/.htaccess
+!/Assets/uploads/**/.gitkeep
+
+# Private database exports; retain reviewed schema and migration sources.
+*.sql
+*.sql.*
+!/olshcodb-structure.sql
+!/database/baselines/*.sql
+!/database/migrations/*.sql
+backup/
+backups/
+dumps/
+
+# Logs, temporary outputs and caches.
+/logs/*
+!/logs/.htaccess
+!/logs/.gitkeep
+*.log
+*.log.*
+error_log
+nohup.out
+*.pid
+*.pid.lock
+*.bak
+*.backup
+*.old
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.phpunit.cache/
+.phpunit.result.cache
+.cache/
+/coverage/
+/project-structure.txt
+
+# Generated deployment copies contain real data and private settings.
+/deployment/namecheap/release/
+/deployment/namecheap/private/*.php
+/deployment/tunnel/evaluation/
+/deployment/tunnel/tools/
+
+# Local diagram sources, exports and rebuilt DFD drafts.
+/docs/diagrams/
+/docs/dfd-rebuilt/
+/docs/database-schema.mmd
+/docs/system-diagrams.md
+/normal.drawio
+
+# Superseded folder documentation and internal development plans.
+/Assets/js/README.md
+/app/controllers/README.md
+/app/models/README.md
+/app/services/README.md
+/pages/README.md
+/rule.md
+/docs/home-feed-plan.md
+/docs/ui-stabilization-checklist.md
+
+# Local editor and operating-system state.
+.vscode/
+.idea/
+.vs/
+.DS_Store
+Thumbs.db
+Desktop.ini

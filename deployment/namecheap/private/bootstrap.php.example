@@ -1,0 +1,49 @@
+<?php
+// Install outside the document root as olshco-private/bootstrap.php.
+// Load through auto_prepend_file for BOTH web PHP and CLI commands.
+ini_set('display_errors', '0');
+ini_set('display_startup_errors', '0');
+ini_set('log_errors', '1');
+
+try {
+    $settings = require __DIR__ . '/environment.php';
+    $required = ['OLSHCO_APP_ENV', 'OLSHCO_APP_KEY', 'OLSHCO_APP_URL',
+        'OLSHCO_DB_HOST', 'OLSHCO_DB_USER', 'OLSHCO_DB_PASSWORD', 'OLSHCO_DB_NAME'];
+    $allowed = [...$required, 'OLSHCO_DB_PORT'];
+    if (!is_array($settings)) {
+        throw new RuntimeException('Invalid private settings.');
+    }
+    foreach ($required as $key) {
+        if (!isset($settings[$key]) || !is_string($settings[$key]) || trim($settings[$key]) === '') {
+            throw new RuntimeException('Incomplete private settings.');
+        }
+    }
+    if ($settings['OLSHCO_APP_ENV'] !== 'production'
+        || strlen(trim($settings['OLSHCO_APP_KEY'])) < 64
+        || !filter_var($settings['OLSHCO_APP_URL'], FILTER_VALIDATE_URL)
+        || strtolower((string) parse_url($settings['OLSHCO_APP_URL'], PHP_URL_SCHEME)) !== 'https'
+        || strtolower(trim($settings['OLSHCO_DB_USER'])) === 'root') {
+        throw new RuntimeException('Invalid production settings.');
+    }
+    foreach ($settings as $key => $value) {
+        if (!in_array($key, $allowed, true) || !is_string($value) || str_contains($value, "\0")) {
+            throw new RuntimeException('Invalid private setting.');
+        }
+        if (!putenv($key . '=' . $value)) {
+            throw new RuntimeException('Unable to load private settings.');
+        }
+    }
+    date_default_timezone_set('Asia/Manila');
+} catch (Throwable $exception) {
+    // Never disclose configuration values, paths or exceptions to the browser.
+    error_log('OLSHCO private deployment configuration could not be loaded.');
+    if (PHP_SAPI === 'cli') {
+        fwrite(STDERR, "Service configuration is unavailable.\n");
+    } else {
+        http_response_code(503);
+        header('Content-Type: text/plain; charset=utf-8');
+        header('Cache-Control: no-store');
+        echo 'Service configuration is unavailable.';
+    }
+    exit(1);
+}

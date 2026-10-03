@@ -1,0 +1,12 @@
+; Replace CPANEL_USER and confirm the handler reads this file.
+; If not supported, set the SAME directives through the host's PHP settings.
+auto_prepend_file = "/home/CPANEL_USER/olshco-private/bootstrap.php"
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+error_log = "/home/CPANEL_USER/olshco-private/php-error.log"
+date.timezone = "Asia/Manila"
+upload_max_filesize = 20M
+post_max_size = 32M
+; Create this private writable directory first.
+session.save_path = "/home/CPANEL_USER/olshco-private/sessions"

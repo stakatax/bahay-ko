@@ -1,0 +1,2573 @@
+{
+    "format": 1,
+    "source": "Local configuration snapshot for review; no user or activity records.",
+    "tables": {
+        "role": {
+            "columns": [
+                "role_id",
+                "role_prefix"
+            ],
+            "rows": [
+                {
+                    "role_id": "1",
+                    "role_prefix": "Admin"
+                },
+                {
+                    "role_id": "2",
+                    "role_prefix": "Faculty"
+                },
+                {
+                    "role_id": "3",
+                    "role_prefix": "Student"
+                },
+                {
+                    "role_id": "4",
+                    "role_prefix": "Parent"
+                }
+            ]
+        },
+        "actions": {
+            "columns": [
+                "action_id",
+                "action_name"
+            ],
+            "rows": [
+                {
+                    "action_id": "1",
+                    "action_name": "LOGIN"
+                },
+                {
+                    "action_id": "2",
+                    "action_name": "REGISTER_ACCOUNT"
+                },
+                {
+                    "action_id": "3",
+                    "action_name": "LOGOUT"
+                },
+                {
+                    "action_id": "4",
+                    "action_name": "VIEW_DASHBOARD"
+                },
+                {
+                    "action_id": "5",
+                    "action_name": "ADD_USER"
+                },
+                {
+                    "action_id": "6",
+                    "action_name": "VIEW_USER"
+                },
+                {
+                    "action_id": "7",
+                    "action_name": "UPDATE_PROFILE"
+                },
+                {
+                    "action_id": "8",
+                    "action_name": "ACTIVATE_ACCOUNT"
+                },
+                {
+                    "action_id": "9",
+                    "action_name": "DEACTIVATE_ACCOUNT"
+                },
+                {
+                    "action_id": "10",
+                    "action_name": "POST_ANNOUNCEMENT"
+                },
+                {
+                    "action_id": "11",
+                    "action_name": "VIEW_ANNOUNCEMENT"
+                },
+                {
+                    "action_id": "12",
+                    "action_name": "UPDATE_POST"
+                },
+                {
+                    "action_id": "13",
+                    "action_name": "DELETE_POST"
+                },
+                {
+                    "action_id": "14",
+                    "action_name": "ARCHIVE_POST"
+                },
+                {
+                    "action_id": "15",
+                    "action_name": "APPROVE_CONTENT"
+                },
+                {
+                    "action_id": "16",
+                    "action_name": "UPLOAD_DOCUMENT"
+                },
+                {
+                    "action_id": "17",
+                    "action_name": "POST_DOCUMENT"
+                },
+                {
+                    "action_id": "18",
+                    "action_name": "DOWNLOAD_DOCUMENT"
+                },
+                {
+                    "action_id": "19",
+                    "action_name": "POST_EVENT"
+                },
+                {
+                    "action_id": "20",
+                    "action_name": "MANAGE_USERS"
+                },
+                {
+                    "action_id": "21",
+                    "action_name": "ACCESS_ACTIVITY_LOG"
+                },
+                {
+                    "action_id": "22",
+                    "action_name": "CHANGE_USER_ACCOUNT_STATUS"
+                },
+                {
+                    "action_id": "23",
+                    "action_name": "UNLOCK_USER_ACCOUNT"
+                },
+                {
+                    "action_id": "24",
+                    "action_name": "CHANGE_USER_STAFF_ROLE"
+                },
+                {
+                    "action_id": "25",
+                    "action_name": "PROVISION_FACULTY_ACCOUNT"
+                },
+                {
+                    "action_id": "26",
+                    "action_name": "COMPLETE_REQUIRED_PASSWORD_CHANGE"
+                },
+                {
+                    "action_id": "27",
+                    "action_name": "CREATE_ACADEMIC_STRUCTURE"
+                },
+                {
+                    "action_id": "28",
+                    "action_name": "UPDATE_ACADEMIC_STRUCTURE"
+                },
+                {
+                    "action_id": "29",
+                    "action_name": "CHANGE_ACADEMIC_STRUCTURE_STATUS"
+                },
+                {
+                    "action_id": "30",
+                    "action_name": "OVERRIDE_CONTENT_REDUNDANCY"
+                },
+                {
+                    "action_id": "31",
+                    "action_name": "CREATE_GOVERNMENT_ADVISORY"
+                },
+                {
+                    "action_id": "32",
+                    "action_name": "REVIEW_GOVERNMENT_ADVISORY"
+                },
+                {
+                    "action_id": "33",
+                    "action_name": "CONVERT_GOVERNMENT_ADVISORY"
+                },
+                {
+                    "action_id": "34",
+                    "action_name": "MANAGE_GOVERNMENT_SOURCE"
+                },
+                {
+                    "action_id": "35",
+                    "action_name": "REQUEST_PASSWORD_RESET"
+                },
+                {
+                    "action_id": "36",
+                    "action_name": "COMPLETE_PASSWORD_RESET"
+                },
+                {
+                    "action_id": 37,
+                    "action_name": "UPDATE_ACCOUNT_PROFILE"
+                },
+                {
+                    "action_id": 38,
+                    "action_name": "ACCEPT_LEGAL_DOCUMENTS"
+                },
+                {
+                    "action_id": 39,
+                    "action_name": "UPDATE_STUDENT_PROFILE"
+                },
+                {
+                    "action_id": 40,
+                    "action_name": "CREATE_STUDENT_PROFILE_QUESTIONNAIRE_DRAFT"
+                },
+                {
+                    "action_id": 41,
+                    "action_name": "CREATE_STUDENT_PROFILE_QUESTION"
+                },
+                {
+                    "action_id": 42,
+                    "action_name": "UPDATE_STUDENT_PROFILE_QUESTION"
+                },
+                {
+                    "action_id": 43,
+                    "action_name": "CHANGE_STUDENT_PROFILE_QUESTION_STATUS"
+                },
+                {
+                    "action_id": 44,
+                    "action_name": "CREATE_STUDENT_PROFILE_CYCLE"
+                },
+                {
+                    "action_id": 45,
+                    "action_name": "UPDATE_FACULTY_ASSIGNMENT"
+                }
+            ]
+        },
+        "department": {
+            "columns": [
+                "department_id",
+                "department_name",
+                "department_code",
+                "description",
+                "status"
+            ],
+            "rows": [
+                {
+                    "department_id": "1",
+                    "department_name": "IBED",
+                    "department_code": "IBED",
+                    "description": "Integrated Basic Education Department covering Elementary, Junior High School, and Senior High School.",
+                    "status": "Active"
+                },
+                {
+                    "department_id": "4",
+                    "department_name": "College",
+                    "department_code": "COLLEGE",
+                    "description": "College division covering undergraduate academic programs.",
+                    "status": "Active"
+                }
+            ]
+        },
+        "education_level": {
+            "columns": [
+                "education_level_id",
+                "department_id",
+                "education_level_name",
+                "status"
+            ],
+            "rows": [
+                {
+                    "education_level_id": "1",
+                    "department_id": "1",
+                    "education_level_name": "Elementary",
+                    "status": "Active"
+                },
+                {
+                    "education_level_id": "2",
+                    "department_id": "1",
+                    "education_level_name": "Junior High",
+                    "status": "Active"
+                },
+                {
+                    "education_level_id": "3",
+                    "department_id": "1",
+                    "education_level_name": "Senior High",
+                    "status": "Active"
+                },
+                {
+                    "education_level_id": "4",
+                    "department_id": "4",
+                    "education_level_name": "College",
+                    "status": "Active"
+                }
+            ]
+        },
+        "academic_program": {
+            "columns": [
+                "academic_program_id",
+                "education_level_id",
+                "program_name",
+                "program_code",
+                "program_type",
+                "description",
+                "status"
+            ],
+            "rows": [
+                {
+                    "academic_program_id": "1",
+                    "education_level_id": "3",
+                    "program_name": "Science, Technology, Engineering, and Mathematics",
+                    "program_code": "STEM",
+                    "program_type": "Strand",
+                    "description": "Senior High School strand focused on science, technology, engineering, and mathematics.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "2",
+                    "education_level_id": "3",
+                    "program_name": "Humanities and Social Sciences",
+                    "program_code": "HUMSS",
+                    "program_type": "Strand",
+                    "description": "Senior High School strand focused on humanities, communication, social sciences, and public service.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "3",
+                    "education_level_id": "3",
+                    "program_name": "Accountancy, Business, and Management",
+                    "program_code": "ABM",
+                    "program_type": "Strand",
+                    "description": "Senior High School strand focused on business, entrepreneurship, management, and accountancy.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "4",
+                    "education_level_id": "3",
+                    "program_name": "Technical-Vocational-Livelihood",
+                    "program_code": "TVL",
+                    "program_type": "Strand",
+                    "description": null,
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "5",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Science in Information Technology",
+                    "program_code": "BSIT",
+                    "program_type": "Program",
+                    "description": "Undergraduate program focused on software development, information systems, networking, and computing technologies.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "6",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Science in Business Administration",
+                    "program_code": "BSBA",
+                    "program_type": "Program",
+                    "description": null,
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "7",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Secondary Education",
+                    "program_code": "BSED",
+                    "program_type": "Program",
+                    "description": "Undergraduate teacher-education program for secondary-level instruction.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "8",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Elementary Education",
+                    "program_code": "BEED",
+                    "program_type": "Program",
+                    "description": "Undergraduate teacher-education program for elementary-level instruction.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "9",
+                    "education_level_id": "3",
+                    "program_name": "Technical-Vocational-Livelihood – Information and Communications Technology",
+                    "program_code": "TVL-ICT",
+                    "program_type": "Strand",
+                    "description": "Senior High School strand focused on practical information and communications technology skills.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "10",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Technology and Livelihood Education",
+                    "program_code": "BTLED",
+                    "program_type": "Program",
+                    "description": "Undergraduate teacher-education program focused on technology and livelihood education.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "11",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Early Childhood Education",
+                    "program_code": "BECE",
+                    "program_type": "Program",
+                    "description": "Undergraduate teacher-education program focused on early childhood development and learning.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "12",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Science in Criminology",
+                    "program_code": "BSCRIM",
+                    "program_type": "Program",
+                    "description": "Undergraduate program focused on criminology, criminal justice, law enforcement, and public safety.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "13",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Science in Office Administration",
+                    "program_code": "BSOAD",
+                    "program_type": "Program",
+                    "description": "Undergraduate program focused on office systems, administrative management, and professional support services.",
+                    "status": "Active"
+                },
+                {
+                    "academic_program_id": "14",
+                    "education_level_id": "4",
+                    "program_name": "Bachelor of Science in Hospitality Management",
+                    "program_code": "BSHM",
+                    "program_type": "Program",
+                    "description": "Undergraduate program focused on hospitality operations, tourism services, and customer experience management.",
+                    "status": "Active"
+                }
+            ]
+        },
+        "grade_level": {
+            "columns": [
+                "grade_level_id",
+                "education_level_id",
+                "grade_level_name",
+                "status"
+            ],
+            "rows": [
+                {
+                    "grade_level_id": "1",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 1",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "2",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 2",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "3",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 3",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "4",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 4",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "5",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 5",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "6",
+                    "education_level_id": "1",
+                    "grade_level_name": "Grade 6",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "7",
+                    "education_level_id": "2",
+                    "grade_level_name": "Grade 7",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "8",
+                    "education_level_id": "2",
+                    "grade_level_name": "Grade 8",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "9",
+                    "education_level_id": "2",
+                    "grade_level_name": "Grade 9",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "10",
+                    "education_level_id": "2",
+                    "grade_level_name": "Grade 10",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "11",
+                    "education_level_id": "3",
+                    "grade_level_name": "Grade 11",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "12",
+                    "education_level_id": "3",
+                    "grade_level_name": "Grade 12",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "13",
+                    "education_level_id": "4",
+                    "grade_level_name": "1st Year",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "14",
+                    "education_level_id": "4",
+                    "grade_level_name": "2nd Year",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "15",
+                    "education_level_id": "4",
+                    "grade_level_name": "3rd Year",
+                    "status": "Active"
+                },
+                {
+                    "grade_level_id": "16",
+                    "education_level_id": "4",
+                    "grade_level_name": "4th Year",
+                    "status": "Active"
+                }
+            ]
+        },
+        "section": {
+            "columns": [
+                "section_id",
+                "grade_level_id",
+                "academic_program_id",
+                "section_name",
+                "status"
+            ],
+            "rows": [
+                {
+                    "section_id": "1",
+                    "grade_level_id": "1",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "2",
+                    "grade_level_id": "2",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "3",
+                    "grade_level_id": "3",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "4",
+                    "grade_level_id": "4",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "5",
+                    "grade_level_id": "5",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "6",
+                    "grade_level_id": "6",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "7",
+                    "grade_level_id": "7",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "8",
+                    "grade_level_id": "8",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "9",
+                    "grade_level_id": "9",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "10",
+                    "grade_level_id": "10",
+                    "academic_program_id": null,
+                    "section_name": "Section A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "11",
+                    "grade_level_id": "11",
+                    "academic_program_id": "1",
+                    "section_name": "STEM 11-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "12",
+                    "grade_level_id": "12",
+                    "academic_program_id": "1",
+                    "section_name": "STEM 12-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "13",
+                    "grade_level_id": "11",
+                    "academic_program_id": "2",
+                    "section_name": "HUMSS 11-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "14",
+                    "grade_level_id": "12",
+                    "academic_program_id": "2",
+                    "section_name": "HUMSS 12-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "15",
+                    "grade_level_id": "11",
+                    "academic_program_id": "3",
+                    "section_name": "ABM 11-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "16",
+                    "grade_level_id": "12",
+                    "academic_program_id": "3",
+                    "section_name": "ABM 12-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "17",
+                    "grade_level_id": "11",
+                    "academic_program_id": "4",
+                    "section_name": "TVL 11-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "18",
+                    "grade_level_id": "12",
+                    "academic_program_id": "4",
+                    "section_name": "TVL 12-A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "19",
+                    "grade_level_id": "13",
+                    "academic_program_id": "5",
+                    "section_name": "BSIT 1A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "20",
+                    "grade_level_id": "14",
+                    "academic_program_id": "5",
+                    "section_name": "BSIT 2A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "21",
+                    "grade_level_id": "15",
+                    "academic_program_id": "5",
+                    "section_name": "BSIT 3A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "22",
+                    "grade_level_id": "15",
+                    "academic_program_id": "5",
+                    "section_name": "BSIT 3D",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "23",
+                    "grade_level_id": "16",
+                    "academic_program_id": "5",
+                    "section_name": "BSIT 4A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "24",
+                    "grade_level_id": "13",
+                    "academic_program_id": "6",
+                    "section_name": "BSBA 1A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "25",
+                    "grade_level_id": "13",
+                    "academic_program_id": "7",
+                    "section_name": "BSED 1A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "26",
+                    "grade_level_id": "13",
+                    "academic_program_id": "8",
+                    "section_name": "BEED 1A",
+                    "status": "Active"
+                },
+                {
+                    "section_id": "27",
+                    "grade_level_id": "12",
+                    "academic_program_id": "1",
+                    "section_name": "STEM 12-B",
+                    "status": "Inactive"
+                },
+                {
+                    "section_id": "28",
+                    "grade_level_id": "2",
+                    "academic_program_id": null,
+                    "section_name": "St.Therese",
+                    "status": "Active"
+                }
+            ]
+        },
+        "content_interest": {
+            "columns": [
+                "interest_id",
+                "interest_name",
+                "interest_slug",
+                "description",
+                "status",
+                "sort_order"
+            ],
+            "rows": [
+                {
+                    "interest_id": "1",
+                    "interest_name": "Academic Updates",
+                    "interest_slug": "academic-updates",
+                    "description": "Academic schedules, requirements, examinations, and learning updates.",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "interest_id": "2",
+                    "interest_name": "Scholarships and Financial Aid",
+                    "interest_slug": "scholarships-financial-aid",
+                    "description": "Scholarships, grants, financial assistance, and application opportunities.",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "interest_id": "3",
+                    "interest_name": "School Events",
+                    "interest_slug": "school-events",
+                    "description": "Campus programs, celebrations, assemblies, and institutional activities.",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "interest_id": "4",
+                    "interest_name": "Clubs and Organizations",
+                    "interest_slug": "clubs-organizations",
+                    "description": "Student organizations, clubs, leadership activities, and membership opportunities.",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "interest_id": "5",
+                    "interest_name": "Sports and Recreation",
+                    "interest_slug": "sports-recreation",
+                    "description": "Athletics, competitions, recreation, and physical activities.",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "interest_id": "6",
+                    "interest_name": "Career and College Opportunities",
+                    "interest_slug": "career-college-opportunities",
+                    "description": "Career guidance, internships, employment, and further-study opportunities.",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "interest_id": "7",
+                    "interest_name": "Health and Wellness",
+                    "interest_slug": "health-wellness",
+                    "description": "Physical health, mental wellness, counseling, and wellbeing resources.",
+                    "status": "Active",
+                    "sort_order": "70"
+                },
+                {
+                    "interest_id": "8",
+                    "interest_name": "Safety and Emergency",
+                    "interest_slug": "safety-emergency",
+                    "description": "Emergency notices, safety reminders, suspensions, and urgent advisories.",
+                    "status": "Active",
+                    "sort_order": "80"
+                },
+                {
+                    "interest_id": "9",
+                    "interest_name": "Policies and Memoranda",
+                    "interest_slug": "policies-memoranda",
+                    "description": "Institutional policies, official memoranda, rules, and administrative notices.",
+                    "status": "Active",
+                    "sort_order": "90"
+                },
+                {
+                    "interest_id": "10",
+                    "interest_name": "Community and Outreach",
+                    "interest_slug": "community-outreach",
+                    "description": "Community programs, volunteer activities, outreach, and social initiatives.",
+                    "status": "Active",
+                    "sort_order": "100"
+                }
+            ]
+        },
+        "legal_document_version": {
+            "columns": [
+                "legal_document_version_id",
+                "document_type",
+                "version",
+                "title",
+                "content",
+                "effective_at",
+                "status"
+            ],
+            "rows": [
+                {
+                    "legal_document_version_id": "1",
+                    "document_type": "Terms",
+                    "version": "1.0",
+                    "title": "OLSHCO Digital Hub Terms and Conditions",
+                    "content": "<div class=\"register-legal-content\">\r\n    <div class=\"register-legal-introduction\">\r\n        Please read these conditions before creating or continuing to use your OLSHCO Digital Hub account.\r\n    </div>\r\n\r\n    <h3>1. Account Information</h3>\r\n    <p>\r\n        You agree to provide complete and accurate registration information. Your account remains subject to school verification and administrative approval.\r\n    </p>\r\n\r\n    <h3>2. Account Security</h3>\r\n    <ul>\r\n        <li>Keep your password private and secure.</li>\r\n        <li>Do not share your account with another person.</li>\r\n        <li>Do not impersonate another system user.</li>\r\n        <li>Report suspected unauthorized access to an authorized school representative.</li>\r\n    </ul>\r\n\r\n    <h3>3. Acceptable Use</h3>\r\n    <p>\r\n        The Digital Hub must be used only for legitimate educational and school-related purposes.\r\n    </p>\r\n    <ul>\r\n        <li>Do not publish false, harmful, abusive, or unauthorized content.</li>\r\n        <li>Do not bypass security or access information without permission.</li>\r\n        <li>Follow school policies when interacting with content and other users.</li>\r\n    </ul>\r\n\r\n    <h3>4. Content and Communication</h3>\r\n    <p>\r\n        Announcements, events, documents, surveys, reminders, and notifications support official school communication. Urgent instructions should be verified with the appropriate school office when necessary.\r\n    </p>\r\n\r\n    <h3>5. Administrative Action</h3>\r\n    <p>\r\n        Authorized administrators may review account applications and system activity, moderate content, restrict access, or suspend accounts when required for security, policy compliance, or protection of the school community.\r\n    </p>\r\n\r\n    <h3>6. System Availability</h3>\r\n    <p>\r\n        The Digital Hub may occasionally be unavailable because of maintenance, security updates, technical problems, or circumstances outside the school's control.\r\n    </p>\r\n\r\n    <h3>7. Changes to These Terms</h3>\r\n    <p>\r\n        These conditions may be updated when school policies or system requirements change. Users may be required to review and accept an updated version before continuing to use the system.\r\n    </p>\r\n</div>",
+                    "effective_at": "2026-08-17 23:11:52",
+                    "status": "Active"
+                },
+                {
+                    "legal_document_version_id": "2",
+                    "document_type": "Privacy",
+                    "version": "1.0",
+                    "title": "OLSHCO Digital Hub Privacy Notice",
+                    "content": "<div class=\"register-legal-content\">\r\n    <div class=\"register-legal-introduction\">\r\n        This notice explains what information the OLSHCO Digital Hub processes and why it is needed.\r\n    </div>\r\n\r\n    <h3>1. Information We Process</h3>\r\n    <ul>\r\n        <li>Name, email address, birthdate, gender, and contact information.</li>\r\n        <li>Account role and academic assignment.</li>\r\n        <li>Content views, acknowledgments, reactions, comments, survey responses, and notification activity.</li>\r\n        <li>Selected interests and personalization preferences.</li>\r\n    </ul>\r\n\r\n    <h3>2. Why We Process Information</h3>\r\n    <p>\r\n        Information is used to verify accounts, control access, deliver relevant school content, support academic communication, personalize the information feed, and produce authorized administrative reports.\r\n    </p>\r\n\r\n    <h3>3. Notifications</h3>\r\n    <p>\r\n        Depending on your preferences, the system may deliver information through the Digital Hub, browser notifications, or email. Available delivery preferences can be changed from notification settings.\r\n    </p>\r\n\r\n    <h3>4. Sensitive Information</h3>\r\n    <p>\r\n        Optional health, accessibility, geographic, or wellbeing information requested through profile surveys requires separate and specific consent. It is not automatically covered by general registration acceptance.\r\n    </p>\r\n\r\n    <h3>5. Access and Protection</h3>\r\n    <p>\r\n        Personal information should be accessed only for authorized school and system purposes. Reasonable safeguards are used to reduce unauthorized access, disclosure, alteration, or loss.\r\n    </p>\r\n\r\n    <h3>6. Analytics and Reporting</h3>\r\n    <p>\r\n        Administrative analytics should use combined or aggregate information whenever identifying an individual is unnecessary. Sensitive individual responses must not be exposed in general dashboard reports.\r\n    </p>\r\n\r\n    <h3>7. Retention</h3>\r\n    <p>\r\n        Account and activity records may be retained while required for school operations, security, auditing, legal obligations, or legitimate system administration.\r\n    </p>\r\n\r\n    <h3>8. Your Choices</h3>\r\n    <ul>\r\n        <li>Provide accurate account information.</li>\r\n        <li>Manage available notification and personalization preferences.</li>\r\n        <li>Contact an authorized representative to request a correction or raise a privacy concern.</li>\r\n    </ul>\r\n\r\n    <h3>9. Updates to This Notice</h3>\r\n    <p>\r\n        This notice may be updated when data practices or school requirements change. Users may be required to acknowledge significant changes.\r\n    </p>\r\n</div>",
+                    "effective_at": "2026-08-17 23:11:52",
+                    "status": "Active"
+                }
+            ]
+        },
+        "student_profile_survey_version": {
+            "columns": [
+                "survey_version",
+                "version_name",
+                "description",
+                "status"
+            ],
+            "rows": [
+                {
+                    "survey_version": "1",
+                    "version_name": "Initial Student Profile Survey",
+                    "description": "Initial questionnaire version established before recurring profile cycles.",
+                    "status": "Active"
+                },
+                {
+                    "survey_version": "2",
+                    "version_name": "SY 2026-2027 Student Profile Draft",
+                    "description": "Draft questionnaire for the next Student profile update cycle.",
+                    "status": "Active"
+                },
+                {
+                    "survey_version": "3",
+                    "version_name": "SY 2027-2028 Student Profile Draft",
+                    "description": "Draft questionnaire for the next school year profile cycle.",
+                    "status": "Draft"
+                }
+            ]
+        },
+        "student_profile_consent_definition": {
+            "columns": [
+                "student_profile_consent_definition_id",
+                "consent_key",
+                "consent_version",
+                "title",
+                "consent_statement",
+                "status",
+                "effective_at"
+            ],
+            "rows": [
+                {
+                    "student_profile_consent_definition_id": "1",
+                    "consent_key": "location_profile",
+                    "consent_version": "1.0",
+                    "title": "Geographic Profile Consent",
+                    "consent_statement": "I voluntarily allow OLSHCO Digital Hub to process my general province, municipality or city, barangay, travel time, and school-access information to understand student access conditions. The survey does not request my exact home address or live GPS location.",
+                    "status": "Active",
+                    "effective_at": "2026-08-18 02:55:43"
+                },
+                {
+                    "student_profile_consent_definition_id": "2",
+                    "consent_key": "accessibility_profile",
+                    "consent_version": "1.0",
+                    "title": "Accessibility Support Consent",
+                    "consent_statement": "I voluntarily allow OLSHCO Digital Hub to process the accessibility and assistive-support information I choose to provide so the school can understand general support needs. I may select Prefer not to say.",
+                    "status": "Active",
+                    "effective_at": "2026-08-18 02:55:43"
+                },
+                {
+                    "student_profile_consent_definition_id": "3",
+                    "consent_key": "wellbeing_profile",
+                    "consent_version": "1.0",
+                    "title": "Learning Wellbeing Consent",
+                    "consent_statement": "I voluntarily allow OLSHCO Digital Hub to process the optional learning-related wellbeing information I choose to provide. The survey does not request a medical diagnosis, and I may decline or select Prefer not to say.",
+                    "status": "Active",
+                    "effective_at": "2026-08-18 02:55:43"
+                }
+            ]
+        },
+        "student_profile_question": {
+            "columns": [
+                "student_profile_question_id",
+                "question_key",
+                "section_key",
+                "section_label",
+                "section_sort_order",
+                "question_text",
+                "help_text",
+                "response_type",
+                "options_json",
+                "is_required",
+                "is_sensitive",
+                "consent_key",
+                "analytics_enabled",
+                "survey_version",
+                "status",
+                "sort_order"
+            ],
+            "rows": [
+                {
+                    "student_profile_question_id": "1",
+                    "question_key": "primary_device",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What device do you primarily use for school-related digital activities?",
+                    "help_text": "Choose the device you use most often.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Smartphone\",\"Laptop\",\"Desktop computer\",\"Tablet\",\"Shared computer\",\"No regular device\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "2",
+                    "question_key": "device_ownership",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How do you access your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Personally owned\",\"Shared with family\",\"Borrowed\",\"School-provided\",\"No regular access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "3",
+                    "question_key": "device_condition",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What is the current condition of your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Excellent\",\"Good\",\"Fair\",\"Poor\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "4",
+                    "question_key": "device_access_frequency",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How often can you access a suitable device for schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Any time I need it\",\"Most days\",\"Only on limited days\",\"Rarely\",\"No access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "5",
+                    "question_key": "internet_connection_type",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "What is your main way of connecting to the internet?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Home fiber or DSL\",\"Mobile data\",\"Prepaid Wi-Fi\",\"Public Wi-Fi\",\"School internet\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "6",
+                    "question_key": "internet_reliability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How reliable is your internet connection for school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Reliable\",\"Usually reliable\",\"Intermittent\",\"Often unavailable\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "7",
+                    "question_key": "internet_affordability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often does internet or mobile-data cost limit your school participation?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "8",
+                    "question_key": "province",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What province do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "9",
+                    "question_key": "municipality_city",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What municipality or city do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "10",
+                    "question_key": "barangay",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What barangay do you currently live in?",
+                    "help_text": "Do not enter your street, house number, or exact address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "11",
+                    "question_key": "school_travel_time",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "How long does it usually take you to travel to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Less than 15 minutes\",\"15 to 30 minutes\",\"31 to 60 minutes\",\"More than 1 hour\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "12",
+                    "question_key": "school_access_barriers",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What conditions sometimes make it difficult to reach or participate in school?",
+                    "help_text": "Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Transportation availability\",\"Transportation cost\",\"Distance\",\"Road or weather conditions\",\"Mobility limitations\",\"Family responsibilities\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "13",
+                    "question_key": "accessibility_support_needs",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which accessibility or learning supports would help you participate?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Visual support\",\"Hearing support\",\"Mobility support\",\"Reading or comprehension support\",\"Extended task time\",\"Assistive technology\",\"Other school support\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "14",
+                    "question_key": "assistive_technology",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Do you currently use assistive technology for learning?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"No\",\"Not sure\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "15",
+                    "question_key": "study_environment",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Where do you usually complete schoolwork outside the classroom?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Quiet room at home\",\"Shared room at home\",\"School facility\",\"Library or study center\",\"Workplace\",\"Other location\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "16",
+                    "question_key": "quiet_study_access",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How often do you have access to a quiet place for studying?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always\",\"Often\",\"Sometimes\",\"Rarely\",\"Never\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "17",
+                    "question_key": "preferred_learning_modes",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Which learning formats help you understand lessons best?",
+                    "help_text": "Select up to three.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Written explanations\",\"Images and diagrams\",\"Recorded video\",\"Audio explanations\",\"Live demonstrations\",\"Practice activities\",\"Group discussion\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "18",
+                    "question_key": "learning_wellbeing_barrier",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your current wellbeing make it difficult to focus on schoolwork?",
+                    "help_text": "No diagnosis is requested. You may decline to answer.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "19",
+                    "question_key": "requested_school_support",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Is there any general support you would like the school to consider?",
+                    "help_text": "Do not include medical records or highly private details.",
+                    "response_type": "LongText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "20",
+                    "question_key": "electricity_charging_reliability",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How reliable is your access to electricity or device charging?",
+                    "help_text": "Consider your usual situation during school days.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always reliable\",\"Usually reliable\",\"Sometimes unavailable\",\"Often unavailable\",\"No reliable access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "21",
+                    "question_key": "digital_task_confidence",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How confident are you when completing common digital school tasks?",
+                    "help_text": "Examples include uploading files, joining online activities, and using school platforms.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Very confident\",\"Confident\",\"Somewhat confident\",\"Need occasional help\",\"Need regular help\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "22",
+                    "question_key": "daily_internet_availability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "During a typical school day, how much internet access do you have?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Available throughout the day\",\"Available for several hours\",\"Available for one to two hours\",\"Available for less than one hour\",\"Usually unavailable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "23",
+                    "question_key": "connection_disruption_frequency",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often do connection problems interrupt your school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Almost every time\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "24",
+                    "question_key": "usual_transportation_method",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What transportation method do you usually use when going to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Walking\",\"Bicycle\",\"Private vehicle\",\"Public transportation\",\"School service\",\"Combination of methods\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "25",
+                    "question_key": "accessible_content_adjustments",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which content adjustments would make school information easier for you to use?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Larger text\",\"Higher color contrast\",\"Captions or transcripts\",\"Audio explanation\",\"Simplified written instructions\",\"Keyboard-friendly controls\",\"No adjustment needed\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "26",
+                    "question_key": "preferred_study_schedule",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "When are you usually most able to focus on schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Early morning\",\"Morning\",\"Afternoon\",\"Evening\",\"Late evening\",\"Varies depending on the day\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "27",
+                    "question_key": "collaboration_preference",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How do you usually prefer to complete learning activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Independently\",\"With one partner\",\"In a small group\",\"In a larger group\",\"It depends on the activity\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "28",
+                    "question_key": "academic_workload_pressure",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your academic workload feel difficult to manage?",
+                    "help_text": "This is optional and does not request a medical diagnosis.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "29",
+                    "question_key": "school_support_awareness",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Do you know where to request school support when you need help?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"Partly\",\"No\",\"Not sure\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "1",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "30",
+                    "question_key": "primary_device",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What device do you primarily use for school-related digital activities?",
+                    "help_text": "Choose the device you use most often.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Smartphone\",\"Laptop\",\"Desktop computer\",\"Tablet\",\"Shared computer\",\"No regular device\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "31",
+                    "question_key": "device_ownership",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How do you access your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Personally owned\",\"Shared with family\",\"Borrowed\",\"School-provided\",\"No regular access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "32",
+                    "question_key": "device_condition",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What is the current condition of your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Excellent\",\"Good\",\"Fair\",\"Poor\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "33",
+                    "question_key": "device_access_frequency",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How often can you access a suitable device for schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Any time I need it\",\"Most days\",\"Only on limited days\",\"Rarely\",\"No access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "34",
+                    "question_key": "electricity_charging_reliability",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How reliable is your access to electricity or device charging?",
+                    "help_text": "Consider your usual situation during school days.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always reliable\",\"Usually reliable\",\"Sometimes unavailable\",\"Often unavailable\",\"No reliable access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "35",
+                    "question_key": "digital_task_confidence",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How confident are you when completing common digital school tasks?",
+                    "help_text": "Examples include uploading files, joining online activities, and using school platforms.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Very confident\",\"Confident\",\"Somewhat confident\",\"Need occasional help\",\"Need regular help\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "36",
+                    "question_key": "internet_connection_type",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "What is your main way of connecting to the internet?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Home fiber or DSL\",\"Mobile data\",\"Prepaid Wi-Fi\",\"Public Wi-Fi\",\"School internet\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "37",
+                    "question_key": "internet_reliability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How reliable is your internet connection for school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Reliable\",\"Usually reliable\",\"Intermittent\",\"Often unavailable\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "38",
+                    "question_key": "internet_affordability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often does internet or mobile-data cost limit your school participation?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "39",
+                    "question_key": "daily_internet_availability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "During a typical school day, how much internet access do you have?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Available throughout the day\",\"Available for several hours\",\"Available for one to two hours\",\"Available for less than one hour\",\"Usually unavailable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "40",
+                    "question_key": "connection_disruption_frequency",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often do connection problems interrupt your school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Almost every time\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "41",
+                    "question_key": "province",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What province do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "42",
+                    "question_key": "municipality_city",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What municipality or city do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "43",
+                    "question_key": "barangay",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What barangay do you currently live in?",
+                    "help_text": "Do not enter your street, house number, or exact address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "44",
+                    "question_key": "school_travel_time",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "How long does it usually take you to travel to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Less than 15 minutes\",\"15 to 30 minutes\",\"31 to 60 minutes\",\"More than 1 hour\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "45",
+                    "question_key": "school_access_barriers",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What conditions sometimes make it difficult to reach or participate in school?",
+                    "help_text": "Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Transportation availability\",\"Transportation cost\",\"Distance\",\"Road or weather conditions\",\"Mobility limitations\",\"Family responsibilities\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "46",
+                    "question_key": "usual_transportation_method",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What transportation method do you usually use when going to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Walking\",\"Bicycle\",\"Private vehicle\",\"Public transportation\",\"School service\",\"Combination of methods\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "47",
+                    "question_key": "accessibility_support_needs",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which accessibility or learning supports would help you participate?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Visual support\",\"Hearing support\",\"Mobility support\",\"Reading or comprehension support\",\"Extended task time\",\"Assistive technology\",\"Other school support\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "48",
+                    "question_key": "assistive_technology",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Do you currently use assistive technology for learning?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"No\",\"Not sure\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "49",
+                    "question_key": "accessible_content_adjustments",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which content adjustments would make school information easier for you to use?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Larger text\",\"Higher color contrast\",\"Captions or transcripts\",\"Audio explanation\",\"Simplified written instructions\",\"Keyboard-friendly controls\",\"No adjustment needed\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "50",
+                    "question_key": "study_environment",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Where do you usually complete schoolwork outside the classroom?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Quiet room at home\",\"Shared room at home\",\"School facility\",\"Library or study center\",\"Workplace\",\"Other location\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "51",
+                    "question_key": "quiet_study_access",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How often do you have access to a quiet place for studying?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always\",\"Often\",\"Sometimes\",\"Rarely\",\"Never\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "52",
+                    "question_key": "preferred_learning_modes",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Which learning formats help you understand lessons best?",
+                    "help_text": "Select up to three.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Written explanations\",\"Images and diagrams\",\"Recorded video\",\"Audio explanations\",\"Live demonstrations\",\"Practice activities\",\"Group discussion\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "53",
+                    "question_key": "preferred_study_schedule",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "When are you usually most able to focus on schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Early morning\",\"Morning\",\"Afternoon\",\"Evening\",\"Late evening\",\"Varies depending on the day\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "54",
+                    "question_key": "collaboration_preference",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How do you usually prefer to complete learning activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Independently\",\"With one partner\",\"In a small group\",\"In a larger group\",\"It depends on the activity\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "55",
+                    "question_key": "learning_wellbeing_barrier",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your current wellbeing make it difficult to focus on schoolwork?",
+                    "help_text": "No diagnosis is requested. You may decline to answer.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "56",
+                    "question_key": "requested_school_support",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Is there any general support you would like the school to consider?",
+                    "help_text": "Do not include medical records or highly private details.",
+                    "response_type": "LongText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "57",
+                    "question_key": "academic_workload_pressure",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your academic workload feel difficult to manage?",
+                    "help_text": "This is optional and does not request a medical diagnosis.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "58",
+                    "question_key": "school_support_awareness",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Do you know where to request school support when you need help?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"Partly\",\"No\",\"Not sure\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "61",
+                    "question_key": "preferred_information_format",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Which formats help you understand school information more easily?",
+                    "help_text": "Select every format that is useful to you.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Written summaries\",\"Visual guides\",\"Audio explanations\",\"Calendar reminders\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "2",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "62",
+                    "question_key": "primary_device",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What device do you primarily use for school-related digital activities?",
+                    "help_text": "Choose the device you use most often.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Smartphone\",\"Laptop\",\"Desktop computer\",\"Tablet\",\"Shared computer\",\"No regular device\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "63",
+                    "question_key": "device_ownership",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How do you access your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Personally owned\",\"Shared with family\",\"Borrowed\",\"School-provided\",\"No regular access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "64",
+                    "question_key": "device_condition",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "What is the current condition of your primary device?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Excellent\",\"Good\",\"Fair\",\"Poor\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "65",
+                    "question_key": "device_access_frequency",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How often can you access a suitable device for schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Any time I need it\",\"Most days\",\"Only on limited days\",\"Rarely\",\"No access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "66",
+                    "question_key": "electricity_charging_reliability",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How reliable is your access to electricity or device charging?",
+                    "help_text": "Consider your usual situation during school days.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always reliable\",\"Usually reliable\",\"Sometimes unavailable\",\"Often unavailable\",\"No reliable access\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "67",
+                    "question_key": "digital_task_confidence",
+                    "section_key": "device",
+                    "section_label": "Device Access",
+                    "section_sort_order": "10",
+                    "question_text": "How confident are you when completing common digital school tasks?",
+                    "help_text": "Examples include uploading files, joining online activities, and using school platforms.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Very confident\",\"Confident\",\"Somewhat confident\",\"Need occasional help\",\"Need regular help\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "68",
+                    "question_key": "internet_connection_type",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "What is your main way of connecting to the internet?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Home fiber or DSL\",\"Mobile data\",\"Prepaid Wi-Fi\",\"Public Wi-Fi\",\"School internet\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "69",
+                    "question_key": "internet_reliability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How reliable is your internet connection for school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Reliable\",\"Usually reliable\",\"Intermittent\",\"Often unavailable\",\"No regular connection\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "70",
+                    "question_key": "internet_affordability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often does internet or mobile-data cost limit your school participation?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "71",
+                    "question_key": "daily_internet_availability",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "During a typical school day, how much internet access do you have?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Available throughout the day\",\"Available for several hours\",\"Available for one to two hours\",\"Available for less than one hour\",\"Usually unavailable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "72",
+                    "question_key": "connection_disruption_frequency",
+                    "section_key": "connectivity",
+                    "section_label": "Internet Connectivity",
+                    "section_sort_order": "20",
+                    "question_text": "How often do connection problems interrupt your school activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Almost every time\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "73",
+                    "question_key": "province",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What province do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "74",
+                    "question_key": "municipality_city",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What municipality or city do you currently live in?",
+                    "help_text": "Do not enter your exact home address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "75",
+                    "question_key": "barangay",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What barangay do you currently live in?",
+                    "help_text": "Do not enter your street, house number, or exact address.",
+                    "response_type": "ShortText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "76",
+                    "question_key": "school_travel_time",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "How long does it usually take you to travel to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Less than 15 minutes\",\"15 to 30 minutes\",\"31 to 60 minutes\",\"More than 1 hour\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "77",
+                    "question_key": "school_access_barriers",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What conditions sometimes make it difficult to reach or participate in school?",
+                    "help_text": "Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Transportation availability\",\"Transportation cost\",\"Distance\",\"Road or weather conditions\",\"Mobility limitations\",\"Family responsibilities\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "location_profile",
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "78",
+                    "question_key": "usual_transportation_method",
+                    "section_key": "geography",
+                    "section_label": "Geographic Access",
+                    "section_sort_order": "30",
+                    "question_text": "What transportation method do you usually use when going to school?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Walking\",\"Bicycle\",\"Private vehicle\",\"Public transportation\",\"School service\",\"Combination of methods\",\"Not applicable\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "79",
+                    "question_key": "accessibility_support_needs",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which accessibility or learning supports would help you participate?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Visual support\",\"Hearing support\",\"Mobility support\",\"Reading or comprehension support\",\"Extended task time\",\"Assistive technology\",\"Other school support\",\"None\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "80",
+                    "question_key": "assistive_technology",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Do you currently use assistive technology for learning?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"No\",\"Not sure\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "81",
+                    "question_key": "accessible_content_adjustments",
+                    "section_key": "accessibility",
+                    "section_label": "Accessibility and Support",
+                    "section_sort_order": "40",
+                    "question_text": "Which content adjustments would make school information easier for you to use?",
+                    "help_text": "This question is optional. Select every option that applies.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Larger text\",\"Higher color contrast\",\"Captions or transcripts\",\"Audio explanation\",\"Simplified written instructions\",\"Keyboard-friendly controls\",\"No adjustment needed\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "accessibility_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "82",
+                    "question_key": "study_environment",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Where do you usually complete schoolwork outside the classroom?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Quiet room at home\",\"Shared room at home\",\"School facility\",\"Library or study center\",\"Workplace\",\"Other location\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "83",
+                    "question_key": "quiet_study_access",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How often do you have access to a quiet place for studying?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Always\",\"Often\",\"Sometimes\",\"Rarely\",\"Never\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "84",
+                    "question_key": "preferred_learning_modes",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Which learning formats help you understand lessons best?",
+                    "help_text": "Select up to three.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Written explanations\",\"Images and diagrams\",\"Recorded video\",\"Audio explanations\",\"Live demonstrations\",\"Practice activities\",\"Group discussion\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "85",
+                    "question_key": "preferred_study_schedule",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "When are you usually most able to focus on schoolwork?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Early morning\",\"Morning\",\"Afternoon\",\"Evening\",\"Late evening\",\"Varies depending on the day\"]",
+                    "is_required": "1",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "86",
+                    "question_key": "collaboration_preference",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "How do you usually prefer to complete learning activities?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Independently\",\"With one partner\",\"In a small group\",\"In a larger group\",\"It depends on the activity\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "50"
+                },
+                {
+                    "student_profile_question_id": "87",
+                    "question_key": "preferred_information_format",
+                    "section_key": "learning",
+                    "section_label": "Learning Environment",
+                    "section_sort_order": "50",
+                    "question_text": "Which formats help you understand school information more easily?",
+                    "help_text": "Select every format that is useful to you.",
+                    "response_type": "MultipleChoice",
+                    "options_json": "[\"Written summaries\",\"Visual guides\",\"Audio explanations\",\"Calendar reminders\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "60"
+                },
+                {
+                    "student_profile_question_id": "88",
+                    "question_key": "learning_wellbeing_barrier",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your current wellbeing make it difficult to focus on schoolwork?",
+                    "help_text": "No diagnosis is requested. You may decline to answer.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "10"
+                },
+                {
+                    "student_profile_question_id": "89",
+                    "question_key": "requested_school_support",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Is there any general support you would like the school to consider?",
+                    "help_text": "Do not include medical records or highly private details.",
+                    "response_type": "LongText",
+                    "options_json": null,
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                },
+                {
+                    "student_profile_question_id": "90",
+                    "question_key": "academic_workload_pressure",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "How often does your academic workload feel difficult to manage?",
+                    "help_text": "This is optional and does not request a medical diagnosis.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Never\",\"Rarely\",\"Sometimes\",\"Often\",\"Always\",\"Prefer not to say\"]",
+                    "is_required": "0",
+                    "is_sensitive": "1",
+                    "consent_key": "wellbeing_profile",
+                    "analytics_enabled": "0",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "30"
+                },
+                {
+                    "student_profile_question_id": "91",
+                    "question_key": "school_support_awareness",
+                    "section_key": "wellbeing",
+                    "section_label": "Optional Learning Wellbeing",
+                    "section_sort_order": "60",
+                    "question_text": "Do you know where to request school support when you need help?",
+                    "help_text": null,
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Yes\",\"Partly\",\"No\",\"Not sure\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "40"
+                },
+                {
+                    "student_profile_question_id": "93",
+                    "question_key": "preferred_update_frequency",
+                    "section_key": "communication",
+                    "section_label": "Communication Preferences",
+                    "section_sort_order": "60",
+                    "question_text": "How often would you like to review your Student profile preferences?",
+                    "help_text": "Choose how frequently the system should request an updated profile.",
+                    "response_type": "SingleChoice",
+                    "options_json": "[\"Every semester\",\"Every school year\",\"Only when my preferences change\"]",
+                    "is_required": "0",
+                    "is_sensitive": "0",
+                    "consent_key": null,
+                    "analytics_enabled": "1",
+                    "survey_version": "3",
+                    "status": "Active",
+                    "sort_order": "20"
+                }
+            ]
+        }
+    },
+    "added_actions_from_code": [
+        "UPDATE_ACCOUNT_PROFILE",
+        "ACCEPT_LEGAL_DOCUMENTS",
+        "UPDATE_STUDENT_PROFILE",
+        "CREATE_STUDENT_PROFILE_QUESTIONNAIRE_DRAFT",
+        "CREATE_STUDENT_PROFILE_QUESTION",
+        "UPDATE_STUDENT_PROFILE_QUESTION",
+        "CHANGE_STUDENT_PROFILE_QUESTION_STATUS",
+        "CREATE_STUDENT_PROFILE_CYCLE",
+        "UPDATE_FACULTY_ASSIGNMENT"
+    ]
+}

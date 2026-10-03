@@ -41,6 +41,23 @@
     /* Typography */
     --font-primary: 'Poppins', 'Inter', sans-serif;
     --font-secondary: 'Mona Sans', sans-serif;
+
+    /* Application readability scale; adopted page by page. */
+    --font-size-body: 0.9375rem;
+    --font-size-control: 1rem;
+    --font-size-label: 0.875rem;
+    --font-size-meta: 0.8125rem;
+    --font-size-caption: 0.75rem;
+    --font-size-section: 1.125rem;
+    --line-height-body: 1.7;
+    --line-height-label: 1.5;
+
+    /* Related text, controls, groups, and sections. */
+    --space-text: 8px;
+    --space-related: 12px;
+    --space-control: 16px;
+    --space-group: 20px;
+    --space-section: 24px;
     
     /* Responsive Sizing (from index.css) */
     --padding: clamp(16px, 4vw, 60px);

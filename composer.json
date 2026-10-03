@@ -1,0 +1,19 @@
+{
+    "name": "olshco/digital-hub",
+    "description": "Role-based school information, content management, engagement, analytics, and notification platform for OLSHCO.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "minishlink/web-push": "^11.0",
+        "php-http/guzzle7-adapter": "^1.1",
+        "phpmailer/phpmailer": "^6.9",
+        "smalot/pdfparser": "2.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        },
+        "sort-packages": true
+    }
+}

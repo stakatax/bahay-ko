@@ -1,243 +1,1116 @@
-/* HIDE SCROLLBAR */
-body::-webkit-scrollbar {
-  display: none;
+@import url('login.css');
+
+* {
+    box-sizing: border-box;
 }
 
+.register-shell {
+    min-height: 100vh;
+    grid-template-columns: 290px minmax(0, 1fr);
+}
 
+.register-workspace {
+    min-width: 0;
+    padding: 24px 30px;
+    align-items: start;
+    overflow-x: hidden;
+}
 
+.register-card {
+    width: min(100%, 1120px);
+    padding: 28px 32px;
+}
 
-/* --- 1. GLOBAL LAYOUT & HERO SECTION --- */
-.registration-page-wrapper {
-    width: 100%;
-    height: 100vh;
+/* ==========================================
+   HEADER
+========================================== */
+
+.register-header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ebee;
+
     display: flex;
-    overflow: hidden;
-    position: relative;
-    background: #000;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
 }
 
-.registration-hero {
-    width: 100%;
-    height: 100%;
-    position: relative;
+.register-header h2 {
+    margin: 5px 0 4px;
+
+    color: #171717;
+
+    font-size: 1.55rem;
+    letter-spacing: -0.035em;
+}
+
+.register-header p {
+    margin: 0;
+
+    color: #77808c;
+
+    font-size: 0.7rem;
+}
+
+.register-header > a {
+    padding: 8px 13px;
+
+    border: 1px solid #e2e5e9;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #7f1d1d;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ==========================================
+   FORM STRUCTURE
+========================================== */
+
+.register-form {
+    display: grid;
+}
+
+.register-section {
+    padding: 22px 0;
+
+    border-bottom: 1px solid #eceef1;
+}
+
+.register-section[hidden],
+.auth-field[hidden] {
+    display: none !important;
+}
+
+.register-section-heading {
+    margin-bottom: 17px;
+
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.hero-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    filter: brightness(0.55); /* Darkened for better contrast on both sides */
-}
+.register-section-heading > span {
+    flex: 0 0 29px;
 
-.overlay {
-    position: absolute;
-    inset: 0;
-    /* Gradient overlay favoring the left side for text readability */
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
-    z-index: 2;
-}
+    width: 29px;
+    height: 29px;
 
-/* --- 2. THE HARD SPLIT CONTAINER --- */
-.registration-content {
-    width: 100%;
-    max-width: none; /* Removed to allow elements to hit the far sides */
-    height: 100%;
-    padding: 0 7%; /* Buffer from the screen edges */
-    display: flex;
-    justify-content: space-between; /* Forces branding LEFT and card RIGHT */
-    align-items: center;
-    position: relative;
-    z-index: 10;
-}
+    border-radius: 8px;
 
-/* --- 3. LEFT SIDE: BRANDING & HEADINGS --- */
-.registration-content-box {
-    flex: 0 1 650px; /* Limits width so it stays on the left half */
-    color: white;
-    font-family: 'Poppins', sans-serif;
-}
+    background: #f7eaea;
+    color: #7f1d1d;
 
-.welcome-logo {
-    width: clamp(80px, 8vw, 115px);
-    height: auto;
-    margin-bottom: 30px;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-}
+    display: grid;
+    place-items: center;
 
-.welcome-heading {
-    /* Mula 4.5rem, ginawa nating 3.2rem ang maximum size */
-    font-size: clamp(2rem, 4vw, 3.5rem); 
-    font-weight: 900;
-    line-height: 1.2; /* Tinaasan ng kaunti para hindi dikit-dikit ang lines */
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    text-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
-    letter-spacing: -0.5px;
-}
-
-
-.hub-title {
-    display: block;
-    font-size: 0.75em; /* Mas maliit kumpara sa dating 0.85em */
-    margin-top: 8px;
-}
-
-/* Ang description text sa ilalim ng Hub Title */
-.sys-title {
-    display: block;
-    font-size: 0.4em; /* Ginawang mas secondary ang dating */
-    font-weight: 500;
-    margin-top: 10px;
-    color: rgba(255, 255, 255, 0.8);
-    text-transform: none;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-}
-
-/* In-adjust din ang subtitle para bumagay sa mas maliit na heading */
-.subtitle {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-top: 30px;
-    padding: 8px 0 8px 20px;
-    border-left: 4px solid #a83d3e; 
-    background: linear-gradient(90deg, rgba(168, 61, 62, 0.2), transparent);
-}
-
-/* --- 4. RIGHT SIDE: REGISTRATION CARD --- */
-.registration-form-card {
-    flex: 0 0 540px; /* Locked width so it doesn't stretch */
-    background: radial-gradient(circle at center, #a83d3e 0%, #760e0f 70%, #510708 100%);
-    border: 3px solid rgba(255, 255, 255, 0.4); /* Glass-style border */
-    border-radius: 30px;
-    padding: 50px 45px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-direction: column;
-    gap: 24px; /* Fix for clumping */
-    color: white;
-    backdrop-filter: blur(12px);
-}
-
-.form-header h3 {
-    font-size: 1.9rem;
+    font-size: 0.63rem;
     font-weight: 800;
-    margin-bottom: 5px;
 }
 
-.account-prompt {
-    font-size: 0.9rem;
-    opacity: 0.8;
+.register-section-heading h3 {
+    margin: 1px 0 2px;
+
+    color: #23262b;
+
+    font-size: 0.85rem;
 }
 
-/* --- 5. FORM ELEMENTS & INPUTS --- */
-.form-row {
-    display: flex;
-    gap: 15px;
+.register-section-heading p {
+    margin: 0;
+
+    color: #8a919b;
+
+    font-size: 0.63rem;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1;
+/* ==========================================
+   ROLE OPTIONS
+========================================== */
+
+.role-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
 }
 
-.input-group label {
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.9);
-    letter-spacing: 0.8px;
-}
+.role-option {
+    position: relative;
 
-input, select {
-    width: 100%;
-    padding: 15px 18px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    min-width: 0;
+    min-height: 76px;
+    padding: 14px 15px;
+
+    border: 1px solid #e1e4e8;
     border-radius: 12px;
-    color: white;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-}
 
-input:focus, select:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.22);
-    border-color: rgba(255, 255, 255, 0.6);
-}
+    background: #fafbfc;
 
-/* --- 6. BUTTONS & UTILITIES --- */
-.btn-register-now {
-    width: 100%;
-    padding: 18px;
-    background: #a83d3e; /* Matching login button */
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-weight: 900;
-    font-size: 1.15rem;
-    text-transform: uppercase;
+    display: grid;
+    grid-template-columns: 35px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 11px;
+
     cursor: pointer;
-    transition: 0.3s;
-    margin-top: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.btn-register-now:hover {
-    background: #510708;
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+.role-option:hover {
+    border-color: #c9b2b3;
+
+    background: #fffafa;
 }
 
-.mi-col { flex: 0 0 75px; }
+.role-option.active {
+    border-color: #9a3b3d;
 
-/* --- 7. ANIMATIONS --- */
-@keyframes glowPulse {
-    from { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2)); }
-    to { filter: drop-shadow(0 0 12px rgba(255, 216, 216, 0.5)); }
+    background: #fff8f8;
+
+    box-shadow:
+        0 0 0 3px rgba(127, 29, 29, 0.05);
 }
 
-.fade-up {
+.role-option input {
+    position: absolute;
+
     opacity: 0;
-    transform: translateY(35px);
-    animation: fadeUpEffect 0.9s ease-out forwards;
+    pointer-events: none;
 }
 
-.fade-up-delay { animation-delay: 0.2s; }
-.fade-up-delay-2 { animation-delay: 0.4s; }
+.role-option > i:first-of-type {
+    width: 35px;
+    height: 35px;
 
-@keyframes fadeUpEffect {
-    to { opacity: 1; transform: translateY(0); }
+    border-radius: 10px;
+
+    background: #f0e3e3;
+    color: #7f1d1d;
+
+    display: grid;
+    place-items: center;
 }
 
-/* --- 8. RESPONSIVE (STACKING ON MOBILE) --- */
-@media (max-width: 1250px) {
-    .registration-content {
+.role-option > i:last-child {
+    color: #7f1d1d;
+
+    opacity: 0;
+}
+
+.role-option.active > i:last-child {
+    opacity: 1;
+}
+
+.role-option span {
+    min-width: 0;
+
+    display: grid;
+    gap: 2px;
+}
+
+.role-option strong {
+    color: #2f3338;
+
+    font-size: 0.74rem;
+}
+
+.role-option small {
+    color: #8a919a;
+
+    font-size: 0.6rem;
+    line-height: 1.45;
+}
+
+/* ==========================================
+   GRID AND FIELD ALIGNMENT
+========================================== */
+
+.register-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 14px 16px;
+}
+
+.register-grid.two-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.register-grid.three-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.register-grid + .register-grid {
+    margin-top: 12px;
+}
+
+.register-grid .auth-field {
+    min-width: 0;
+    align-self: stretch;
+
+    display: grid;
+    grid-template-rows:
+        auto
+        49px
+        minmax(18px, auto);
+}
+
+.register-grid .auth-control {
+    width: 100%;
+    min-height: 49px;
+}
+
+.register-grid input,
+.register-grid select {
+    width: 100%;
+}
+
+.auth-field-foot {
+    min-height: 18px;
+    margin: 0;
+
+    color: #8a919d;
+
+    font-size: 0.61rem;
+    line-height: 1.4;
+
+    display: block;
+}
+
+.register-card .auth-field-foot.valid {
+    color: #15803d;
+}
+
+.register-card .auth-field-foot.invalid {
+    color: #b91c1c;
+}
+
+/* Registration typography follows the shared root.css foundation. */
+.register-card {
+    font-family: var(--font-primary);
+    color: var(--text-dark);
+}
+
+.register-section-heading h3 {
+    color: var(--text-dark);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.register-section-heading p,
+.register-header p {
+    color: var(--text-gray);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.register-section-heading {
+    margin-bottom: 24px;
+}
+
+.register-grid {
+    gap: 24px;
+}
+
+.register-grid .auth-field {
+    grid-template-rows: auto minmax(52px, auto) auto;
+    align-content: start;
+}
+
+.register-card .auth-field > label {
+    color: var(--text-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.register-card .auth-field-foot {
+    color: var(--text-gray);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+.register-card .auth-control {
+    min-height: 52px;
+    border-color: var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+}
+
+.register-card .auth-control input,
+.register-card .auth-control select {
+    color: var(--text-dark);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    padding-block: 12px;
+}
+
+.register-card .auth-control:focus-within {
+    border-color: var(--primary-red);
+    outline: 2px solid var(--primary-red);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Parent account choice and child details remain one registration workflow. */
+.register-child-choice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    cursor: pointer;
+}
+
+.register-child-choice:has(input:checked) {
+    border-color: var(--primary-red);
+    background: var(--bg-soft-red);
+}
+
+.register-child-choice:focus-within {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 2px;
+}
+
+.register-child-choice > input {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    margin: 2px 0 0;
+    accent-color: var(--primary-red);
+    cursor: pointer;
+}
+
+.register-child-choice > span {
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+}
+
+.register-child-choice strong {
+    color: var(--text-dark);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.register-child-choice > span > span,
+.register-group-help {
+    color: var(--text-gray);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+.register-child-details {
+    min-width: 0;
+    margin: 0 0 24px;
+    padding: 16px 20px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.register-child-details[hidden] {
+    display: none;
+}
+
+.register-child-details > legend {
+    padding: 0 8px;
+    color: var(--text-dark);
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+.register-group-help {
+    margin: 0 0 20px;
+}
+
+.register-parent-subheading {
+    margin: 0 0 16px;
+    color: var(--text-dark);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+#parentFields .auth-notice {
+    margin-top: 24px;
+    padding: 16px;
+    border-color: var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-alt);
+    color: var(--text-gray);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+#parentFields .auth-notice i {
+    color: var(--primary-red);
+}
+
+@media (max-width: 650px) {
+    .register-grid { gap: 20px; }
+    .register-child-details { padding: 12px 16px 16px; }
+}
+
+/* ==========================================
+   PASSWORD STRENGTH
+========================================== */
+
+.password-strength {
+    display: grid;
+    gap: 5px;
+}
+
+.password-strength > span {
+    width: 100%;
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: #e5e7eb;
+
+    overflow: hidden;
+}
+
+.password-strength > span::after {
+    content: '';
+
+    display: block;
+
+    width: 0;
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #dc2626;
+
+    transition:
+        width 0.2s ease,
+        background 0.2s ease;
+}
+
+.password-strength[data-score='1'] > span::after {
+    width: 25%;
+}
+
+.password-strength[data-score='2'] > span::after {
+    width: 50%;
+
+    background: #d97706;
+}
+
+.password-strength[data-score='3'] > span::after {
+    width: 75%;
+
+    background: #ca8a04;
+}
+
+.password-strength[data-score='4'] > span::after {
+    width: 100%;
+
+    background: #15803d;
+}
+
+#passwordMatchMessage.valid {
+    color: #15803d;
+}
+
+#passwordMatchMessage.invalid {
+    color: #b91c1c;
+}
+
+/* ==========================================
+   SUBMISSION
+========================================== */
+
+.register-submit {
+    padding-top: 22px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.register-submit .auth-checkbox {
+    width: 100%;
+    min-height: 48px;
+
+    margin: 0;
+    padding: 12px 14px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    color: #4b5563;
+
+    font-size: 0.72rem;
+    line-height: 1.6;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.register-submit .auth-checkbox:hover {
+    border-color: #d6a5a5;
+
+    background: #fffafa;
+}
+
+.register-submit .auth-checkbox:focus-within {
+    border-color:
+        var(--primary-red, #8b0000);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(139, 0, 0, 0.1);
+}
+
+.register-submit .auth-checkbox input {
+    width: 16px;
+    height: 16px;
+
+    margin: 2px 0 0;
+
+    flex: 0 0 16px;
+
+    cursor: pointer;
+}
+
+.register-submit .auth-checkbox span {
+    min-width: 0;
+
+    display: block;
+}
+
+.register-submit .register-legal-link {
+    display: inline;
+
+    white-space: normal;
+}
+
+.register-submit .auth-submit-button {
+    width: 100%;
+
+    margin-top: 6px;
+}
+
+/* ==========================================
+   LEFT RAIL
+========================================== */
+
+.auth-rail-login {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-rail-login:hover {
+    color: #ffffff;
+}
+
+.registration-steps {
+    margin-top: 28px;
+
+    display: grid;
+    gap: 13px;
+}
+
+.registration-steps span {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    font-size: 0.72rem;
+}
+
+.registration-steps b {
+    flex: 0 0 28px;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.11);
+    color: #ffffff;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 0.63rem;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1180px) {
+    .register-grid,
+    .register-grid.three-columns {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .register-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .register-workspace {
+        padding: 22px 16px;
+    }
+
+    .register-card {
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 650px) {
+    .register-grid,
+    .register-grid.two-columns,
+    .register-grid.three-columns,
+    .role-options,
+    .register-submit {
+        grid-template-columns: 1fr;
+    }
+
+    .register-header {
         flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        padding: 100px 30px;
-        overflow-y: auto;
-        gap: 60px;
     }
-    .registration-content-box {
-        max-width: 100%;
+}
+
+/* ==========================================
+   REGISTRATION ERROR FEEDBACK
+========================================== */
+
+.registration-error-card {
+    margin-bottom: 22px;
+    padding: 15px;
+    border: 1px solid #efb8b8;
+    border-radius: 12px;
+    background: #fff5f5;
+    color: #7f1d1d;
+    display: grid;
+    grid-template-columns:
+        36px
+        minmax(0, 1fr)
+        28px;
+    align-items: start;
+    gap: 11px;
+    box-shadow:
+        0 8px 22px
+        rgba(127, 29, 29, 0.07);
+}
+
+.registration-error-card > span {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #fee2e2;
+    display: grid;
+    place-items: center;
+}
+
+.registration-error-card strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+}
+
+.registration-error-card p {
+    margin: 0;
+    color: #913737;
+    font-size: 0.68rem;
+    line-height: 1.55;
+}
+
+.registration-error-card small {
+    display: block;
+    margin-top: 5px;
+    color: #a05b5b;
+    font-size: 0.61rem;
+    line-height: 1.5;
+}
+
+.registration-error-card > button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #a55a5a;
+    cursor: pointer;
+}
+
+.registration-error-card > button:hover {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+.registration-invalid-control {
+    border-color: #dc5555 !important;
+}
+
+.registration-error-field
+.auth-control,
+.auth-control:has(
+    .registration-invalid-control
+) {
+    border-color: #dc5555;
+    background: #fffafa;
+    box-shadow:
+        0 0 0 3px
+        rgba(220, 85, 85, 0.09);
+}
+
+.registration-error-field > label,
+.registration-error-field
+.register-field-label {
+    color: #a71919;
+}
+
+/* ==========================================
+   PERSONAL NAME LAYOUT
+========================================== */
+
+.register-grid.name-columns {
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr)
+        minmax(95px, 0.55fr);
+}
+
+@media (max-width: 1050px) {
+    .register-grid.name-columns {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
     }
-    .registration-form-card {
+}
+
+@media (max-width: 640px) {
+    .register-grid.name-columns {
+        grid-template-columns:
+            minmax(0, 1fr);
+    }
+}
+
+/* ==========================================
+   REGISTRATION LEGAL DOCUMENTS
+========================================== */
+
+.register-legal-link {
+    padding: 0;
+
+    border: 0;
+    border-bottom: 1px solid currentColor;
+
+    background: transparent;
+    color: var(--primary-red, #8b0000);
+
+    font: inherit;
+    font-weight: 700;
+    line-height: inherit;
+
+    cursor: pointer;
+}
+
+.register-legal-link:hover {
+    color: #b91c1c;
+}
+
+.register-legal-link:focus-visible {
+    border-radius: 3px;
+
+    outline:
+        3px solid
+        rgba(139, 0, 0, 0.18);
+
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   SWEETALERT LEGAL MODAL
+========================================== */
+
+.register-legal-modal {
+    width: min(720px, calc(100vw - 32px)) !important;
+    max-height: calc(100vh - 32px);
+
+    padding: 0 !important;
+
+    overflow: hidden;
+
+    border-radius: 18px !important;
+
+    text-align: left !important;
+}
+
+.register-legal-modal .swal2-title {
+    margin: 0;
+    padding: 24px 30px 18px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    color: #20242a;
+
+    font-size: 1.35rem;
+    line-height: 1.3;
+    text-align: left;
+}
+
+.register-legal-modal .swal2-html-container {
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #4b5563;
+
+    text-align: left !important;
+}
+
+.register-legal-content {
+    max-height: min(56vh, 520px);
+
+    padding: 24px 30px;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    background: #ffffff;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+        rgba(139, 0, 0, 0.45)
+        #f3f4f6;
+}
+
+.register-legal-content h3 {
+    margin: 24px 0 8px;
+
+    color: #7f1d1d;
+
+    font-size: 0.86rem;
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.055em;
+}
+
+.register-legal-content h3:first-child {
+    margin-top: 0;
+}
+
+.register-legal-content p {
+    margin: 0 0 14px;
+
+    color: #4b5563;
+
+    font-size: 0.92rem;
+    line-height: 1.75;
+    text-align: left;
+}
+
+.register-legal-content ul {
+    margin: 0 0 16px;
+    padding-left: 22px;
+}
+
+.register-legal-content li {
+    margin-bottom: 7px;
+
+    color: #4b5563;
+
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+.register-legal-version {
+    width: fit-content;
+
+    margin: 24px 0 0 !important;
+    padding: 6px 10px;
+
+    border: 1px solid #fecaca;
+    border-radius: 999px;
+
+    background: #fff1f2;
+    color: #991b1b !important;
+
+    font-size: 0.72rem !important;
+    font-weight: 700;
+    line-height: 1.2 !important;
+}
+
+.register-legal-modal .swal2-actions {
+    width: 100%;
+
+    margin: 0 !important;
+    padding: 16px 30px 20px;
+
+    border-top: 1px solid #e5e7eb;
+
+    background: #f9fafb;
+
+    justify-content: flex-end;
+}
+
+.register-legal-modal .swal2-confirm {
+    min-width: 100px;
+
+    margin: 0 !important;
+    padding: 10px 18px !important;
+
+    border-radius: 9px !important;
+
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+}
+
+
+.register-legal-introduction {
+    margin-bottom: 22px;
+    padding: 14px 16px;
+
+    border-left: 4px solid
+        var(--primary-red, #8b0000);
+    border-radius: 0 10px 10px 0;
+
+    background: #fff7f7;
+    color: #374151;
+
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.65;
+}
+/* ==========================================
+   LEGAL MODAL RESPONSIVE
+========================================== */
+
+@media (max-width: 640px) {
+    .register-legal-modal {
+        width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 20px);
+
+        border-radius: 14px !important;
+    }
+
+    .register-legal-modal .swal2-title {
+        padding: 19px 20px 15px;
+
+        font-size: 1.1rem;
+    }
+
+    .register-legal-content {
+        max-height: 58vh;
+
+        padding: 20px;
+    }
+
+    .register-legal-content p,
+    .register-legal-content li {
+        font-size: 0.86rem;
+    }
+
+    .register-legal-modal .swal2-actions {
+        padding: 14px 20px 18px;
+    }
+
+    .register-legal-modal .swal2-confirm {
         width: 100%;
-        max-width: 540px;
     }
-    .subtitle {
-        border-left: none;
-        border-bottom: 4px solid #a83d3e;
-        padding-left: 0;    
-        display: inline-block;
-    }
+}
+/* Registration text and field groups follow the shared root scale. */
+.register-shell { font-family: var(--font-primary); }
+.register-header p {
+    font-size: var(--font-size-body, 0.9375rem);
+    line-height: var(--line-height-body, 1.7);
+    color: var(--text-gray);
+}
+.register-section-heading p,
+.register-card .auth-field small,
+.role-option small {
+    font-size: var(--font-size-meta, 0.8125rem);
+    line-height: var(--line-height-label, 1.5);
+    color: var(--text-gray);
+    overflow-wrap: anywhere;
+}
+.register-card .auth-field-foot.valid { color: #15803d; }
+.register-card .auth-field-foot.invalid { color: #b91c1c; }
+.register-card .auth-field label,
+.role-option strong,
+.register-submit .auth-checkbox {
+    font-size: var(--font-size-label, 0.875rem);
+    line-height: var(--line-height-label, 1.5);
+}
+.register-card .auth-control :is(input, select) {
+    font-size: var(--font-size-control, 1rem);
+}
+.register-section-heading h3 {
+    font-size: var(--font-size-section, 1.125rem);
+    line-height: var(--line-height-label, 1.5);
+}
+.register-section { padding: var(--space-section, 24px) 0; }
+.register-section-heading { margin-bottom: var(--space-control, 16px); }
+.register-grid { gap: var(--space-group, 20px) var(--space-control, 16px); }
+.register-grid + .register-grid { margin-top: var(--space-group, 20px); }
+.register-header > div { min-width: 0; }
+.register-header > a {
+    flex-shrink: 0;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-size-label, 0.875rem);
+}
+.register-submit .auth-submit-button {
+    font-size: var(--font-size-body, 0.9375rem);
+    background: var(--primary-red);
+}
+.register-submit .auth-submit-button:hover { background: var(--primary-red-hover); }
+.register-card .password-toggle {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+}
+.register-shell :is(a, button):focus-visible,
+.role-option:focus-within {
+    outline: 2px solid var(--primary-red);
+    outline-offset: 3px;
+}
+.register-shell .auth-rail a:focus-visible { outline-color: #ffffff; }
+@media (max-width: 650px) {
+    .register-header { flex-wrap: wrap; }
 }

@@ -1,0 +1,3 @@
+# Block preparation artifacts through the ordinary XAMPP document root.
+# The separate evaluation server uses evaluation/public as its document root.
+Require all denied

@@ -1,0 +1,242 @@
+body.app-dialog-open {
+    overflow: hidden;
+}
+
+.app-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0);
+    backdrop-filter: blur(0);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transition:
+        background 0.16s ease,
+        backdrop-filter 0.16s ease,
+        opacity 0.16s ease;
+}
+
+.app-dialog-overlay.visible {
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(4px);
+    opacity: 1;
+}
+
+.app-dialog {
+    width: min(100%, 470px);
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 27px;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 25px 80px rgba(15, 23, 42, 0.25);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.16s ease;
+}
+
+.app-dialog-overlay.visible
+.app-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.app-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.app-dialog-icon {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
+}
+
+.app-dialog-overlay.success
+.app-dialog-icon {
+    background: #e8f7ed;
+    color: #15803d;
+}
+
+.app-dialog-overlay.error
+.app-dialog-icon,
+.app-dialog-overlay.danger
+.app-dialog-icon {
+    background: #feecec;
+    color: #b91c1c;
+}
+
+.app-dialog-overlay.warning
+.app-dialog-icon {
+    background: #fff3d7;
+    color: #b45309;
+}
+
+.app-dialog-overlay.question
+.app-dialog-icon {
+    background: #f8eaea;
+    color: #7f1d1d;
+}
+
+.app-dialog-overlay.info
+.app-dialog-icon {
+    background: #eaf2fc;
+    color: #2563a8;
+}
+
+.app-dialog-copy {
+    min-width: 0;
+}
+
+.app-dialog-copy h2 {
+    margin: 2px 0 6px;
+    color: #171717;
+    font-size: 1.15rem;
+    letter-spacing: -0.025em;
+}
+
+.app-dialog-copy p {
+    margin: 0;
+    color: #68717d;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    white-space: pre-line;
+}
+
+.app-dialog-details {
+    margin: 21px 0 0;
+    display: grid;
+    gap: 10px;
+}
+
+.app-dialog-details > div {
+    padding: 12px 13px;
+    border: 1px solid #e3e6ea;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.app-dialog-details dt {
+    margin-bottom: 5px;
+    color: #737c88;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.app-dialog-details dd {
+    margin: 0;
+    color: #1f2937;
+    font-size: 0.74rem;
+    font-weight: 650;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.app-dialog-details dd.secret {
+    color: #7f1d1d;
+    font-family: Consolas, monospace;
+    font-size: 0.88rem;
+    letter-spacing: 0.025em;
+}
+
+.app-dialog-actions {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #e8eaed;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.app-dialog-button {
+    min-height: 43px;
+    padding: 0 17px;
+    border: 0;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 0.7rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition:
+        background 0.16s ease,
+        transform 0.16s ease,
+        box-shadow 0.16s ease;
+}
+
+.app-dialog-button:hover {
+    transform: translateY(-1px);
+}
+
+.app-dialog-button.cancel {
+    border: 1px solid #dfe3e8;
+    background: #fff;
+    color: #4b5563;
+}
+
+.app-dialog-button.cancel:hover {
+    background: #f5f6f8;
+}
+
+.app-dialog-button.confirm {
+    background: #7f1d1d;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(127, 29, 29, 0.18);
+}
+
+.app-dialog-overlay.success
+.app-dialog-button.confirm {
+    background: #15803d;
+    box-shadow: 0 8px 18px rgba(21, 128, 61, 0.18);
+}
+
+.app-dialog-overlay.warning
+.app-dialog-button.confirm {
+    background: #b45309;
+    box-shadow: 0 8px 18px rgba(180, 83, 9, 0.18);
+}
+
+.app-dialog-overlay.error
+.app-dialog-button.confirm,
+.app-dialog-overlay.danger
+.app-dialog-button.confirm {
+    background: #b91c1c;
+    box-shadow: 0 8px 18px rgba(185, 28, 28, 0.18);
+}
+
+@media (max-width: 520px) {
+    .app-dialog-overlay {
+        padding: 12px;
+        align-items: end;
+    }
+
+    .app-dialog {
+        width: 100%;
+        max-height: calc(100vh - 24px);
+        padding: 22px 18px;
+        border-radius: 17px;
+    }
+
+    .app-dialog-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .app-dialog-button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-dialog-overlay,
+    .app-dialog {
+        transition: none;
+    }
+}
