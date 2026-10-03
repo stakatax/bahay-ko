@@ -32,7 +32,7 @@ try {
  cycleNoticeCheck($service->recoverStudentProfileNotifications()['eligible']===0,'Successful reminders no longer pending');
  cycleNoticeCheck((int)$db->query('SELECT COUNT(*) n FROM notification')->fetch_assoc()['n']===2,'No duplicate notifications');
  $items=$service->getForUser(1);
- cycleNoticeCheck($items[0]['action_url']==='index.php?page=student_profile#expandedProfileSurvey','Reminder opens survey');
+ cycleNoticeCheck($items[0]['action_url']==='index.php?page=student_profile_survey','Reminder opens survey');
  cycleNoticeCheck(str_contains($items[0]['message'],'2099'),'Future opening appears in message');
  $dupe=$service->notifyStudentProfileCycleAssigned([1,1],1,'Future update');
  cycleNoticeCheck($dupe['created']===0 && $dupe['duplicates']===1,'Concurrent/stale retry deduplicates');

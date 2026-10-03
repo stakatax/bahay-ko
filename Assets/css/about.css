@@ -1058,3 +1058,41 @@
         padding: var(--space-control, 16px);
     }
 }
+
+@media (max-width: 850px) {
+    .about-header-copy h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .about-story-content h2,
+    .about-section-heading h2,
+    .about-profile-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .about-section-navigation a,
+    .about-header-actions .app-button {
+        min-height: 48px;
+        align-content: center;
+    }
+
+    .about-story-card,
+    .about-content-section,
+    .about-profile-card {
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .about-profile-heading {
+        align-items: flex-start;
+        gap: var(--space-related);
+    }
+}
+
+@media (max-width: 520px) {
+    .about-story-image {
+        height: 180px;
+    }
+}

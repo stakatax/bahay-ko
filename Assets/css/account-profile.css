@@ -786,6 +786,67 @@
 @media (max-width: 850px) {
     .account-profile-page, .account-profile-layout { gap: var(--space-group, 20px); }
     .account-profile-directory { gap: 0; }
+
+    .account-profile-summary {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: var(--space-related);
+        text-align: left;
+    }
+
+    .account-profile-avatar {
+        width: 72px;
+        height: 72px;
+        margin: 0;
+    }
+
+    .account-profile-role {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .account-profile-directory {
+        text-align: left;
+    }
+
+    .account-profile-dropzone {
+        padding: var(--space-group) var(--space-control);
+    }
+
+    .faculty-personal-card {
+        padding: var(--space-control);
+    }
+
+    .faculty-personal-card h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin-bottom: var(--space-text);
+    }
+
+    .faculty-personal-card p {
+        font-size: var(--font-size-body);
+        line-height: var(--line-height-body);
+    }
+
+    .faculty-personal-grid {
+        grid-template-columns: minmax(0, 1fr);
+        margin-bottom: var(--space-section);
+    }
+
+    .faculty-personal-grid :is(input, select),
+    .account-profile-page .app-button {
+        min-height: 48px;
+    }
+
+    .account-profile-upload-form footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .account-profile-upload-form footer .app-button,
+    .faculty-personal-card .app-button {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 /* Author display rules must not reveal the inactive preview image. */

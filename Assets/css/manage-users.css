@@ -2553,4 +2553,57 @@ body.manage-modal-open {
 @media (max-width: 850px) {
     .manage-users-page { gap: var(--space-group, 20px); }
     .manage-user-tabs button { font-size: var(--font-size-meta, 0.8125rem); }
+
+    .manage-users-filters,
+    .manage-user-form-grid,
+    .faculty-provision-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .manage-users-search {
+        grid-column: auto;
+    }
+
+    .manage-user-copy strong {
+        font-size: var(--font-size-control);
+        line-height: var(--line-height-label);
+    }
+
+    .manage-user-profile-header h2,
+    .manage-modal-card h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .manage-user-edit-section h3,
+    .manage-user-access-panel h3,
+    .manage-user-role-panel h3 {
+        margin-bottom: var(--space-text);
+    }
+
+    .faculty-provision-grid label > span {
+        font-size: var(--font-size-label);
+        line-height: var(--line-height-label);
+    }
+
+    .manage-users-page .app-button,
+    .manage-modal-card .app-button,
+    .manage-user-verification-link,
+    .manage-user-form-grid :is(input, select),
+    .faculty-provision-grid :is(input, select),
+    .manage-users-filters select,
+    .manage-users-search input {
+        min-height: 48px;
+    }
+
+    .manage-modal-close {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+    }
+
+    .manage-modal-card header p {
+        font-size: var(--font-size-body);
+        line-height: var(--line-height-body);
+    }
 }

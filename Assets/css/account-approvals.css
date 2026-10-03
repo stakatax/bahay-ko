@@ -1201,6 +1201,77 @@ body.account-decision-open {
 }
 @media (max-width: 850px) {
     .account-approvals-page, .account-approval-layout { gap: var(--space-group, 20px); }
+
+    .account-review-header h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .account-review-section h3,
+    .child-review-section > h3 {
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
+        margin-bottom: var(--space-text);
+    }
+
+    .account-review-grid,
+    .child-review-form {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-related);
+    }
+
+    .account-review-section {
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .account-decision-card {
+        padding: var(--space-control);
+    }
+
+    .account-approvals-page .app-button,
+    .child-review-form .app-button,
+    .child-review-management > summary {
+        min-height: 48px;
+    }
+
+    .child-review-management > summary {
+        align-content: center;
+    }
+
+    .child-review-form :is(input:not([type='checkbox']):not([type='hidden']), select, textarea) {
+        min-height: 48px;
+        font-size: var(--font-size-control);
+        line-height: var(--line-height-label);
+    }
+
+    .child-review-form .app-button {
+        width: 100%;
+        justify-self: stretch;
+    }
+
+    .child-review-form > .child-review-confirmation {
+        min-height: 48px;
+        padding: var(--space-control);
+        gap: var(--space-related);
+    }
+}
+
+.account-approval-form select,
+.account-rejection-form select {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    color: var(--text-dark);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-control, 1rem);
+}
+
+[data-review-custom-note][hidden] {
+    display: none;
 }
 @media (max-width: 640px) {
     .account-review-grid { grid-template-columns: minmax(0, 1fr); }

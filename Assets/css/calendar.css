@@ -1939,19 +1939,20 @@ small i {
     }
 
     .calendar-month-navigation h3 {
-        font-size: 1rem;
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
     }
 
     .calendar-month-navigation > a {
-        flex: 0 0 44px;
-        width: 44px;
-        height: 44px;
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
         border-radius: var(--radius-sm);
     }
 
     .calendar-day-name {
         padding: 8px 0;
-        font-size: 0.6875rem;
+        font-size: var(--font-size-caption);
         letter-spacing: 0;
     }
 
@@ -1970,7 +1971,7 @@ small i {
     .calendar-day-number {
         flex: 0 0 100%;
         text-align: center;
-        font-size: 0.875rem;
+        font-size: var(--font-size-control);
         font-weight: 600;
         line-height: 1.5;
     }
@@ -1989,7 +1990,7 @@ small i {
 
     .calendar-day-cell .calendar-event-indicator i,
     .calendar-day-cell .calendar-holiday-indicator i {
-        font-size: 0.5rem;
+        font-size: 0.625rem;
     }
 
     .calendar-today-label {
@@ -2102,7 +2103,27 @@ small i {
 @media (max-width: 850px) {
     .calendar-app-page { gap: var(--space-group, 20px); }
     .calendar-event-content, .calendar-selected-card { padding: var(--space-control, 16px); }
-    .calendar-selected-event { padding: var(--space-related, 12px); }
+    .calendar-selected-event { padding: var(--space-control, 16px); }
+
+    .calendar-main-section,
+    .calendar-selected-card {
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .calendar-selected-event {
+        align-items: flex-start;
+    }
+
+    .calendar-inline-action,
+    .calendar-add-event-button,
+    .calendar-header-actions .app-button {
+        min-height: 48px;
+    }
+
+    .calendar-selected-event p {
+        font-size: var(--font-size-body);
+        line-height: var(--line-height-body);
+    }
 }
 
 /* The maroon summary needs light text rather than white-card text colors. */

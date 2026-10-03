@@ -504,7 +504,8 @@ function sidebarUserCanAccess(
                         <?php
                         $isActive =
                             $currentPage ===
-                            $item['page'];
+                            $item['page']
+                            || ($currentPage === 'student_profile_survey' && $item['page'] === 'student_profile');
                         ?>
 
                         <a
@@ -735,6 +736,29 @@ function sidebarUserCanAccess(
     </div>
 </aside>
 
+<?php if (in_array($currentRole, ['Admin', 'Faculty', 'Student', 'Parent'], true)): ?>
+    <nav class="app-mobile-nav" aria-label="Main mobile navigation">
+        <?php foreach ([
+            ['home', 'fa-solid fa-house', 'Home'],
+            ['calendar', 'fa-regular fa-calendar', 'Calendar'],
+            ['notifications', 'fa-regular fa-bell', 'Notifications'],
+            ['account_profile', 'fa-regular fa-user', 'Account']
+        ] as [$mobilePage, $mobileIcon, $mobileLabel]): ?>
+            <a href="index.php?page=<?= $mobilePage ?>"
+                <?= $currentPage === $mobilePage ? 'aria-current="page"' : '' ?>>
+                <span class="app-mobile-nav-icon">
+                    <i class="<?= $mobileIcon ?>" aria-hidden="true"></i>
+                    <?php if ($mobilePage === 'notifications' && (int) ($globalUnreadNotificationCount ?? 0) > 0): ?>
+                        <span class="app-mobile-nav-badge" aria-label="<?= (int) $globalUnreadNotificationCount ?> unread notifications">
+                            <?= (int) $globalUnreadNotificationCount > 99 ? '99+' : (int) $globalUnreadNotificationCount ?>
+                        </span>
+                    <?php endif; ?>
+                </span>
+                <span><?= $mobileLabel ?></span>
+            </a>
+        <?php endforeach; ?>
+    </nav>
+<?php endif; ?>
 
 <div
     id="sidebarMobileOverlay"

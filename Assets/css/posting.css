@@ -6860,7 +6860,17 @@ span span {
     font-family: var(--font-primary);
     min-width: 0;
 }
-.posting-trusted-sources h3 { margin: 0 0 12px; font-size: 0.875rem; line-height: 1.5; color: var(--text-dark); }
+.posting-trusted-sources summary {
+    min-height: 48px;
+    align-content: center;
+    cursor: pointer;
+    font-size: var(--font-size-label);
+    font-weight: 600;
+    line-height: var(--line-height-label);
+    color: var(--text-dark);
+}
+.posting-trusted-sources[open] summary { margin-bottom: var(--space-related); }
+.posting-trusted-sources summary:focus-visible { outline: 2px solid var(--primary-red); outline-offset: 3px; }
 .posting-trusted-sources ul { list-style: none; padding: 0; margin: 0; }
 .posting-trusted-sources li + li { border-top: 1px solid var(--border-color); }
 .posting-trusted-sources a {
@@ -6940,4 +6950,57 @@ span span {
 .publisher-page :is(a, button, input, select, textarea, summary):focus-visible {
     outline: 2px solid var(--primary-red);
     outline-offset: 3px;
+}
+
+/* Mobile editor hierarchy: section, field label, control, then guidance. */
+@media (max-width: 850px) {
+    .publisher-workspace-header h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .publisher-card .form-section-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .publisher-page .publisher-subsection-heading h3 {
+        font-size: var(--font-size-section);
+        font-weight: 600;
+    }
+
+    .publisher-page .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-group);
+    }
+
+    .publisher-card .form-section-heading {
+        align-items: flex-start;
+        gap: var(--space-related);
+        margin-bottom: var(--space-group);
+    }
+
+    .publisher-page .form-field :is(input:not([type='checkbox']):not([type='radio']):not([type='hidden']), select),
+    .publisher-page .app-button {
+        min-height: 48px;
+    }
+
+    .publisher-page .form-field textarea {
+        line-height: var(--line-height-body);
+        min-height: 144px;
+    }
+
+    .publisher-page .publisher-subsection {
+        margin-top: var(--space-section);
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .posting-advisory-link-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .publisher-card .posting-advisory .app-button {
+        width: 100%;
+        min-height: 48px;
+    }
 }

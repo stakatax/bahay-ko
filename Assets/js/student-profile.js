@@ -4,6 +4,9 @@ document.addEventListener(
 );
 
 function setupStudentProfile() {
+    setupStudentProfileAlert();
+    setupExpandedStudentSurvey();
+
     const form =
         document.getElementById(
             'studentProfileForm'
@@ -170,8 +173,6 @@ function setupStudentProfile() {
     );
 
     updateSelectionState();
-        setupStudentProfileAlert();
-    setupExpandedStudentSurvey();
     function synchronizeInterestCard(
         checkbox
     ) {
@@ -505,6 +506,10 @@ function setupExpandedStudentSurvey() {
         hideValidation();
 
         if (scroll) {
+            if (window.matchMedia('(max-width: 850px)').matches) {
+                navigationButtons.find((button) => button.classList.contains('is-active'))
+                    ?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
+            }
             survey.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'

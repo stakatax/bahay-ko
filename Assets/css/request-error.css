@@ -33,5 +33,21 @@ body {
 .request-error a:focus-visible { outline: 2px solid var(--accent-orange); outline-offset: 4px; }
 
 @media (max-width: 640px) {
-    .request-error { padding: var(--space-control, 16px); }
+    .request-error {
+        margin-block: var(--space-group, 20px);
+        padding: var(--space-control, 16px);
+    }
+
+    .request-error h1 {
+        font-size: 1.75rem;
+        line-height: 1.35;
+    }
+
+    .request-error a {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 48px;
+        justify-content: center;
+        text-align: center;
+    }
 }

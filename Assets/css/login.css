@@ -735,3 +735,80 @@ body::-webkit-scrollbar {
 .auth-shell:has(#loginForm) .auth-card-footer a { min-height: 44px; display: inline-flex; align-items: center; }
 .auth-shell:has(#loginForm) :is(a, button):focus-visible { outline: 2px solid var(--primary-red); outline-offset: 3px; }
 .auth-shell:has(#loginForm) .auth-rail a:focus-visible { outline-color: #ffffff; }
+
+@media (max-width: 850px) {
+    .auth-shell:has(#loginForm) .auth-workspace {
+        padding: var(--space-group) var(--space-control) 28px;
+        align-items: start;
+    }
+
+    .auth-shell:has(#loginForm) .auth-card {
+        padding: var(--space-group) var(--space-control);
+    }
+
+    .auth-shell:has(#loginForm) .auth-card-header h2 {
+        font-size: 1.5rem;
+        line-height: 1.35;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail {
+        padding: var(--space-control);
+    }
+
+    .auth-shell:has(#loginForm) .auth-logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-content {
+        display: none;
+    }
+
+    .auth-shell:has(#loginForm) .auth-card-header {
+        align-items: flex-start;
+        gap: var(--space-related);
+    }
+
+    .auth-shell:has(#loginForm) .auth-card-icon {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-card-header {
+        margin-bottom: var(--space-section);
+    }
+
+    .auth-shell:has(#loginForm) .auth-control,
+    .auth-shell:has(#loginForm) .auth-control input,
+    .auth-shell:has(#loginForm) .auth-submit-button,
+    .auth-shell:has(#loginForm) .auth-checkbox,
+    .auth-shell:has(#loginForm) .auth-text-button,
+    .auth-shell:has(#loginForm) .auth-card-footer a {
+        min-height: 48px;
+    }
+
+    .auth-shell:has(#loginForm) .password-toggle {
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-label-row {
+        gap: 0 var(--space-related);
+        align-items: center;
+    }
+
+    .auth-shell:has(#loginForm) .auth-card-footer {
+        justify-content: center;
+        gap: var(--space-text);
+        margin-top: var(--space-section);
+        padding-top: var(--space-control);
+        text-align: center;
+    }
+
+    .auth-shell:has(#loginForm) .auth-notice {
+        margin-top: var(--space-control);
+        line-height: var(--line-height-body);
+    }
+}

@@ -61,9 +61,9 @@ class ParentChildRecord extends BaseModel
         $details = trim((string)($data['child_reason_details'] ?? ''));
         $relationship = ucfirst(strtolower(trim((string)($data['relationship'] ?? ''))));
         if ($name === '' || mb_strlen($name)>200) { throw new InvalidArgumentException('Child full name is required (maximum 200 characters).'); }
-        if (mb_strlen($id)>50 || mb_strlen($details)>500 || !isset(self::REASONS[$reason])) {
-            throw new InvalidArgumentException('Select a valid reason; Student ID must be at most 50 characters and explanation at most 500.');
-        }
+        if (mb_strlen($id)>50) { throw new InvalidArgumentException('Child Student ID must be at most 50 characters.'); }
+        if (mb_strlen($details)>500) { throw new InvalidArgumentException('Child reason details must be at most 500 characters.'); }
+        if (!isset(self::REASONS[$reason])) { throw new InvalidArgumentException('Select a valid child registration reason.'); }
         if (!in_array($relationship,['Mother','Father','Guardian','Grandparent','Relative','Other'],true)) {
             throw new InvalidArgumentException('Select a valid relationship to the student.');
         }

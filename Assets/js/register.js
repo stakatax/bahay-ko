@@ -1,3 +1,16 @@
+function clearRegistrationInvalidField(field) {
+    if (!field || field.disabled || field.type === 'hidden') return;
+    if (field.type === 'checkbox' || field.type === 'radio') {
+        field.checked = false;
+    } else {
+        field.value = '';
+    }
+    field.dispatchEvent(new Event('input', {bubbles:true}));
+    field.setAttribute('aria-invalid', 'true');
+    field.classList.add('registration-invalid-control');
+    field.closest('.auth-field, .register-field, label')?.classList.add('registration-error-field');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const form =
         document.getElementById('registrationForm');
@@ -844,6 +857,7 @@ educationLevelSelect?.addEventListener(
         'submit',
         async (event) => {
             event.preventDefault();
+            if (registrationSubmitting) return;
 
             updatePasswordMatch();
 
@@ -883,6 +897,7 @@ educationLevelSelect?.addEventListener(
         invalidFields[0];
 
     if (firstInvalid) {
+        clearRegistrationInvalidField(firstInvalid);
         const fieldLabel =
             form.querySelector(
                 `label[for="${firstInvalid.id}"]`
@@ -896,9 +911,9 @@ educationLevelSelect?.addEventListener(
         Swal.fire({
             icon: 'warning',
             title:
-                'Complete Required Fields',
-            html:
-                `Please complete <strong>${fieldLabel}</strong> and the other highlighted fields before submitting.`,
+                'Check this field',
+            text:
+                `Please correct ${fieldLabel}. Your other entries have been kept.`,
             confirmButtonText:
                 'Review Form',
             confirmButtonColor:
@@ -960,11 +975,53 @@ educationLevelSelect?.addEventListener(
                     );
 
             if (buttonLabel) {
+                buttonLabel.dataset.originalLabel = buttonLabel.textContent;
                 buttonLabel.textContent =
                     'Submitting...';
             }
 
-            form.submit();
+            let submissionSucceeded = false;
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    credentials: 'same-origin',
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                const data = await response.json();
+                if (response.ok && data.success && data.redirect) {
+                    submissionSucceeded = true;
+                    window.location.assign(data.redirect);
+                    return;
+                }
+                const field = typeof data.error_field === 'string'
+                    ? form.elements.namedItem(data.error_field)
+                    : null;
+                if (field && typeof field.focus === 'function' && !field.disabled) {
+                    clearRegistrationInvalidField(field);
+                }
+                await Swal.fire({
+                    icon: 'error', title: 'Check your registration',
+                    text: data.message || 'Registration could not be submitted. Your entries have been kept.',
+                    confirmButtonText: 'Review field', confirmButtonColor: '#7f1d1d'
+                });
+                if (field && typeof field.focus === 'function' && !field.disabled) {
+                    field.scrollIntoView({behavior:'smooth', block:'center'});
+                    field.focus({preventScroll:true});
+                }
+            } catch (error) {
+                await Swal.fire({
+                    icon: 'error', title: 'Unable to confirm submission',
+                    text: 'Your entries have been kept. Check your connection before trying again.',
+                    confirmButtonColor: '#7f1d1d'
+                });
+            } finally {
+                if (!submissionSucceeded) {
+                    registrationSubmitting = false;
+                    if (submitButton) submitButton.disabled = false;
+                    if (buttonLabel) buttonLabel.textContent = buttonLabel.dataset.originalLabel;
+                }
+            }
         }
     );
 
@@ -1039,6 +1096,8 @@ function restoreRegistrationInput() {
     'last_name',
     'name_suffix',
     'email',
+    'birthdate',
+    'gender',
     ].forEach((fieldName) => {
         setFieldValue(
             fieldName,
@@ -1266,9 +1325,8 @@ window.addEventListener(
 );
 
 /*
- * The existing submit handler uses form.submit()
- * after SweetAlert confirmation. Capture the
- * confirmed submission before navigation.
+ * Mark the confirmed asynchronous submission so
+ * successful navigation does not show an unsaved-input warning.
  */
 form.addEventListener(
     'submit',

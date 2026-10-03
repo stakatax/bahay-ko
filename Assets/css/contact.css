@@ -1212,3 +1212,39 @@ a.contact-detail-card:hover {
     .contact-detail-card,
     .contact-office-card { padding: var(--space-control, 16px); }
 }
+
+@media (max-width: 850px) {
+    .contact-header-copy h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+    }
+
+    .contact-section-heading h2,
+    .contact-card-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .contact-control input,
+    .contact-control select,
+    .contact-map-action,
+    .contact-submit-button,
+    .contact-cta-button,
+    .contact-header-actions .app-button {
+        min-height: 48px;
+    }
+
+    .contact-detail-card strong {
+        overflow-wrap: anywhere;
+    }
+
+    .contact-content-section,
+    .contact-form-card {
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+}

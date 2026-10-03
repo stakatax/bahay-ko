@@ -114,6 +114,7 @@ document.addEventListener(
 
         const main = document.querySelector('.app-main');
         const mobileHeader = document.querySelector('.app-mobile-header');
+        const mobileNavigation = document.querySelector('.app-mobile-nav');
         let openingFrame = null;
 
         function updateDrawerAccess(open) {
@@ -123,6 +124,7 @@ document.addEventListener(
             }
             toggleButton.inert = mobileQuery.matches && open;
             if (mobileHeader) mobileHeader.inert = mobileQuery.matches && open;
+            if (mobileNavigation) mobileNavigation.inert = mobileQuery.matches && open;
             if (mobileQuery.matches && open) {
                 sidebar.setAttribute('role', 'dialog');
                 sidebar.setAttribute('aria-modal', 'true');

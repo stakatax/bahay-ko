@@ -2220,7 +2220,7 @@ AND event_date > NOW()
 
         if ($notificationType === 'reminder'
             && preg_match('/^student-profile-cycle-assigned:cycle:[1-9][0-9]*$/', $deduplicationKey)) {
-            return 'index.php?page=student_profile#expandedProfileSurvey';
+            return 'index.php?page=student_profile_survey';
         }
 
         /*

@@ -922,8 +922,8 @@ $errorMessage =
             </section>
 
             <?php if ($isAdmin): ?>
-            <section class="posting-trusted-sources" aria-labelledby="trustedSourcesTitle">
-                <h3 id="trustedSourcesTitle">Trusted government sources</h3>
+            <details class="posting-trusted-sources">
+                <summary>Trusted government sources</summary>
                 <ul>
                     <?php
                     $visibleTrustedSources = 0;
@@ -946,7 +946,7 @@ $errorMessage =
                 <p><?= !empty($viewData['trusted_government_sources_unavailable'])
                     ? 'Sources are temporarily unavailable.' : 'No active trusted sources available.' ?></p>
                 <?php endif; ?>
-            </section>
+            </details>
             <?php endif; ?>
 
         </aside>

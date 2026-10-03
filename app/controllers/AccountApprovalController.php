@@ -6,6 +6,8 @@ require_once __DIR__
 require_once __DIR__
     . '/../services/AccountApprovalService.php';
 
+require_once __DIR__ . '/../../config/account-review-statements.php';
+
 class AccountApprovalController extends BaseController
 {
     private AccountApprovalService $service;
@@ -129,13 +131,7 @@ class AccountApprovalController extends BaseController
             $adminId =
                 $this->getCurrentUserId();
 
-            $reviewNotes =
-                trim(
-                    (string) (
-                        $_POST['review_notes']
-                        ?? ''
-                    )
-                );
+            $reviewNotes = resolveAccountReviewStatement('approve', $_POST);
 
             $approvedRegistration =
                 $this->service
@@ -273,13 +269,7 @@ class AccountApprovalController extends BaseController
             $adminId =
                 $this->getCurrentUserId();
 
-            $reviewNotes =
-                trim(
-                    (string) (
-                        $_POST['review_notes']
-                        ?? ''
-                    )
-                );
+            $reviewNotes = resolveAccountReviewStatement('reject', $_POST);
 
             if ($reviewNotes === '') {
                 throw new InvalidArgumentException(

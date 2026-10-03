@@ -323,8 +323,7 @@ class StudentProfileController extends BaseController
         }
 
         $this->redirect(
-            'index.php?page=student_profile'
-                . '#expandedProfileSurvey'
+            'index.php?page=student_profile_survey'
         );
     }
 

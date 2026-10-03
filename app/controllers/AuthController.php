@@ -533,10 +533,14 @@ class AuthController extends BaseController
                     . 'must be verified by an Administrator.';
             }
 
-            $this->redirect(
-                'index.php?page=login&success='
-                    . urlencode($message)
-            );
+            $successUrl = 'index.php?page=login&success=' . urlencode($message);
+            if (requestErrorExpectsJson()) {
+                header('Content-Type: application/json; charset=utf-8');
+                header('Cache-Control: no-store');
+                echo json_encode(['success'=>true, 'redirect'=>$successUrl]);
+                return;
+            }
+            $this->redirect($successUrl);
         } catch (Throwable $exception) {
             $message =
                 trim(
@@ -613,6 +617,11 @@ class AuthController extends BaseController
                     'active Student account'
                 ],
 
+                'child_name' => ['Child full name', 'child name'],
+                'child_section_id' => ['child grade', 'child section'],
+                'child_reason_details' => ['reason explanation', 'reason details'],
+                'child_reason' => ['child registration reason'],
+
                 'relationship' => [
                     'relationship'
                 ],
@@ -627,10 +636,16 @@ class AuthController extends BaseController
                 ]
             ];
 
+            // Child section errors must not be mistaken for the Student's section field.
+            if (stripos($message, 'child grade') !== false || stripos($message, 'child section') !== false) {
+                $errorField = 'child_section_id';
+            }
+
             foreach (
                 $fieldPatterns
                 as $field => $patterns
             ) {
+                if ($errorField !== null) break;
                 foreach (
                     $patterns
                     as $pattern
@@ -653,6 +668,18 @@ class AuthController extends BaseController
      * Preserve only non-sensitive values.
      * Passwords are intentionally excluded.
      */
+            if (requestErrorExpectsJson()) {
+                if ($exception instanceof RequestRateLimitException) {
+                    renderRequestFailure($exception);
+                    return;
+                }
+                http_response_code(422);
+                header('Content-Type: application/json; charset=utf-8');
+                header('Cache-Control: no-store');
+                echo json_encode(['success'=>false, 'message'=>$message, 'error_field'=>$errorField]);
+                return;
+            }
+
             $_SESSION['registration_flash'] = [
                 'error' =>
                 $message,
@@ -739,6 +766,10 @@ class AuthController extends BaseController
                 static fn(mixed $value): string => is_scalar($value) ? (string) $value : '',
                 $_SESSION['registration_flash']['old_input']
             );
+
+            if ($errorField !== null && array_key_exists($errorField, $_SESSION['registration_flash']['old_input'])) {
+                $_SESSION['registration_flash']['old_input'][$errorField] = '';
+            }
 
             if ($exception instanceof RequestRateLimitException) {
                 renderRequestFailure($exception);

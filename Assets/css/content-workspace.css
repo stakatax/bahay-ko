@@ -1782,4 +1782,55 @@ body.workspace-modal-open {
 @media (max-width: 850px) {
     .workspace-page { gap: var(--space-group, 20px); }
     .workspace-content-card { padding: var(--space-control, 16px); }
+
+    .workspace-content-topline {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: var(--space-text);
+    }
+
+    .workspace-content-card h3 {
+        margin-top: var(--space-related);
+        margin-bottom: var(--space-text);
+    }
+
+    .workspace-content-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-text);
+        padding-top: var(--space-control);
+    }
+
+    .workspace-content-actions form {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .workspace-action-button,
+    .workspace-page .app-button,
+    .workspace-modal .app-button,
+    .workspace-control select,
+    .workspace-search-control input {
+        min-height: 48px;
+    }
+
+    .workspace-action-button {
+        height: 100%;
+        justify-content: center;
+    }
+
+    .workspace-modal-close {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+    }
+
+    .workspace-modal-header h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .workspace-modal-body {
+        padding-block: var(--space-group);
+    }
 }

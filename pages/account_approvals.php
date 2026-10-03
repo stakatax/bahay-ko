@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../config/account-review-statements.php';
+
 $pendingRegistrations =
     $viewData['pending_registrations']
     ?? [];
@@ -754,7 +756,19 @@ $fullName =
                                 value="0"
                                 data-confirmation-value>
 
-                            <label for="accountReviewNotes">
+                            <label for="accountApprovalStatement">
+                                <span>Approval statement</span>
+                                <select id="accountApprovalStatement" name="review_statement" data-review-statement required>
+                                    <?php foreach (accountReviewStatements('approve') as $key => $statement): ?>
+                                        <option value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
+                                            data-message="<?= htmlspecialchars($statement['message'], ENT_QUOTES, 'UTF-8') ?>"
+                                            <?= $key === (!empty($selectedRegistration['child_record']) ? 'parent_verified' : 'records_verified') ? 'selected' : '' ?>><?= htmlspecialchars($statement['label'], ENT_QUOTES, 'UTF-8') ?></option>
+                                    <?php endforeach; ?>
+                                    <option value="custom">Write a custom note</option>
+                                </select>
+                            </label>
+
+                            <label for="accountReviewNotes" data-review-custom-note hidden>
 
                                 <span>
                                     Approval note
@@ -763,11 +777,11 @@ $fullName =
 
                                 <textarea
                                     id="accountReviewNotes"
-                                    <?= !empty($selectedRegistration['child_record']) ? 'required' : '' ?>
                                     name="review_notes"
+                                    disabled
                                     maxlength="1000"
                                     rows="4"
-                                    placeholder="Add an internal verification note if needed."></textarea>
+                                    placeholder="Describe the verification performed. This note is shared with the applicant."></textarea>
 
                             </label>
 
@@ -852,7 +866,19 @@ $fullName =
                                 value="0"
                                 data-confirmation-value>
 
-                            <label for="accountRejectionNotes">
+                            <label for="accountRejectionStatement">
+                                <span>Rejection statement <small>Required</small></span>
+                                <select id="accountRejectionStatement" name="review_statement" data-review-statement required>
+                                    <option value="">Select a reason</option>
+                                    <?php foreach (accountReviewStatements('reject') as $key => $statement): ?>
+                                        <option value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
+                                            data-message="<?= htmlspecialchars($statement['message'], ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($statement['label'], ENT_QUOTES, 'UTF-8') ?></option>
+                                    <?php endforeach; ?>
+                                    <option value="custom">Write a custom reason</option>
+                                </select>
+                            </label>
+
+                            <label for="accountRejectionNotes" data-review-custom-note hidden>
 
                                 <span>
                                     Rejection reason
@@ -864,7 +890,7 @@ $fullName =
                                     name="review_notes"
                                     maxlength="1000"
                                     rows="4"
-                                    required
+                                    disabled
                                     placeholder="Explain why this registration cannot be approved."></textarea>
 
                             </label>
@@ -962,7 +988,7 @@ $fullName =
                             class="account-decision-reason"
                             hidden>
 
-                            <small>Rejection reason</small>
+                            <small>Statement shared with applicant</small>
 
                             <p></p>
 

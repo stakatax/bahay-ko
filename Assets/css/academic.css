@@ -1267,6 +1267,33 @@ grid-template-columns:
     outline-offset: 3px;
 }
 .academic-cta-button:focus-visible { outline-color: #ffffff; }
+@media (max-width: 850px) {
+    .academic-header-copy h1 {
+        font-size: 1.75rem;
+        line-height: 1.35;
+    }
+
+    .academic-section-heading {
+        flex-direction: column;
+        gap: var(--space-related);
+    }
+
+    .academic-section-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .academic-overview-card {
+        min-height: 0;
+        padding: var(--space-control);
+        gap: var(--space-group);
+    }
+
+    .academic-cta-button,
+    .academic-header-actions .app-button {
+        min-height: 48px;
+    }
+}
 @media (max-width: 720px) {
     .academic-app-page .academic-page-header,
     .academic-page-header,

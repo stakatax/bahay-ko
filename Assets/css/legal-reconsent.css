@@ -848,6 +848,50 @@ body {
     outline-offset: 3px;
 }
 .legal-consent-rail :is(a, button):focus-visible { outline-color: #ffffff; }
+@media (max-width: 850px) {
+    .legal-consent-rail {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-related);
+        padding: var(--space-control);
+    }
+
+    .legal-consent-brand img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .legal-consent-rail > form {
+        position: static;
+        flex-shrink: 0;
+    }
+
+    .legal-consent-rail > form button {
+        min-width: 48px;
+        min-height: 48px;
+        font-size: var(--font-size-meta);
+    }
+
+    .legal-consent-workspace {
+        padding: var(--space-group) var(--space-control) 28px;
+        align-items: start;
+    }
+
+    .legal-consent-card {
+        padding: var(--space-group) var(--space-control);
+    }
+
+    .legal-consent-card h2 {
+        font-size: 1.5rem;
+        line-height: 1.35;
+    }
+
+    .legal-consent-document-body {
+        max-height: none;
+        overflow-y: visible;
+    }
+}
 @media (max-width: 640px) {
     .legal-consent-document-body .register-legal-content { padding: var(--space-control, 16px); }
 }

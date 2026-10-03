@@ -911,6 +911,44 @@ input:focus-visible + span {
 .survey-question-heading { flex-wrap: wrap; gap: var(--space-text, 8px); }
 #survey-response-form .btn-primary { min-height: 48px; font-size: var(--font-size-label, 0.875rem); }
 @media (max-width: 850px) {
-    .survey-question-list { gap: var(--space-group, 20px); }
-    .survey-question { padding: var(--space-control, 16px); }
+    .survey-question-list { gap: var(--space-section, 24px); }
+    .survey-question {
+        padding: 0 0 var(--space-section);
+        border-radius: 0;
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .survey-question:last-child {
+        padding-bottom: 0;
+    }
+
+    .survey-question-text {
+        margin-top: var(--space-text);
+        margin-bottom: var(--space-control);
+        font-size: var(--font-size-control);
+        font-weight: 600;
+        line-height: var(--line-height-label);
+    }
+
+    .survey-option {
+        align-items: flex-start;
+        gap: var(--space-related);
+    }
+
+    .survey-option input {
+        margin-top: 3px;
+    }
+
+    .survey-textarea {
+        min-height: 128px;
+    }
+
+    .survey-rating {
+        grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+    }
+
+    .survey-submit-area {
+        margin-top: var(--space-section);
+        padding-top: var(--space-control);
+    }
 }

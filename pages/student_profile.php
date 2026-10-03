@@ -6,6 +6,8 @@ $viewData =
     ? $viewData
     : [];
 
+$isSurveyPage = ($page ?? '') === 'student_profile_survey';
+
 $interests =
     $viewData['interests']
     ?? [];
@@ -242,20 +244,26 @@ $interestIcons = [
         <div class="page-header-copy">
 
             <h1>
-                My Student Profile
+                <?= $isSurveyPage ? 'School profile survey' : 'My Student Profile' ?>
             </h1>
 
             <p>
-                Manage your interests and school profile answers.
+                <?= $isSurveyPage
+                    ? 'Complete or update your school profile answers.'
+                    : 'Choose your interests or open your school profile survey.' ?>
             </p>
 
             <nav class="student-profile-task-links" aria-label="Profile tasks">
-                <a href="#studentProfileForm">My interests <span aria-hidden="true">&#8595;</span></a>
-                <a href="#expandedProfileSurvey">School profile survey <span aria-hidden="true">&#8595;</span></a>
+                <?php if ($isSurveyPage): ?>
+                    <a href="index.php?page=student_profile">Return to my interests</a>
+                <?php else: ?>
+                    <a href="index.php?page=student_profile_survey">Open school profile survey <span aria-hidden="true">&#8594;</span></a>
+                <?php endif; ?>
             </nav>
 
         </div>
 
+        <?php if (!$isSurveyPage): ?>
         <div class="student-profile-status">
 
             <span class="student-profile-status-icon">
@@ -287,6 +295,7 @@ $interestIcons = [
 
         </div>
 
+        <?php endif; ?>
     </header>
 
     <!-- ======================================
@@ -334,6 +343,7 @@ $interestIcons = [
          PROFILE SURVEY
     ======================================= -->
 
+    <?php if (!$isSurveyPage): ?>
     <form
         method="post"
         action="index.php?page=student_profile_save"
@@ -688,12 +698,14 @@ $interestIcons = [
         </footer>
 
     </form>
+    <?php endif; ?>
 
 
     <!-- ======================================
          EXPANDED STUDENT PROFILE SURVEY
     ======================================= -->
 
+    <?php if ($isSurveyPage): ?>
     <section
         id="expandedProfileSurvey"
         class="page-card student-survey-card"
@@ -1448,4 +1460,5 @@ $interestIcons = [
 
     </section>
 
+    <?php endif; ?>
 </section>

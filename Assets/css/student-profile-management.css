@@ -1194,5 +1194,56 @@ body.student-profile-modal-open {
 }
 @media (max-width: 850px) {
     .student-profile-management-page { gap: var(--space-group, 20px); }
-    .student-profile-question-row { padding: var(--space-related, 12px); }
+    .student-profile-question-row { padding: var(--space-control, 16px); }
+
+    .student-profile-question-copy strong {
+        font-size: var(--font-size-control);
+        line-height: var(--line-height-label);
+    }
+
+    .student-profile-card-header h2,
+    .student-profile-modal-dialog h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .student-profile-question-row .student-profile-row-actions {
+        margin-top: var(--space-text);
+        gap: var(--space-text);
+    }
+
+    .student-profile-question-row .icon-button,
+    .student-profile-modal .icon-button,
+    .student-profile-modal-dialog > header > button {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+    }
+
+    .student-profile-management-page .app-button,
+    .student-profile-modal .app-button,
+    .student-profile-schedule-dates summary {
+        min-height: 48px;
+    }
+
+    .student-profile-question-settings h3,
+    .student-profile-request-heading h3 {
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
+    }
+
+    .student-profile-request-schedule {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-control);
+    }
+
+    .student-profile-request-schedule > div,
+    .student-profile-cycle-detail {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .student-profile-modal-dialog footer {
+        gap: var(--space-related);
+    }
 }

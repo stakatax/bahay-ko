@@ -38,6 +38,9 @@ class ErrorAuthFixture extends AuthService {
         if(getenv('SESSION_TEST_ACTION')==='login_validation')throw new RuntimeException('Incorrect password. 3 attempt(s) remaining.');
         throw new RuntimeException('SECRET SQL password=hidden /private/config.php');
     }
+    public function register(array $data):int {
+        throw new InvalidArgumentException('This email address is already registered.');
+    }
 }
 class ErrorEngagementFixture extends ContentEngagementService {
     public function __construct(){}
@@ -48,6 +51,11 @@ if(str_starts_with($scenario,'login_')){
     $controller=(new ReflectionClass(AuthController::class))->newInstanceWithoutConstructor();
     (new ReflectionProperty(AuthController::class,'service'))->setValue($controller,new ErrorAuthFixture());
     $controller->login();exit;
+}
+if($scenario==='registration_invalid'){
+    $controller=(new ReflectionClass(AuthController::class))->newInstanceWithoutConstructor();
+    (new ReflectionProperty(AuthController::class,'service'))->setValue($controller,new ErrorAuthFixture());
+    $controller->register();exit;
 }
 $controller=(new ReflectionClass(ContentEngagementController::class))->newInstanceWithoutConstructor();
 (new ReflectionProperty(ContentEngagementController::class,'service'))->setValue($controller,new ErrorEngagementFixture());
@@ -145,6 +153,14 @@ HARNESS;
     [$status,$headers,$body]=$request('engagement','POST',1,['page'=>'content_open'],['content_type'=>'announcement','content_id'=>1,'csrf_token'=>'fixture-csrf']);
     errorCheck($status===500 && json_decode($body,true,512,JSON_THROW_ON_ERROR)['success']===false && !str_contains($body,'SECRET'),'Caught internal JSON RuntimeException returns safe 500');
     $logs=file_get_contents($temporary.'/errors.log');
+    $registrationPost=['csrf_token'=>'fixture-csrf','first_name'=>'Kept','email'=>'fixture@example.invalid','password'=>'private-fixture','password_confirmation'=>'private-fixture'];
+    [$status,$headers,$body]=$request('registration_invalid','POST',0,['page'=>'register_action','accept_json'=>1],$registrationPost);
+    $result=json_decode($body,true,512,JSON_THROW_ON_ERROR);
+    errorCheck($status===422 && $result['success']===false && $result['error_field']==='email','Registration returns focused JSON field error without redirect');
+    errorCheck(!str_contains($body,'private-fixture') && !str_contains($body,'Kept'),'Registration JSON never echoes passwords or unrelated fields');
+    $registrationPost['csrf_token']='wrong-token';
+    [$status,$headers,$body]=$request('registration_invalid','POST',0,['page'=>'register_action','accept_json'=>1],$registrationPost);
+    errorCheck($status===422 && json_decode($body,true,512,JSON_THROW_ON_ERROR)['success']===false,'Registration AJAX still rejects invalid CSRF');
     errorCheck(str_contains($logs,'[request ') && str_contains($logs,'RuntimeException') && str_contains($logs,'code=') && str_contains($logs,'controller.php:'),'Diagnostics retained in server log');
     echo "PASS: $checks request error HTTP checks; isolated CGI/session/log files, no application writes.\n";
 } finally {

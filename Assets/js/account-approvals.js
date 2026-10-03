@@ -1,7 +1,33 @@
+function accountReviewStatementMessage(form) {
+    const select = form.querySelector('[data-review-statement]');
+    if (select && select.value !== 'custom') {
+        return select.selectedOptions[0]?.dataset.message || '';
+    }
+    return form.querySelector('[name="review_notes"]')?.value.trim() || '';
+}
+
 document.addEventListener(
     'DOMContentLoaded',
     () => {
         'use strict';
+
+        document.querySelectorAll('[data-review-statement]').forEach((select) => {
+            const form = select.closest('[data-review-form]');
+            const label = form?.querySelector('[data-review-custom-note]');
+            const textarea = label?.querySelector('textarea');
+            const synchronize = () => {
+                const custom = select.value === 'custom';
+                if (label) label.hidden = !custom;
+                if (textarea) {
+                    textarea.disabled = !custom;
+                    textarea.required = custom;
+                }
+                const error = form?.querySelector('[data-rejection-error]');
+                if (error) error.hidden = true;
+            };
+            select.addEventListener('change', synchronize);
+            synchronize();
+        });
 
         const modal =
             document.getElementById(
@@ -117,7 +143,7 @@ document.addEventListener(
                 modalReasonText
             ) {
                 modalReason.hidden =
-                    isApproval;
+                    rejectionReason === '';
 
                 modalReasonText.textContent =
                     rejectionReason;
@@ -167,6 +193,8 @@ document.addEventListener(
                             form.dataset
                                 .reviewForm;
 
+                        if (!form.reportValidity()) return;
+
                         if (
                             decision ===
                             'reject'
@@ -182,9 +210,7 @@ document.addEventListener(
                                 );
 
                             const reason =
-                                textarea?.value
-                                    .trim() ||
-                                '';
+                                accountReviewStatementMessage(form);
 
                             if (reason === '') {
                                 if (error) {
@@ -227,7 +253,8 @@ document.addEventListener(
                         if (!form.reportValidity()) return;
                         openModal(
                             form,
-                            decision
+                            decision,
+                            accountReviewStatementMessage(form)
                         );
                     }
                 );

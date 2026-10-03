@@ -30,7 +30,7 @@ foreach (['Student'=>1, 'Parent'=>2, 'Faculty'=>3, 'Admin'=>4] as $role=>$owner)
 }
 $cases = [
     ['system','registration-submitted:user:7',null,null,'index.php?page=account_approvals&user_id=7'],
-    ['reminder','student-profile-cycle-assigned:cycle:7',null,null,'index.php?page=student_profile#expandedProfileSurvey'],
+    ['reminder','student-profile-cycle-assigned:cycle:7',null,null,'index.php?page=student_profile_survey'],
     ['content','published','announcement',7,'index.php?page=news&open_type=announcement&open_id=7'],
     ['content','published','event',7,'index.php?page=news&open_type=event&open_id=7'],
     ['content','published','document',7,'index.php?page=news&open_type=document&open_id=7'],

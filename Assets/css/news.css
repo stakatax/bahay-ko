@@ -2640,23 +2640,58 @@
     }
 
     .hub-featured-card {
-        grid-template-columns:
-            5px
-            minmax(0, 1fr);
-
+        position: relative;
+        grid-template-columns: minmax(0, 1fr);
+        padding: var(--space-control);
+        gap: var(--space-control);
         align-items: flex-start;
     }
 
+    .hub-featured-accent {
+        display: none;
+    }
+
     .hub-featured-card::before {
-        grid-column: 2;
+        position: absolute;
+        top: var(--space-control);
+        right: var(--space-control);
+        width: 32px;
+        height: 32px;
     }
 
     .hub-featured-content {
-        grid-column: 2;
+        grid-column: 1;
+    }
+
+    .hub-featured-labels .hub-featured-badge {
+        order: -1;
+        flex-basis: 100%;
+        min-height: 32px;
+        padding-right: 44px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+    }
+
+    .hub-featured-content h2 {
+        margin-top: var(--space-related);
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .hub-featured-meta {
+        gap: var(--space-text) var(--space-control);
+        margin-top: var(--space-control);
+    }
+
+    .hub-featured-meta > span:nth-child(-n + 2) {
+        flex-basis: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .hub-featured-open {
-        grid-column: 2;
+        grid-column: 1;
         width: 100%;
     }
 
@@ -3025,8 +3060,9 @@
     }
 
     .hub-tabs {
-        flex-wrap: wrap;
-        overflow: visible;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
         gap: 8px;
         padding: 8px;
         border-radius: var(--radius-md);
@@ -3037,7 +3073,7 @@
     .hub-featured-open,
     .hub-survey-completed,
     .hub-page .app-button {
-        min-height: 44px;
+        min-height: 48px;
         padding: 10px 12px;
         font-size: 0.875rem;
         line-height: 1.5;
@@ -3046,12 +3082,12 @@
 
     .hub-tab {
         max-width: 100%;
-        flex-shrink: 1;
+        flex-shrink: 0;
     }
 
     .hub-tab-label {
         min-width: 0;
-        overflow-wrap: anywhere;
+        white-space: nowrap;
     }
 
     .hub-results-header {
@@ -3080,14 +3116,14 @@
     .hub-sort-control select {
         min-width: 0;
         width: 100%;
-        min-height: 44px;
+        min-height: 48px;
         font-size: 1rem;
     }
 
     .hub-search-control button {
-        flex: 0 0 44px;
-        width: 44px;
-        height: 44px;
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
     }
 
     .hub-page :is(button, a, select):focus-visible {
@@ -3127,21 +3163,21 @@
 
     .hub-item-content > .hub-item-label-row {
         order: 0;
-        margin-bottom: 8px;
-        gap: 6px;
+        margin-bottom: var(--space-text);
+        gap: var(--space-text);
     }
 
     .hub-item-content > h3 {
         order: 1;
-        font-size: 1rem;
-        line-height: 1.5;
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
     }
 
     .hub-item-content > p,
     .hub-item-content > .hub-survey-details {
         order: 2;
-        margin-top: 6px;
-        margin-bottom: 12px;
+        margin-top: var(--space-text);
+        margin-bottom: var(--space-related);
     }
 
     .hub-item-content > .hub-engagement {
@@ -3174,7 +3210,8 @@
     .hub-item-meta > span,
     .hub-item-meta time,
     .hub-item-content .hub-ranking-chip {
-        font-size: 0.75rem;
+        font-size: var(--font-size-meta);
+        line-height: var(--line-height-label);
     }
 
     .hub-list-item {
@@ -3215,16 +3252,25 @@
 /* Mobile content reader and discussion. */
 @media (max-width: 850px) {
     .thread-drawer {
+        width: 100%;
+        max-width: none;
         height: 100dvh;
         padding: 16px;
+        padding-left: calc(16px + env(safe-area-inset-left, 0px));
+        padding-right: calc(16px + env(safe-area-inset-right, 0px));
         padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        overscroll-behavior-y: contain;
+        scroll-padding-block: 100px 24px;
         font-family: var(--font-primary);
     }
 
     .thread-drawer-header {
         top: -16px;
-        margin: -16px -16px 0;
-        padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 16px;
+        margin: -16px calc(-16px - env(safe-area-inset-right, 0px))
+            0 calc(-16px - env(safe-area-inset-left, 0px));
+        padding: calc(12px + env(safe-area-inset-top, 0px))
+            calc(16px + env(safe-area-inset-right, 0px))
+            12px calc(16px + env(safe-area-inset-left, 0px));
         gap: 12px;
         background: var(--bg-card);
     }
@@ -3234,15 +3280,15 @@
         overflow-wrap: anywhere;
     }
 
-    .thread-drawer-header h2 {
-        font-size: 1.125rem;
+    .thread-drawer .thread-drawer-header h2 {
+        font-size: 1.25rem;
         line-height: 1.5;
     }
 
     .drawer-close-button {
-        flex: 0 0 44px;
-        width: 44px;
-        height: 44px;
+        flex: 0 0 48px;
+        width: 48px;
+        height: 48px;
         border-radius: var(--radius-md);
     }
 
@@ -3278,20 +3324,22 @@
     .drawer-engagement,
     .drawer-comment,
     .drawer-comment-form {
-        padding: 12px;
+        padding: var(--space-control);
         background: var(--bg-card);
         border-radius: var(--radius-md);
     }
 
     .drawer-statistics {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 12px;
-        padding-bottom: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-text) var(--space-control);
+        padding-bottom: var(--space-control);
     }
 
     .drawer-statistics > span:nth-child(n) {
         min-height: 28px;
+        min-width: 0;
+        flex-wrap: wrap;
         padding: 0;
         border: 0;
         justify-content: flex-start;
@@ -3302,8 +3350,9 @@
     }
 
     .reaction-picker button {
-        padding: 8px;
-        gap: 6px;
+        min-height: 48px;
+        padding: var(--space-related);
+        gap: var(--space-text);
     }
 
     .reaction-picker button > span {
@@ -3338,7 +3387,7 @@
     .drawer-comment-form button,
     .drawer-comment-reply-button,
     .thread-drawer .hub-open-button {
-        min-height: 44px;
+        min-height: 48px;
     }
 
     .drawer-comment-form .drawer-reply-context button {
@@ -3423,6 +3472,8 @@
 }
 @media (max-width: 850px) {
     .hub-page-header { align-items: flex-start; gap: 12px; }
+    .hub-tabs { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+    .hub-tab > i { display: none; }
     .hub-results-header { align-items: stretch; }
     .hub-page-header .page-actions { gap: 8px; }
     .hub-results-controls { flex: 0 0 auto; }

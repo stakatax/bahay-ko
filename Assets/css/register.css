@@ -1114,3 +1114,133 @@
 @media (max-width: 650px) {
     .register-header { flex-wrap: wrap; }
 }
+
+@media (max-width: 850px) {
+    .register-card {
+        padding: var(--space-group) var(--space-control);
+    }
+
+    .register-shell .auth-rail {
+        padding: var(--space-control);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-related);
+    }
+
+    .register-shell .auth-logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .register-shell .auth-rail-content {
+        display: none;
+    }
+
+    .register-shell .auth-rail-login {
+        min-height: 48px;
+        font-size: var(--font-size-meta);
+        flex-shrink: 0;
+    }
+
+    .register-shell .auth-rail-content h1 {
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
+        margin: 0;
+    }
+
+    .register-shell .auth-rail-content > p {
+        display: none;
+    }
+
+    .register-workspace {
+        padding: var(--space-group) var(--space-control) 28px;
+    }
+
+    .role-options {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-related);
+    }
+
+    .role-option {
+        align-items: start;
+        padding: var(--space-control);
+    }
+
+    .register-grid,
+    .register-grid.two-columns,
+    .register-grid.three-columns,
+    .register-grid.name-columns,
+    .register-submit {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .register-header h2 {
+        font-size: 1.5rem;
+        line-height: 1.35;
+    }
+
+    .register-section-heading {
+        align-items: flex-start;
+        gap: var(--space-related);
+        margin-bottom: var(--space-group);
+    }
+
+    .register-section-heading h3 {
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
+    }
+
+    .register-card .password-toggle {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+    }
+
+    .register-submit .auth-submit-button,
+    .register-submit .auth-checkbox,
+    .register-header > a {
+        min-height: 48px;
+    }
+
+    .register-submit {
+        gap: var(--space-related);
+        padding-top: var(--space-section);
+    }
+
+    .register-submit .auth-checkbox {
+        gap: var(--space-related);
+        padding: var(--space-control);
+    }
+
+    .register-submit .auth-checkbox input {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        margin-top: 2px;
+    }
+
+    .register-card .auth-field {
+        min-width: 0;
+        scroll-margin-top: var(--space-section);
+    }
+
+    .register-grid .auth-field {
+        grid-template-rows: auto auto;
+        align-self: start;
+        gap: var(--space-related);
+    }
+
+    .register-card .auth-field-foot[aria-hidden="true"] {
+        display: none;
+    }
+
+    .register-legal-modal {
+        max-height: calc(100dvh - 24px);
+    }
+
+    .register-legal-content {
+        padding: var(--space-control);
+    }
+}

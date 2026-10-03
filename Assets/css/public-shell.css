@@ -397,11 +397,11 @@
     }
 
     .public-brand strong {
-        font-size: 0.78rem;
+        font-size: 1rem;
     }
 
     .public-brand small {
-        font-size: 0.54rem;
+        font-size: 0.75rem;
     }
 
     .public-menu-toggle span {
@@ -409,7 +409,8 @@
     }
 
     .public-menu-toggle {
-        width: 42px;
+        width: 48px;
+        min-height: 48px;
         padding: 0;
     }
 
@@ -423,12 +424,19 @@
     }
 
     .public-navigation a {
-        min-height: 44px;
+        min-height: 48px;
+        font-size: var(--font-size-label, 0.875rem);
     }
 
     .public-header-actions {
         display: grid;
         grid-template-columns: 1fr;
+        gap: var(--space-related, 12px);
+    }
+
+    .public-header-actions a {
+        min-height: 48px;
+        font-size: var(--font-size-label, 0.875rem);
     }
 
     .public-main {

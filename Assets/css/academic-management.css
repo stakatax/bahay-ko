@@ -1965,3 +1965,105 @@ body.academic-modal-open {
 @media (max-width: 780px) {
     .academic-record-action { flex: 1 1 120px; width: auto; }
 }
+
+/* Mobile academic hierarchy keeps names ahead of counts and actions. */
+@media (max-width: 850px) {
+    .academic-management-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-related);
+    }
+
+    .academic-structure-panel {
+        padding: var(--space-control);
+    }
+
+    .academic-record-copy h3 {
+        font-size: var(--font-size-section);
+        line-height: var(--line-height-label);
+    }
+
+    .academic-structure-record {
+        grid-template-columns: 36px minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .academic-record-icon {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+    }
+
+    .academic-record-copy {
+        text-align: left;
+    }
+
+    .academic-record-copy > div {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: var(--space-text);
+    }
+
+    .academic-record-copy h3 {
+        margin: 0;
+        min-width: 0;
+    }
+
+    .academic-record-status {
+        justify-self: end;
+        align-self: start;
+        font-size: var(--font-size-caption);
+        line-height: var(--line-height-label);
+        min-height: 24px;
+        padding: 2px 8px;
+    }
+
+    .academic-record-copy p {
+        margin-top: var(--space-text);
+        font-size: var(--font-size-meta);
+    }
+
+    .academic-record-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+    }
+
+    .academic-record-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .academic-record-metrics {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        align-items: stretch;
+    }
+
+    .academic-record-metrics dd {
+        margin-top: var(--space-text);
+        font-size: var(--font-size-control);
+    }
+
+    .academic-form-grid,
+    .academic-create-fields {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .academic-record-action,
+    .academic-management-page .app-button,
+    .academic-modal .app-button,
+    .academic-create-fields :is(input, select) {
+        min-height: 48px;
+    }
+
+    .academic-modal-close {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+    }
+
+    .academic-modal-header h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+}

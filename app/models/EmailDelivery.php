@@ -7,6 +7,15 @@ class EmailDelivery extends BaseModel
 {
     private const MAX_ATTEMPTS = 3;
 
+    // Registration decisions reach applicants before they can set email preferences.
+    private const REGISTRATION_DECISION_SQL = "
+        n.notification_type = 'system'
+        AND (
+            (u.status = 'Active' AND n.deduplication_key = CONCAT('registration-approved:user:', u.user_id))
+            OR (u.status = 'Rejected' AND n.deduplication_key = CONCAT('registration-rejected:user:', u.user_id))
+        )
+    ";
+
     /* ==========================================
        QUEUE ELIGIBLE NOTIFICATIONS
     ========================================== */
@@ -22,6 +31,8 @@ class EmailDelivery extends BaseModel
                     1000
                 )
             );
+
+        $registrationDecision = self::REGISTRATION_DECISION_SQL;
 
         $stmt =
             $this->prepare("
@@ -41,7 +52,7 @@ class EmailDelivery extends BaseModel
                 ON u.user_id =
                    n.user_id
 
-            INNER JOIN notification_preference np
+            LEFT JOIN notification_preference np
                 ON np.user_id =
                    n.user_id
 
@@ -94,26 +105,30 @@ class EmailDelivery extends BaseModel
 
                    END
 
-            WHERE u.status = 'Active'
-
-              AND u.email IS NOT NULL
+            WHERE u.email IS NOT NULL
 
               AND TRIM(u.email) <> ''
 
               AND u.email LIKE '%@%'
 
-              AND np.email_enabled = 1
+              AND (
+                ($registrationDecision)
+                OR (
+                  u.status = 'Active'
+                  AND np.email_enabled = 1
 
-              AND COALESCE(
-                    ncp.email_enabled,
-                    1
-                  ) = 1
+                  AND COALESCE(
+                        ncp.email_enabled,
+                        1
+                      ) = 1
 
-              AND np.email_enabled_at
-                    IS NOT NULL
+                  AND np.email_enabled_at
+                        IS NOT NULL
 
-              AND n.created_at >=
-                    np.email_enabled_at
+                  AND n.created_at >=
+                        np.email_enabled_at
+                )
+              )
 
               AND NOT EXISTS
               (
@@ -182,6 +197,8 @@ class EmailDelivery extends BaseModel
                 )
             );
 
+        $registrationDecision = self::REGISTRATION_DECISION_SQL;
+
         $stmt =
             $this->prepare("
             SELECT
@@ -215,7 +232,7 @@ class EmailDelivery extends BaseModel
                 ON u.user_id =
                    n.user_id
 
-            INNER JOIN notification_preference
+            LEFT JOIN notification_preference
                 AS pending_np
 
                 ON pending_np.user_id =
@@ -272,12 +289,17 @@ class EmailDelivery extends BaseModel
 
                    END
 
-            WHERE pending_np.email_enabled = 1
+            WHERE (
+                ($registrationDecision)
+                OR (
+                  pending_np.email_enabled = 1
 
-              AND COALESCE(
-                    pending_ncp.email_enabled,
-                    1
-                  ) = 1
+                  AND COALESCE(
+                        pending_ncp.email_enabled,
+                        1
+                      ) = 1
+                )
+              )
 
               AND (
                     ed.delivery_status =

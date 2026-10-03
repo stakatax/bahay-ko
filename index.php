@@ -106,6 +106,7 @@ $authenticatedPages = [
   'survey_participate',
   'notifications',
   'student_profile',
+  'student_profile_survey',
   'account_profile',
   'legal_reconsent',
   'required_password_change'
@@ -457,6 +458,7 @@ if (
 
 $allowedDuringStudentSurvey = [
   'student_profile',
+  'student_profile_survey',
   'student_profile_save',
   'student_profile_survey_save',
   'notifications',
@@ -474,7 +476,7 @@ if (
   )
 ) {
   stopForRouteGuard(
-    'student_profile',
+    'student_profile_survey',
     'student_survey_required',
     'Please complete your required Student profile survey before continuing.'
   );
@@ -1351,6 +1353,7 @@ switch ($page) {
     break;
 
   case 'student_profile':
+  case 'student_profile_survey':
     requirePageRoles(
       $isLoggedIn,
       $role,
@@ -1364,7 +1367,7 @@ switch ($page) {
       ->index();
 
     $title =
-      'My Interests';
+      $page === 'student_profile_survey' ? 'School Profile Survey' : 'My Interests';
 
     $pageCSS =
       'student-profile.css';

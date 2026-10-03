@@ -1522,11 +1522,14 @@
     }
 
     .student-survey-navigation {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 8px;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: var(--space-text);
     }
 
     .student-survey-nav-item {
+        flex: 0 0 220px;
+        min-width: 0;
         min-height: 48px;
         padding: 12px;
         border-radius: var(--radius-sm);
@@ -1741,6 +1744,88 @@
 @media (max-width: 850px) {
     .student-profile-page { gap: var(--space-group, 20px); }
     .student-survey-question-list { gap: var(--space-group, 20px); }
-    .student-survey-question, .student-survey-consent { padding: var(--space-related, 12px); }
+    .student-survey-question, .student-survey-consent { padding: var(--space-control, 16px); }
     .student-survey-options { grid-template-columns: minmax(0, 1fr); }
+
+    #studentProfileForm,
+    #expandedProfileSurvey {
+        scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
+    }
+
+    .student-survey-question legend {
+        font-size: var(--font-size-control);
+        font-weight: 600;
+        padding-inline: 4px;
+    }
+
+    .student-profile-task-links a,
+    .student-profile-page .app-button {
+        min-height: 48px;
+    }
+
+    .student-survey-option {
+        align-items: flex-start;
+        gap: var(--space-related);
+    }
+
+    .student-profile-header .page-header-copy h1 {
+        font-size: 1.75rem;
+        line-height: 1.3;
+        margin-bottom: var(--space-text);
+    }
+
+    .student-profile-form-heading h2,
+    .student-survey-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .student-survey-section-header h3 {
+        font-size: var(--font-size-section);
+        font-weight: 600;
+    }
+
+    .student-profile-form-icon,
+    .student-survey-heading-icon {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+    }
+
+    .student-profile-form-heading,
+    .student-survey-heading {
+        align-items: flex-start;
+        gap: var(--space-related);
+    }
+
+    .student-survey-section-header {
+        margin-bottom: var(--space-section);
+    }
+
+    .student-survey-question-list {
+        gap: var(--space-section);
+    }
+
+    .student-survey-question > p {
+        margin-top: var(--space-text);
+        margin-bottom: var(--space-related);
+    }
+
+    .student-survey-status {
+        padding: var(--space-related);
+        text-align: left;
+    }
+
+    .student-survey-nav-item {
+        flex-basis: 200px;
+        gap: var(--space-text);
+    }
+
+    .student-survey-nav-item strong {
+        font-weight: 500;
+    }
+
+    .student-survey-nav-item.is-active strong {
+        font-weight: 700;
+    }
 }
