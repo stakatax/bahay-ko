@@ -1774,6 +1774,43 @@ body.workspace-modal-open {
     outline-offset: 3px;
 }
 @media (min-width: 851px) {
+    .workspace-page {
+        width: 100%;
+        max-width: 1180px;
+        margin-inline: auto;
+    }
+
+    .workspace-panel-header {
+        padding: var(--space-section, 24px);
+        gap: var(--space-section, 24px);
+    }
+
+    .workspace-content-card h3 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+        margin: var(--space-related, 12px) 0 var(--space-text, 8px);
+    }
+
+    .workspace-content-description,
+    .workspace-page-header .page-header-copy p {
+        max-width: 72ch;
+    }
+
+    .workspace-content-actions {
+        padding: var(--space-related, 12px);
+    }
+
+    .workspace-control select,
+    .workspace-search-control input {
+        min-height: 44px;
+    }
+
+    .workspace-modal-close {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+    }
+
     .workspace-content-card { padding: var(--space-section, 24px); }
     .workspace-content-topline { flex-wrap: wrap; gap: var(--space-related, 12px); }
     .workspace-content-date-short { white-space: normal; }

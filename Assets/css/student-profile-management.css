@@ -1192,6 +1192,69 @@ body.student-profile-modal-open {
     outline: 2px solid var(--primary-red);
     outline-offset: 3px;
 }
+@media (min-width: 851px) {
+    .student-profile-management-page {
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .student-profile-workspace-card {
+        padding: 24px;
+    }
+
+    .student-profile-card-header {
+        gap: 24px;
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+    }
+
+    .student-profile-card-header h2,
+    .student-profile-cycle-detail h3 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .student-profile-card-header p {
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: var(--line-height-body, 1.7);
+    }
+
+    .student-profile-management-header .page-header-copy p,
+    .student-profile-card-header p,
+    .student-profile-directory-heading p,
+    .student-profile-cycle-detail header p {
+        max-width: 72ch;
+    }
+
+    .student-profile-version-strip strong,
+    .student-profile-question-copy strong {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .student-profile-version-strip span,
+    .student-profile-cycle-list span {
+        font-size: var(--font-size-meta, 0.8125rem);
+        line-height: 1.5;
+    }
+
+    .student-profile-question-toolbar {
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .student-profile-question-toolbar :is(input, select) {
+        min-height: 44px;
+        font-size: var(--font-size-control, 1rem);
+    }
+
+    .student-profile-modal-dialog > header > button {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+    }
+}
+
 @media (max-width: 850px) {
     .student-profile-management-page { gap: var(--space-group, 20px); }
     .student-profile-question-row { padding: var(--space-control, 16px); }

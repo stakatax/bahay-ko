@@ -1518,6 +1518,32 @@ input:focus-visible
 }
 
 @media (min-width: 851px) {
+    .notifications-page {
+        width: 100%;
+        max-width: 1180px;
+        margin-inline: auto;
+    }
+
+    .notifications-page-header .page-header-copy > p,
+    .notifications-preference-copy p,
+    .notification-item-content > p {
+        max-width: 72ch;
+    }
+
+    .notifications-list {
+        gap: var(--space-control, 16px);
+    }
+
+    .notification-category-header {
+        flex-wrap: wrap;
+        gap: var(--space-control, 16px);
+    }
+
+    .notification-category-header .notifications-preference-copy {
+        width: auto;
+        flex: 1 1 420px;
+    }
+
     .notification-item-link {
         padding: 20px;
         align-items: start;
@@ -1541,6 +1567,28 @@ input:focus-visible
     .notifications-preference-form {
         flex-wrap: wrap;
         gap: 16px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .notifications-preference-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+        align-items: start;
+        gap: var(--space-section, 24px);
+    }
+
+    .notifications-preference-card > .notifications-preference-form {
+        display: grid;
+        gap: var(--space-control, 16px);
+        padding-top: 0;
+        padding-left: var(--space-section, 24px);
+        border-top: 0;
+        border-left: 1px solid var(--border-color);
+    }
+
+    .notifications-preference-form .app-button {
+        justify-self: start;
     }
 }
 

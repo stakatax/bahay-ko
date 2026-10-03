@@ -1267,6 +1267,49 @@ grid-template-columns:
     outline-offset: 3px;
 }
 .academic-cta-button:focus-visible { outline-color: #ffffff; }
+@media (min-width: 851px) {
+    .academic-app-page {
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .academic-header-copy > p,
+    .academic-section-heading p,
+    .academic-level-content > p {
+        max-width: 72ch;
+    }
+
+    .academic-section-heading {
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .academic-section-heading h2 {
+        font-size: 24px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .academic-level-title h3 {
+        font-size: 20px;
+        line-height: 1.5;
+    }
+
+    .academic-specialization-card h3 {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .academic-level-content,
+    .academic-specialization-card {
+        padding: 24px;
+    }
+
+    .academic-header-actions {
+        gap: 12px;
+    }
+}
+
 @media (max-width: 850px) {
     .academic-header-copy h1 {
         font-size: 1.75rem;

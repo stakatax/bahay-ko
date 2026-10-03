@@ -1059,6 +1059,41 @@
     }
 }
 
+@media (min-width: 851px) {
+    .about-app-page {
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .about-header-copy > p,
+    .about-story-content p,
+    .about-story-content blockquote,
+    .about-section-heading p {
+        max-width: 72ch;
+    }
+
+    .about-story-content h2,
+    .about-section-heading h2,
+    .about-profile-heading h2 {
+        font-size: 24px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .about-header-actions {
+        gap: 12px;
+    }
+
+    .about-section-navigation a {
+        padding: 12px 16px;
+    }
+
+    .about-profile-heading {
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
+
 @media (max-width: 850px) {
     .about-header-copy h1 {
         font-size: 1.75rem;

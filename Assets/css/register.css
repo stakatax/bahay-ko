@@ -1115,6 +1115,52 @@
     .register-header { flex-wrap: wrap; }
 }
 
+@media (min-width: 851px) {
+    .register-header {
+        gap: 24px;
+    }
+
+    .register-header h2 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    .register-header p,
+    .register-section-heading p {
+        max-width: 72ch;
+    }
+
+    .register-section-heading {
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .register-section-heading > span {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+        font-size: var(--font-size-caption, 0.75rem);
+    }
+
+    .register-section-heading h3 {
+        font-size: 20px;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    .register-submit .auth-checkbox {
+        min-height: 44px;
+        gap: 12px;
+    }
+
+    .register-submit .auth-checkbox input {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+        margin-top: 2px;
+    }
+}
+
 @media (max-width: 850px) {
     .register-card {
         padding: var(--space-group) var(--space-control);

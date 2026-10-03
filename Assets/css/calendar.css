@@ -2095,6 +2095,49 @@ small i {
     outline-offset: 3px;
 }
 @media (min-width: 851px) {
+    .calendar-app-page {
+        width: 100%;
+        max-width: 1180px;
+        margin-inline: auto;
+    }
+
+    .calendar-header-copy > p,
+    .calendar-event-content > p {
+        max-width: 72ch;
+    }
+
+    .calendar-layout {
+        align-items: start;
+        gap: var(--space-section, 24px);
+    }
+
+    .calendar-month-navigation {
+        margin-bottom: var(--space-group, 20px);
+        gap: var(--space-control, 16px);
+    }
+
+    .calendar-month-navigation > a {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+    }
+
+    .calendar-section-heading h2,
+    .calendar-selected-header h3 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .calendar-selected-event h4 {
+        font-size: var(--font-size-control, 1rem);
+        line-height: 1.5;
+    }
+
+    .calendar-selected-event p {
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: var(--line-height-body, 1.7);
+    }
+
     .calendar-grid-card, .calendar-selected-card { padding: var(--space-section, 24px); }
     .calendar-month-navigation h3 { font-size: var(--font-size-section, 1.125rem); line-height: var(--line-height-label, 1.5); }
     .calendar-day-name { font-size: var(--font-size-caption, 0.75rem); }

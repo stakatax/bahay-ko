@@ -6952,6 +6952,50 @@ span span {
     outline-offset: 3px;
 }
 
+@media (min-width: 851px) {
+    .publisher-page {
+        max-width: 1380px;
+        margin-inline: auto;
+    }
+
+    .publisher-layout {
+        gap: var(--space-group, 20px);
+    }
+
+    .publisher-inspector {
+        padding: 0;
+    }
+
+    .publisher-card .form-section {
+        padding: var(--space-section, 24px);
+    }
+
+    .publisher-card .form-section-heading {
+        margin-bottom: var(--space-group, 20px);
+        gap: var(--space-control, 16px);
+    }
+
+    .publisher-card .form-section-heading h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .publisher-page .publisher-subsection-heading h3 {
+        font-weight: 600;
+    }
+
+    .publisher-workspace-header p,
+    .publisher-card .form-section-heading p {
+        max-width: 72ch;
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: var(--line-height-body, 1.7);
+    }
+
+    .publisher-page .form-field textarea {
+        line-height: var(--line-height-body, 1.7);
+    }
+}
+
 /* Mobile editor hierarchy: section, field label, control, then guidance. */
 @media (max-width: 850px) {
     .publisher-workspace-header h1 {

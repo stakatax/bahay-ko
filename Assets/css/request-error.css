@@ -32,6 +32,28 @@ body {
 .request-error a:hover { color: var(--primary-red-hover); }
 .request-error a:focus-visible { outline: 2px solid var(--accent-orange); outline-offset: 4px; }
 
+@media (min-width: 851px) {
+    .request-error {
+        margin-block: 48px;
+        padding: 32px;
+    }
+
+    .request-error h1 {
+        margin-bottom: 20px;
+    }
+
+    .request-error p {
+        max-width: 65ch;
+        margin-bottom: 24px;
+    }
+
+    .request-error a {
+        padding-inline: 16px;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
 @media (max-width: 640px) {
     .request-error {
         margin-block: var(--space-group, 20px);

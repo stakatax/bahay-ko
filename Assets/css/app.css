@@ -1673,6 +1673,35 @@ body {
     display: none;
 }
 
+@media (min-width: 851px) {
+    .sidebar-group-label {
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.5;
+    }
+
+    .sidebar-link {
+        padding-block: 10px;
+        font-size: var(--font-size-label, 0.875rem);
+        line-height: 1.5;
+    }
+
+    .sidebar-link > span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .sidebar-profile-details strong {
+        font-size: var(--font-size-label, 0.875rem);
+        line-height: 1.5;
+    }
+
+    .sidebar-profile-details > span,
+    .sidebar-profile-details small {
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.5;
+    }
+}
+
 /* ==========================================
    COMPACT SIDEBAR
 ========================================== */

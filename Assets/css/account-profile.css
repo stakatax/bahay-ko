@@ -754,6 +754,37 @@
 }
 
 @media (min-width: 851px) {
+    .account-profile-page {
+        width: 100%;
+        max-width: 1180px;
+        margin-inline: auto;
+    }
+
+    .account-profile-header .page-header-copy p,
+    .account-profile-photo-card header p,
+    .faculty-personal-card p {
+        max-width: 72ch;
+    }
+
+    .account-profile-photo-card > header {
+        align-items: flex-start;
+        padding: var(--space-section, 24px);
+    }
+
+    .account-profile-photo-card h2,
+    .faculty-personal-card h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .account-profile-upload-form {
+        padding: var(--space-section, 24px);
+    }
+
+    .faculty-personal-grid {
+        margin-bottom: var(--space-section, 24px);
+    }
+
     .account-profile-directory > div {
         padding: 14px;
         border-radius: var(--radius-sm);
@@ -771,6 +802,21 @@
     .account-profile-security-note > i {
         background: transparent;
         color: var(--primary-red);
+    }
+}
+
+@media (min-width: 901px) {
+    .account-profile-layout {
+        grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+    }
+
+    .account-profile-summary {
+        padding: var(--space-section, 24px);
+    }
+
+    .account-profile-avatar {
+        width: 120px;
+        height: 120px;
     }
 }
 

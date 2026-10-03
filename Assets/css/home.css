@@ -1412,6 +1412,50 @@
     }
 }
 
+@media (min-width: 851px) {
+    .public-hub-page {
+        font-family: var(--font-primary);
+    }
+
+    .public-home-intro-copy > p,
+    .public-section-heading p,
+    .public-service-card p,
+    .public-info-panel > p,
+    .public-feature-list li,
+    .public-home-brand-card p {
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: var(--line-height-body, 1.7);
+        max-width: 72ch;
+        overflow-wrap: anywhere;
+    }
+
+    .public-service-card h3,
+    .public-panel-heading h2 {
+        font-size: 20px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .public-card-link,
+    .public-inline-action,
+    .public-home-button {
+        min-height: 44px;
+        font-size: var(--font-size-label, 0.875rem);
+        line-height: 1.5;
+    }
+
+    .public-home-eyebrow,
+    .public-section-heading > span,
+    .public-panel-heading span:not(.public-panel-icon) {
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.5;
+    }
+
+    .public-home-actions {
+        gap: 12px;
+    }
+}
+
 @media (max-width: 980px) {
     .public-home-intro {
         grid-template-columns: 1fr;

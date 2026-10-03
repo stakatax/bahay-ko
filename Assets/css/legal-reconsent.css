@@ -848,6 +848,46 @@ body {
     outline-offset: 3px;
 }
 .legal-consent-rail :is(a, button):focus-visible { outline-color: #ffffff; }
+@media (min-width: 851px) {
+    .legal-consent-card {
+        padding: 32px;
+    }
+
+    .legal-consent-card > header {
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .legal-consent-card h2 {
+        font-size: 28px;
+        line-height: 1.3;
+    }
+
+    .legal-consent-card header p,
+    .legal-consent-document-body p,
+    .legal-consent-document-body li {
+        max-width: 72ch;
+    }
+
+    .legal-consent-document-body {
+        max-height: 420px;
+    }
+
+    .legal-consent-document > header {
+        padding: 20px 24px;
+    }
+
+    .legal-consent-confirmation {
+        min-height: 44px;
+    }
+
+    .legal-consent-confirmation input {
+        width: 18px;
+        height: 18px;
+        flex-basis: 18px;
+    }
+}
+
 @media (max-width: 850px) {
     .legal-consent-rail {
         flex-direction: row;

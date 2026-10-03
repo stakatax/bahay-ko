@@ -910,6 +910,40 @@ input:focus-visible + span {
 .survey-option { padding: var(--space-related, 12px); min-height: 48px; border-radius: var(--radius-sm); }
 .survey-question-heading { flex-wrap: wrap; gap: var(--space-text, 8px); }
 #survey-response-form .btn-primary { min-height: 48px; font-size: var(--font-size-label, 0.875rem); }
+@media (min-width: 851px) {
+    .page-header p {
+        max-width: 72ch;
+        font-size: var(--font-size-body, 0.9375rem);
+    }
+
+    .survey-question-number {
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.5;
+    }
+
+    .survey-question-text {
+        max-width: 72ch;
+        font-size: 20px;
+        line-height: 1.5;
+    }
+
+    .survey-option {
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .survey-option input {
+        flex-shrink: 0;
+        margin-top: 4px;
+    }
+
+    .survey-option span {
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: 1.6;
+    }
+}
+
 @media (max-width: 850px) {
     .survey-question-list { gap: var(--space-section, 24px); }
     .survey-question {

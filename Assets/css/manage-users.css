@@ -2546,6 +2546,53 @@ body.manage-modal-open {
     outline-offset: 3px;
 }
 @media (min-width: 851px) {
+    .manage-users-page {
+        width: 100%;
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .manage-users-workspace {
+        gap: var(--space-section, 24px);
+    }
+
+    .manage-users-filters {
+        gap: var(--space-control, 16px);
+    }
+
+    .manage-users-filters select,
+    .manage-users-search > div {
+        min-height: 44px;
+    }
+
+    .manage-user-copy strong {
+        font-size: var(--font-size-control, 1rem);
+        line-height: 1.5;
+    }
+
+    .manage-user-profile-header {
+        padding: var(--space-section, 24px);
+        gap: var(--space-control, 16px);
+    }
+
+    .manage-user-profile-header h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .manage-users-header .page-header-copy p,
+    .manage-user-readonly-notice p,
+    .manage-user-access-panel header p,
+    .manage-user-role-panel header p {
+        max-width: 72ch;
+    }
+
+    .manage-modal-close {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+    }
+
     .manage-user-detail-grid { gap: var(--space-control, 16px); }
     .manage-user-detail-grid > div { padding: var(--space-control, 16px); }
     .manage-user-tabs button { min-height: 48px; }

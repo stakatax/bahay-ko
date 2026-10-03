@@ -1967,6 +1967,47 @@ body.academic-modal-open {
 }
 
 /* Mobile academic hierarchy keeps names ahead of counts and actions. */
+@media (min-width: 851px) {
+    .academic-management-page {
+        width: 100%;
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .academic-management-header .page-header-copy p,
+    .academic-structure-panel-header p {
+        max-width: 72ch;
+    }
+
+    .academic-record-copy > div {
+        align-items: center;
+    }
+
+    .academic-record-copy h3 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .academic-record-metrics > div {
+        padding: 12px;
+    }
+
+    .academic-record-metrics dd {
+        margin-top: 8px;
+        font-size: 18px;
+        line-height: 1.4;
+    }
+
+    .academic-record-actions {
+        justify-content: flex-end;
+    }
+
+    .academic-modal-close {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 @media (max-width: 850px) {
     .academic-management-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));

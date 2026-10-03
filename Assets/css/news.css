@@ -3638,6 +3638,62 @@
 .drawer-comment-form { gap: var(--space-related, 12px); }
 @media (min-width: 851px) {
     .hub-list-item, .hub-featured-card { padding: var(--space-section, 24px); }
+
+    .hub-featured-card {
+        grid-template-columns: 46px minmax(0, 1fr);
+        align-items: start;
+        gap: var(--space-control, 16px) var(--space-group, 20px);
+    }
+
+    .hub-featured-accent {
+        display: none;
+    }
+
+    .hub-featured-content {
+        grid-column: 2;
+    }
+
+    .hub-featured-content h2 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+    }
+
+    .hub-featured-badge {
+        font-size: var(--font-size-caption, 0.75rem);
+    }
+
+    .hub-featured-open {
+        grid-column: 2;
+        justify-self: end;
+        min-height: 44px;
+    }
+
+    .hub-item-content > p,
+    .hub-survey-details .hub-item-description,
+    .hub-featured-content > p {
+        max-width: 72ch;
+    }
+
+    .hub-item-content > h3 {
+        margin-top: var(--space-related, 12px);
+        margin-bottom: 0;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .hub-featured-meta {
+        gap: var(--space-text, 8px) var(--space-control, 16px);
+    }
+
+    .hub-results-header {
+        gap: var(--space-control, 16px);
+        padding-bottom: var(--space-control, 16px);
+    }
+
+    .hub-upcoming h2 {
+        font-size: var(--font-size-section, 1.125rem);
+        line-height: 1.5;
+    }
 }
 @media (max-width: 850px) {
     .hub-page { gap: var(--space-group, 20px); }

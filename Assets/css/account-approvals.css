@@ -1199,6 +1199,54 @@ body.account-decision-open {
     outline: 2px solid var(--primary-red);
     outline-offset: 3px;
 }
+@media (min-width: 851px) {
+    .account-approvals-page {
+        width: 100%;
+        max-width: 1280px;
+        margin-inline: auto;
+    }
+
+    .account-approval-list-item strong,
+    .account-approval-list-item small {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        overflow-wrap: anywhere;
+    }
+
+    .account-approval-list-item strong {
+        font-size: var(--font-size-control, 1rem);
+        line-height: 1.5;
+    }
+
+    .account-review-header h2 {
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .account-decision-card {
+        padding: var(--space-section, 24px);
+    }
+
+    .account-decision-card h3 {
+        font-size: var(--font-size-section, 1.125rem);
+        line-height: 1.5;
+    }
+
+    .account-decision-card > header {
+        margin-bottom: var(--space-group, 20px);
+    }
+
+    .account-decision-dialog {
+        padding: var(--space-section, 24px);
+    }
+
+    .account-decision-close {
+        width: 44px;
+        height: 44px;
+    }
+}
+
 @media (max-width: 850px) {
     .account-approvals-page, .account-approval-layout { gap: var(--space-group, 20px); }
 

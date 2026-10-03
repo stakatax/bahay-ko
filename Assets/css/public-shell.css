@@ -297,6 +297,37 @@
    TABLET
 ========================================== */
 
+@media (min-width: 901px) {
+    .public-header-inner {
+        gap: 20px;
+    }
+
+    .public-brand strong {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .public-brand small {
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.5;
+    }
+
+    .public-navigation-panel {
+        gap: 16px;
+    }
+
+    .public-navigation a,
+    .public-header-actions a {
+        min-height: 44px;
+        font-size: var(--font-size-label, 0.875rem);
+        line-height: 1.5;
+    }
+
+    .public-navigation a {
+        padding-inline: 10px;
+    }
+}
+
 @media (max-width: 900px) {
     .public-header-inner {
         min-height: 68px;
