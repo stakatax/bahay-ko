@@ -451,7 +451,7 @@ class DashboardExcelExporter
                 'Metric'
             ),
             $this->cell(
-                'Reactions, comments, and acknowledgments'
+                'Votes, comments, and acknowledgments'
             ),
             $this->cell(
                 'Indicates audience response'
@@ -588,7 +588,7 @@ class DashboardExcelExporter
 
                 'reactions' =>
                 [
-                    'Reactions',
+                    'Votes',
                     'Like, Love, Care, and Wow'
                 ],
 

@@ -1482,7 +1482,7 @@
     {
       "TABLE_NAME": "content_reaction",
       "COLUMN_NAME": "reaction_type",
-      "COLUMN_TYPE": "enum('Like','Love','Care','Wow')",
+      "COLUMN_TYPE": "enum('Upvote','Downvote')",
       "IS_NULLABLE": "NO",
       "COLUMN_DEFAULT": null,
       "EXTRA": "",

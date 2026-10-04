@@ -83,7 +83,7 @@
 
                 resolve(result);
             },
-            160
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 320
         );
     }
 

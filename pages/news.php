@@ -46,6 +46,9 @@ $currentUserId =
 $isAdministrator =
     $currentRole === 'Admin';
 
+$learnedTopicScores = is_array($viewData['learned_topic_scores'] ?? null)
+    ? $viewData['learned_topic_scores'] : [];
+
 $hubItems = [];
 
 /* ==========================================
@@ -56,7 +59,8 @@ $calculateHubRanking =
     static function (
         array $item
     ) use (
-        $currentUserInterestWeights
+        $currentUserInterestWeights,
+        $learnedTopicScores
     ): array {
         $now =
             time();
@@ -206,8 +210,8 @@ $calculateHubRanking =
         if ($matchedInterestWeightTotal > 0) {
             $interestRelevanceScore =
                 min(
-                    180,
-                    $matchedInterestWeightTotal * 30
+                    450,
+                    $matchedInterestWeightTotal * 90
                 );
 
             $score +=
@@ -215,6 +219,21 @@ $calculateHubRanking =
 
             $reasons[] =
                 'Matches your interests';
+        }
+
+        $learnedScores = [];
+        foreach (array_unique(array_map('intval', $contentInterestIds)) as $interestId) {
+            $learnedScores[] = (int) ($learnedTopicScores[$interestId] ?? 0);
+        }
+        $learnedScore = $learnedScores === [] ? 0 : (int) round(array_sum($learnedScores) / count($learnedScores));
+        $score += $learnedScore;
+        if ($learnedScore > 0) {
+            $reasons[] = 'Based on topics you read or upvote';
+        } elseif ($learnedScore < 0) {
+            $reasons[] = 'Less relevant based on your votes';
+        }
+        if (($rawData['user_reaction'] ?? null) === 'Downvote') {
+            $score -= 300;
         }
 
         /*
@@ -641,43 +660,10 @@ foreach (
             )
         );
 
-    $likeCount =
-        (int) (
-            $announcement['like_count']
-            ?? $announcement['reaction_like_count']
-            ?? 0
-        );
-
-    $loveCount =
-        (int) (
-            $announcement['love_count']
-            ?? $announcement['reaction_love_count']
-            ?? 0
-        );
-
-    $careCount =
-        (int) (
-            $announcement['care_count']
-            ?? $announcement['reaction_care_count']
-            ?? 0
-        );
-
-    $wowCount =
-        (int) (
-            $announcement['wow_count']
-            ?? $announcement['reaction_wow_count']
-            ?? 0
-        );
-
     $reactionTotal =
         (int) (
             $announcement['reaction_count']
-            ?? (
-                $likeCount
-                + $loveCount
-                + $careCount
-                + $wowCount
-            )
+            ?? 0
         );
 
     $hubItems[] = [
@@ -709,19 +695,7 @@ foreach (
         'workflow_status' =>
         $workflowStatus,
 
-        'reaction_breakdown' => [
-            'Like' =>
-            $likeCount,
-
-            'Love' =>
-            $loveCount,
-
-            'Care' =>
-            $careCount,
-
-            'Wow' =>
-            $wowCount
-        ],
+        'reaction_breakdown' => $announcement['reaction_breakdown'] ?? [],
 
         'reaction_total' =>
         $reactionTotal,
@@ -769,31 +743,7 @@ foreach (
             ?? $event['status']
             ?? 'Published',
 
-        'reaction_breakdown' => [
-            'Like' =>
-            (int) (
-                $event['like_count']
-                ?? 0
-            ),
-
-            'Love' =>
-            (int) (
-                $event['love_count']
-                ?? 0
-            ),
-
-            'Care' =>
-            (int) (
-                $event['care_count']
-                ?? 0
-            ),
-
-            'Wow' =>
-            (int) (
-                $event['wow_count']
-                ?? 0
-            )
-        ],
+        'reaction_breakdown' => $event['reaction_breakdown'] ?? [],
 
         'reaction_total' =>
         (int) (
@@ -860,31 +810,7 @@ foreach (
             ?? $document['status']
             ?? 'Published',
 
-        'reaction_breakdown' => [
-            'Like' =>
-            (int) (
-                $document['like_count']
-                ?? 0
-            ),
-
-            'Love' =>
-            (int) (
-                $document['love_count']
-                ?? 0
-            ),
-
-            'Care' =>
-            (int) (
-                $document['care_count']
-                ?? 0
-            ),
-
-            'Wow' =>
-            (int) (
-                $document['wow_count']
-                ?? 0
-            )
-        ],
+        'reaction_breakdown' => $document['reaction_breakdown'] ?? [],
 
         'reaction_total' =>
         (int) (
@@ -939,31 +865,7 @@ foreach (
             ?? $survey['status']
             ?? 'Published',
 
-        'reaction_breakdown' => [
-            'Like' =>
-            (int) (
-                $survey['like_count']
-                ?? 0
-            ),
-
-            'Love' =>
-            (int) (
-                $survey['love_count']
-                ?? 0
-            ),
-
-            'Care' =>
-            (int) (
-                $survey['care_count']
-                ?? 0
-            ),
-
-            'Wow' =>
-            (int) (
-                $survey['wow_count']
-                ?? 0
-            )
-        ],
+        'reaction_breakdown' => $survey['reaction_breakdown'] ?? [],
 
         'reaction_total' =>
         (int) (
@@ -1172,7 +1074,8 @@ $diversifyHubItems =
 
                         if (
                             $candidateType !==
-                            $lastType
+                            $lastType &&
+                            (int) ($remaining[0]['ranking_score'] ?? 0) - (int) ($candidate['ranking_score'] ?? 0) <= 90
                         ) {
                             $selectedIndex =
                                 $candidateIndex;
@@ -1312,45 +1215,19 @@ function reactionIcon(
     string $reaction
 ): string {
     return match ($reaction) {
-        'Like' =>
-        'fa-solid fa-thumbs-up',
-
-        'Love' =>
-        'fa-solid fa-heart',
-
-        'Care' =>
-        'fa-solid fa-hand-holding-heart',
-
-        'Wow' =>
-        'fa-solid fa-face-surprise',
-
-        default =>
-        'fa-regular fa-heart'
+        'Upvote' => 'fa-solid fa-arrow-up',
+        'Downvote' => 'fa-solid fa-arrow-down',
+        default => 'fa-solid fa-arrows-up-down'
     };
 }
 
 function reactionClass(
     string $reaction
 ): string {
-    return match ($reaction) {
-        'Like' =>
-        'reaction-like',
-
-        'Love' =>
-        'reaction-love',
-
-        'Care' =>
-        'reaction-care',
-
-        'Wow' =>
-        'reaction-wow',
-
-        default =>
-        ''
-    };
+    return 'reaction-vote';
 }
 
-function topReactions(
+function topVotes(
     array $breakdown,
     int $limit = 3
 ): array {
@@ -1377,6 +1254,7 @@ function topReactions(
 
 <div
     id="newsSecurity"
+    data-user-id="<?= (int) $currentUserId ?>"
     hidden
     data-csrf-token="<?= htmlspecialchars(
                             csrfToken(),
@@ -1394,6 +1272,8 @@ function topReactions(
     <header class="page-header hub-page-header">
 
         <div class="page-header-copy">
+
+            <span class="page-eyebrow">Information Hub</span>
 
             <h1>
                 Home
@@ -1508,8 +1388,8 @@ function topReactions(
         $featuredBreakdown =
             $featuredAnnouncement['reaction_breakdown'];
 
-        $featuredTopReactions =
-            topReactions(
+        $featuredTopVotes =
+            topVotes(
                 $featuredBreakdown
             );
 
@@ -1668,13 +1548,13 @@ function topReactions(
                     <span class="hub-featured-reactions">
 
                         <?php if (
-                            !empty($featuredTopReactions)
+                            !empty($featuredTopVotes)
                         ): ?>
 
                             <span class="hub-reaction-stack">
 
                                 <?php foreach (
-                                    $featuredTopReactions
+                                    $featuredTopVotes
                                     as $reaction =>
                                     $reactionCount
                                 ): ?>
@@ -1713,7 +1593,7 @@ function topReactions(
                             ) ?>
                         </b>
 
-                        Reactions
+                        Votes
 
                     </span>
 
@@ -1972,7 +1852,7 @@ function topReactions(
 
                     <label class="hub-sort-control">
 
-                        <i class="fa-solid fa-arrow-down-wide-short"></i>
+                        <i class="fa-solid fa-thumbs-down-wide-short"></i>
 
                         <select
                             id="hubSort"
@@ -1981,7 +1861,7 @@ function topReactions(
                                 Newest first
                             </option>
 
-                            <option value="recommended">
+                            <option value="recommended" selected>
                                 Recommended
                             </option>
 
@@ -2138,7 +2018,7 @@ function topReactions(
                             $item['reaction_breakdown'];
 
                         $topReactionItems =
-                            topReactions(
+                            topVotes(
                                 $reactionBreakdown
                             );
 
@@ -2189,6 +2069,9 @@ function topReactions(
                                                             )
                                                             ?>"
                             data-hub-item
+                            data-recent-date="<?= htmlspecialchars((string) ($rawData['published_at'] ?? $rawData['created_at'] ?? $date), ENT_QUOTES, 'UTF-8') ?>"
+                            data-recent-upvotes="<?= (int) ($reactionBreakdown['Upvote'] ?? 0) ?>"
+                            data-recent-comments="<?= (int) ($rawData['comment_count'] ?? 0) ?>"
                             data-content-id="<?= $contentId ?>"
                             data-ranking-tier="<?= $rankingTier ?>"
                             data-ranking-score="<?= $rankingScore ?>"
@@ -2257,6 +2140,18 @@ function topReactions(
 
                             <div class="hub-item-content">
 
+                                <?php $postAuthor = trim((string) ($rawData['author_name'] ?? '')) ?: 'OLSHCO Digital Hub'; ?>
+                                <div class="hub-post-header">
+                                    <span class="hub-post-avatar" aria-hidden="true"><?= htmlspecialchars(mb_strtoupper(mb_substr($postAuthor, 0, 1)), ENT_QUOTES, 'UTF-8') ?></span>
+                                    <div class="hub-post-identity">
+                                        <strong><?= htmlspecialchars($postAuthor, ENT_QUOTES, 'UTF-8') ?></strong>
+                                        <?php if (!empty($date) && strtotime($date) !== false): ?>
+                                            <time datetime="<?= htmlspecialchars($date, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(date('M j, Y', strtotime($date)), ENT_QUOTES, 'UTF-8') ?></time>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+
+
                                 <div class="hub-item-label-row">
                                     <?php if ($type === 'announcement' && !empty($rawData['government_source_url'])): ?>
                                         <span class="hub-government-badge">Government advisory</span>
@@ -2323,6 +2218,11 @@ function topReactions(
 
                                     <?php endif; ?>
 
+
+
+                                </div>
+
+                                <div class="hub-item-meta">
                                     <?php if (
                                         $isAdministrator
                                     ): ?>
@@ -2334,36 +2234,6 @@ function topReactions(
                                                 'UTF-8'
                                             ) ?>
                                         </span>
-
-                                    <?php endif; ?>
-
-                                </div>
-
-                                <div class="hub-item-meta">
-
-                                    <?php if (
-                                        !empty($date)
-                                    ): ?>
-
-                                        <time
-                                            datetime="<?= htmlspecialchars(
-                                                            $date,
-                                                            ENT_QUOTES,
-                                                            'UTF-8'
-                                                        ) ?>">
-                                            <i class="fa-regular fa-calendar"></i>
-
-                                            <?= htmlspecialchars(
-                                                date(
-                                                    'M d, Y',
-                                                    strtotime(
-                                                        $date
-                                                    )
-                                                ),
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>
-                                        </time>
 
                                     <?php endif; ?>
 
@@ -2393,6 +2263,13 @@ function topReactions(
 
                                     <?php endif; ?>
 
+                                    <?php if (!empty($rawData['require_acknowledgment'])): ?>
+                                        <span class="hub-required-note"><i class="fa-solid fa-check-double" aria-hidden="true"></i> Acknowledgment required</span>
+                                    <?php endif; ?>
+                                    <?php if ($rankingReasonParts !== []): ?>
+                                        <details class="hub-recommendation">
+                                            <summary>Why you're seeing this</summary>
+                                            <div class="hub-recommendation-reasons">
                                     <?php foreach (
                                         $rankingReasonParts
                                         as $reasonPart
@@ -2413,6 +2290,9 @@ function topReactions(
                                         </span>
 
                                     <?php endforeach; ?>
+                                            </div>
+                                        </details>
+                                    <?php endif; ?>
 
                                 </div>
 
@@ -2423,6 +2303,24 @@ function topReactions(
                                         'UTF-8'
                                     ) ?>
                                 </h3>
+
+                                <?php if ($type !== 'survey'): ?>
+                                    <div class="hub-post-body" data-feed-body="<?= htmlspecialchars((string) ($rawData['content'] ?? $rawData['description'] ?? $description), ENT_QUOTES, 'UTF-8') ?>">
+                                        <?= nl2br(htmlspecialchars(strip_tags((string) ($rawData['content'] ?? $rawData['description'] ?? $description)), ENT_QUOTES, 'UTF-8')) ?>
+                                    </div>
+                                    <?php
+                                    $feedImage = trim((string) ($rawData['image_path'] ?? $rawData['cover_image_path'] ?? ''));
+                                    $imageScheme = strtolower((string) (parse_url($feedImage, PHP_URL_SCHEME) ?? ''));
+                                    $safeFeedImage = $feedImage !== '' && in_array($imageScheme, ['', 'http', 'https'], true)
+                                        && !str_starts_with($feedImage, '//') && !str_contains($feedImage, '\\');
+                                    ?>
+                                    <?php if ($safeFeedImage): ?>
+                                        <figure class="hub-post-media">
+                                            <img src="<?= htmlspecialchars($feedImage, ENT_QUOTES, 'UTF-8') ?>"
+                                                alt="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" decoding="async">
+                                        </figure>
+                                    <?php endif; ?>
+                                <?php endif; ?>
 
                                 <?php if (
                                     $type ===
@@ -2494,51 +2392,27 @@ function topReactions(
 
                                         <span
                                             class="hub-reaction-summary"
-                                            title="Reactions">
+                                            title="Votes">
 
                                             <?php
 
-                                            $contentBreakdown = [
-                                                'Like' =>
-                                                (int) (
-                                                    $rawData['like_count']
-                                                    ?? 0
-                                                ),
+                                            $contentBreakdown = $rawData['reaction_breakdown'] ?? [];
 
-                                                'Love' =>
-                                                (int) (
-                                                    $rawData['love_count']
-                                                    ?? 0
-                                                ),
-
-                                                'Care' =>
-                                                (int) (
-                                                    $rawData['care_count']
-                                                    ?? 0
-                                                ),
-
-                                                'Wow' =>
-                                                (int) (
-                                                    $rawData['wow_count']
-                                                    ?? 0
-                                                )
-                                            ];
-
-                                            $contentTopReactions =
-                                                topReactions(
+                                            $contentTopVotes =
+                                                topVotes(
                                                     $contentBreakdown
                                                 );
 
                                             ?>
 
                                             <?php if (
-                                                !empty($contentTopReactions)
+                                                !empty($contentTopVotes)
                                             ): ?>
 
                                                 <span class="hub-reaction-stack">
 
                                                     <?php foreach (
-                                                        $contentTopReactions
+                                                        $contentTopVotes
                                                         as $reaction =>
                                                         $reactionCount
                                                     ): ?>
@@ -2569,10 +2443,7 @@ function topReactions(
 
                                                 <span class="hub-reaction-stack empty">
 
-                                                    <i class="fa-solid fa-thumbs-up reaction-like"></i>
-                                                    <i class="fa-solid fa-heart reaction-love"></i>
-                                                    <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-                                                    <i class="fa-solid fa-face-surprise reaction-wow"></i>
+                                                    <i class="fa-solid fa-arrows-up-down reaction-vote" aria-hidden="true"></i>
 
                                                 </span>
 
@@ -2588,7 +2459,7 @@ function topReactions(
                                             </b>
 
                                             <small>
-                                                Reactions
+                                                Votes
                                             </small>
 
                                         </span>
@@ -2700,51 +2571,27 @@ function topReactions(
 
                                         <span
                                             class="hub-reaction-summary"
-                                            title="Reactions">
+                                            title="Votes">
 
                                             <?php
 
-                                            $eventBreakdown = [
-                                                'Like' =>
-                                                (int) (
-                                                    $rawData['like_count']
-                                                    ?? 0
-                                                ),
+                                            $eventBreakdown = $rawData['reaction_breakdown'] ?? [];
 
-                                                'Love' =>
-                                                (int) (
-                                                    $rawData['love_count']
-                                                    ?? 0
-                                                ),
-
-                                                'Care' =>
-                                                (int) (
-                                                    $rawData['care_count']
-                                                    ?? 0
-                                                ),
-
-                                                'Wow' =>
-                                                (int) (
-                                                    $rawData['wow_count']
-                                                    ?? 0
-                                                )
-                                            ];
-
-                                            $eventTopReactions =
-                                                topReactions(
+                                            $eventTopVotes =
+                                                topVotes(
                                                     $eventBreakdown
                                                 );
 
                                             ?>
 
                                             <?php if (
-                                                !empty($eventTopReactions)
+                                                !empty($eventTopVotes)
                                             ): ?>
 
                                                 <span class="hub-reaction-stack">
 
                                                     <?php foreach (
-                                                        $eventTopReactions
+                                                        $eventTopVotes
                                                         as $reaction =>
                                                         $reactionCount
                                                     ): ?>
@@ -2775,13 +2622,7 @@ function topReactions(
 
                                                 <span class="hub-reaction-stack empty">
 
-                                                    <i class="fa-solid fa-thumbs-up reaction-like"></i>
-
-                                                    <i class="fa-solid fa-heart reaction-love"></i>
-
-                                                    <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-
-                                                    <i class="fa-solid fa-face-surprise reaction-wow"></i>
+                                                    <i class="fa-solid fa-arrows-up-down reaction-vote" aria-hidden="true"></i>
 
                                                 </span>
 
@@ -2797,7 +2638,7 @@ function topReactions(
                                             </b>
 
                                             <small>
-                                                Reactions
+                                                Votes
                                             </small>
 
                                         </span>
@@ -2927,7 +2768,7 @@ function topReactions(
 
                                         <span
                                             class="hub-reaction-summary"
-                                            title="Reactions">
+                                            title="Votes">
 
                                             <?php if (
                                                 !empty($topReactionItems)
@@ -2969,10 +2810,7 @@ function topReactions(
 
                                                 <span class="hub-reaction-stack empty">
 
-                                                    <i class="fa-solid fa-thumbs-up reaction-like"></i>
-                                                    <i class="fa-solid fa-heart reaction-love"></i>
-                                                    <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-                                                    <i class="fa-solid fa-face-surprise reaction-wow"></i>
+                                                    <i class="fa-solid fa-arrows-up-down reaction-vote" aria-hidden="true"></i>
 
                                                 </span>
 
@@ -2988,7 +2826,7 @@ function topReactions(
                                             </b>
 
                                             <small>
-                                                Reactions
+                                                Votes
                                             </small>
 
                                         </span>
@@ -3118,6 +2956,32 @@ function topReactions(
 
                                 <div class="hub-item-action">
 
+                                    <?php if ($isLoggedIn && $type !== 'survey'): ?>
+                                        <?php if (!empty($rawData['allow_reactions'])): ?>
+                                            <div class="hub-inline-votes" role="group" aria-label="Vote on this post"
+                                                data-feed-votes data-vote-type="<?= htmlspecialchars($type, ENT_QUOTES, 'UTF-8') ?>"
+                                                data-vote-id="<?= (int) $contentId ?>">
+                                                <?php foreach (['Upvote' => 'arrow-up', 'Downvote' => 'arrow-down'] as $vote => $voteIcon): ?>
+                                                    <button type="button" data-feed-vote="<?= $vote ?>"
+                                                        aria-label="<?= $vote ?>" title="<?= $vote ?>"
+                                                        aria-pressed="<?= ($rawData['user_reaction'] ?? null) === $vote ? 'true' : 'false' ?>">
+                                                        <i class="fa-solid fa-<?= $voteIcon ?>" aria-hidden="true"></i>
+                                                        <b data-feed-vote-count="<?= $vote ?>"><?= (int) ($reactionBreakdown[$vote] ?? 0) ?></b>
+                                                    </button>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($rawData['allow_comments'])): ?>
+                                            <button type="button" class="hub-comment-action" aria-label="Open comments in a new tab"
+                                                data-feed-comment data-comment-type="<?= htmlspecialchars($type, ENT_QUOTES, 'UTF-8') ?>"
+                                                data-comment-id="<?= (int) $contentId ?>">
+                                                <i class="fa-regular fa-comment" aria-hidden="true"></i>
+                                                <span class="hub-discuss-label">Discuss</span> <b data-feed-comment-count><?= (int) ($rawData['comment_count'] ?? 0) ?></b>
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+
                                     <?php if (
                                         $type ===
                                         'announcement'
@@ -3133,9 +2997,7 @@ function topReactions(
                                                                         ?? 0
                                                                     )
                                                                     ?>">
-                                            <span>
-                                                Open
-                                            </span>
+                                            <span>Read more</span>
 
                                             <i class="fa-solid fa-chevron-right"></i>
 
@@ -3254,9 +3116,7 @@ function topReactions(
                                                                     ENT_QUOTES,
                                                                     'UTF-8'
                                                                 ) ?>">
-                                            <span>
-                                                Open
-                                            </span>
+                                            <span>Read more</span>
 
                                             <i class="fa-solid fa-chevron-right"></i>
 
@@ -3407,7 +3267,16 @@ function topReactions(
     usort($upcomingFeedEvents, static fn(array $first, array $second): int =>
         strtotime((string) $first['event_date']) <=> strtotime((string) $second['event_date']));
     ?>
-    <aside class="hub-feed-aside" aria-label="Upcoming events">
+    <aside class="hub-feed-aside" aria-label="Recent posts and upcoming events">
+        <section class="hub-recent-posts" aria-labelledby="recentPostsTitle">
+            <header>
+                <h2 id="recentPostsTitle">Recent posts</h2>
+                <button type="button" id="clearRecentPosts">Clear</button>
+            </header>
+            <div id="recentPostsList" aria-live="polite">
+                <p class="hub-recent-empty">No recent posts available.</p>
+            </div>
+        </section>
         <section class="hub-upcoming">
             <h2>Upcoming events</h2>
             <?php if ($upcomingFeedEvents === []): ?>
@@ -3445,8 +3314,11 @@ function topReactions(
 <aside
     id="contentDrawer"
     class="thread-drawer"
+    role="region"
+    tabindex="-1"
+    inert
     aria-hidden="true"
-    aria-labelledby="contentDrawerTitle">
+    aria-label="Post details and discussion">
 
     <header class="thread-drawer-header">
 
@@ -3475,11 +3347,13 @@ function topReactions(
             type="button"
             id="closeContentDrawer"
             class="drawer-close-button"
-            aria-label="Close details">
+            aria-label="Collapse post details">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
     </header>
+
+    <div class="thread-drawer-body">
 
     <div class="thread-drawer-meta">
 
@@ -3558,20 +3432,14 @@ function topReactions(
                 <span
                     id="drawerReactionStack"
                     class="hub-reaction-stack drawer-reaction-stack">
-                    <i class="fa-solid fa-thumbs-up reaction-like"></i>
-
-                    <i class="fa-solid fa-heart reaction-love"></i>
-
-                    <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-
-                    <i class="fa-solid fa-face-surprise reaction-wow"></i>
+                    <i class="fa-solid fa-arrows-up-down reaction-vote" aria-hidden="true"></i>
                 </span>
 
                 <b id="drawerReactionCount">
                     0
                 </b>
 
-                Reactions
+                Votes
 
             </span>
 
@@ -3611,7 +3479,7 @@ function topReactions(
             <i class="fa-solid fa-lock"></i>
 
             <span>
-                Reactions are disabled for this content.
+                Votes are disabled for this content.
             </span>
         </div>
 
@@ -3626,67 +3494,17 @@ function topReactions(
             </span>
         </div> -->
 
-        <div
-            id="reactionPicker"
-            class="reaction-picker">
-
-            <button
-                type="button"
-                data-reaction="Like">
-                <i class="fa-solid fa-thumbs-up reaction-like"></i>
-
-                <span>
-                    Like
-                </span>
-
-                <b data-reaction-button-count="Like">
-                    0
-                </b>
+        <div id="reactionPicker" class="reaction-picker" role="group" aria-label="Upvote or downvote this content">
+            <button type="button" data-reaction="Upvote" aria-pressed="false">
+                <i class="fa-solid fa-arrow-up reaction-vote" aria-hidden="true"></i>
+                <span>Upvote</span><b data-reaction-button-count="Upvote">0</b>
             </button>
-
-            <button
-                type="button"
-                data-reaction="Love">
-                <i class="fa-solid fa-heart reaction-love"></i>
-
-                <span>
-                    Love
-                </span>
-
-                <b data-reaction-button-count="Love">
-                    0
-                </b>
+            <button type="button" data-reaction="Downvote" aria-pressed="false">
+                <i class="fa-solid fa-arrow-down reaction-vote" aria-hidden="true"></i>
+                <span>Downvote</span><b data-reaction-button-count="Downvote">0</b>
             </button>
-
-            <button
-                type="button"
-                data-reaction="Care">
-                <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-
-                <span>
-                    Care
-                </span>
-
-                <b data-reaction-button-count="Care">
-                    0
-                </b>
-            </button>
-
-            <button
-                type="button"
-                data-reaction="Wow">
-                <i class="fa-solid fa-face-surprise reaction-wow"></i>
-
-                <span>
-                    Wow
-                </span>
-
-                <b data-reaction-button-count="Wow">
-                    0
-                </b>
-            </button>
-
         </div>
+        <p class="vote-help">Choose Upvote or Downvote. Select it again to remove your vote.</p>
 
         <!-- ==================================
              ACKNOWLEDGMENT PREPARATION
@@ -3702,7 +3520,7 @@ function topReactions(
                 <i class="fa-solid fa-check-double"></i>
 
                 <span>
-                    Acknowledge Content
+                    Acknowledge
                 </span>
             </button>
 
@@ -3748,7 +3566,7 @@ function topReactions(
             href="#"
             class="hub-open-button"
             download>
-            <i class="fa-solid fa-arrow-down"></i>
+            <i class="fa-solid fa-download" aria-hidden="true"></i>
 
             Download Document
         </a>
@@ -3767,10 +3585,6 @@ function topReactions(
         <div class="drawer-section-title">
 
             <div>
-
-                <span class="page-eyebrow">
-                    Feedback Avenue
-                </span>
 
                 <h3>
                     Discussion
@@ -3818,7 +3632,7 @@ function topReactions(
             </div>
 
             <label for="announcementCommentInput">
-                Question, comment, or suggestion
+                Add to the discussion
             </label>
 
             <textarea
@@ -3832,12 +3646,14 @@ function topReactions(
 
                 <i class="fa-solid fa-paper-plane"></i>
 
-                Post Feedback
+                Post Comment
 
             </button>
 
         </form>
 
     </section>
+
+    </div>
 
 </aside>

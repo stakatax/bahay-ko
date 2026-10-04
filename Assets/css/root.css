@@ -64,3 +64,14 @@
     --title-size: clamp(28px, 6vw, 64px);
     --text-size: clamp(12px, 2.5vw, 16px);
 }
+
+/* Page titles stand alone; field help and content descriptions stay visible. */
+.page-header-copy > p,
+.calendar-header-copy > p,
+.publisher-workspace-header > div > p,
+.auth-card-header > div > p,
+.register-header > div > p,
+.password-change-card > header > div > p,
+.legal-consent-card > header > div > p {
+    display: none;
+}

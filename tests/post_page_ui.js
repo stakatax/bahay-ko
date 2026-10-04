@@ -1,0 +1,15 @@
+const fs=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const source=fs.readFileSync('Assets/js/news.js','utf8');
+let opened;
+const context=vm.createContext({URLSearchParams,window:{open(...args){opened=args;}}});
+const start=source.indexOf('    function postPageUrl(');
+const end=source.indexOf("    document.querySelectorAll('[data-feed-comment]')",start);
+vm.runInContext(source.slice(start,end),context);
+context.openPostTab('announcement',5);
+assert.deepEqual(opened,['index.php?page=content_post&content_type=announcement&content_id=5','_blank','noopener,noreferrer']);
+context.openPostTab('document',8,true);
+assert.equal(opened[0],'index.php?page=content_post&content_type=document&content_id=8#discussion');
+for(const type of ['announcement','event','document']) assert.ok(source.includes("openPostTab(\n                    '"+type+"',") || source.includes("openPostTab(\r\n                    '"+type+"',"));
+console.log('PASS: post links open a separate protected tab, with discussion anchoring.');

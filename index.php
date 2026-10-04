@@ -102,6 +102,7 @@ $publicPages = [
 
 $authenticatedPages = [
   'news',
+  'content_post',
   'calendar',
   'survey_participate',
   'notifications',
@@ -1212,6 +1213,23 @@ switch ($page) {
     $pageJS =
       'dashboard.js';
 
+    break;
+
+  case 'content_post':
+    if (!in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['GET', 'HEAD'], true)) {
+      http_response_code(405);
+      header('Allow: GET, HEAD');
+      exit;
+    }
+    $postContentType = is_string($_GET['content_type'] ?? null) ? $_GET['content_type'] : '';
+    $postContentId = filter_var($_GET['content_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if (!in_array($postContentType, ['announcement', 'event', 'document'], true) || $postContentId === false || $postContentId === null) {
+      stopForRouteGuard('news', 'invalid_request', 'The requested post is unavailable.', 404, true);
+    }
+    $viewData = [];
+    $title = 'Post Details';
+    $pageCSS = 'news.css';
+    $pageJS = 'news.js';
     break;
 
   case 'news':

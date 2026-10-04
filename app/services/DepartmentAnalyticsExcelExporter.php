@@ -494,7 +494,7 @@ class DepartmentAnalyticsExcelExporter
             $engagement['views']
                 ?? 0,
 
-            'Reactions' =>
+            'Votes' =>
             $engagement['reactions']
                 ?? 0,
 
@@ -624,7 +624,7 @@ class DepartmentAnalyticsExcelExporter
             'Views' =>
             $views,
 
-            'Reactions' =>
+            'Votes' =>
             (int) (
                 $engagement['reactions']
                 ?? 0
@@ -1079,7 +1079,7 @@ class DepartmentAnalyticsExcelExporter
                 'Audience interaction is below 10 actions per 100 views',
 
                 'action' =>
-                'Use clearer calls to action and enable reactions, comments, or acknowledgments only when they support the content objective.'
+                'Use clearer calls to action and enable voting, comments, or acknowledgments only when they support the content objective.'
             ];
         }
 

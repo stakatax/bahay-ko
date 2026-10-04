@@ -681,6 +681,121 @@ body::-webkit-scrollbar {
 
 }
 
+/* Sign-in and registration share a balanced brand panel. */
+@media (min-width: 851px) {
+    .auth-shell:has(#loginForm),
+    .auth-shell.register-shell {
+        grid-template-columns: clamp(300px, 28vw, 380px) minmax(0, 1fr);
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail,
+    .register-shell .auth-rail {
+        padding: 32px clamp(24px, 2.5vw, 36px);
+        gap: 24px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-content,
+    .register-shell .auth-rail-content {
+        padding-block: 32px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-content h1,
+    .register-shell .auth-rail-content h1 {
+        margin: 16px 0 20px;
+        font-size: clamp(28px, 2.35vw, 36px);
+        line-height: 1.25;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+    }
+
+    .auth-rail-content h1 > span {
+        display: block;
+    }
+
+    .register-shell .auth-rail-content > p {
+        font-size: var(--font-size-body, 0.9375rem);
+        line-height: var(--line-height-body, 1.7);
+    }
+
+    .auth-shell:has(#loginForm) .auth-feature-list,
+    .register-shell .registration-steps {
+        margin-top: 28px;
+        gap: 16px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-feature-list > span,
+    .register-shell .registration-steps > span {
+        align-items: flex-start;
+        gap: 12px;
+        font-size: var(--font-size-label, 0.875rem);
+        line-height: 1.7;
+    }
+
+    .auth-feature-list i {
+        flex: 0 0 28px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-navigation {
+        flex-wrap: wrap;
+        gap: 8px 20px;
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-navigation a,
+    .register-shell .auth-rail-login {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: var(--font-size-label, 0.875rem);
+    }
+
+    .auth-shell:has(#loginForm) .auth-rail-footer {
+        margin-top: 0;
+        font-size: var(--font-size-caption, 0.75rem);
+        line-height: 1.6;
+    }
+}
+
+/* Authentication pages use one entrance rather than animating every field. */
+@keyframes auth-card-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes auth-heading-enter {
+    from { transform: translateY(8px); }
+    to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .auth-card {
+        animation: auth-card-enter 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .auth-card-header,
+    .register-header {
+        animation: auth-heading-enter 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-card,
+    .auth-card-header,
+    .register-header {
+        animation: none;
+    }
+
+    .auth-shell *,
+    .auth-shell *::before,
+    .auth-shell *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+
+    .auth-submit-button:hover {
+        transform: none;
+    }
+}
+
 /* Sign-in readability; other authentication forms retain their styles. */
 .auth-shell:has(#loginForm) { font-family: var(--font-primary); }
 .auth-shell:has(#loginForm) .auth-card-header p,

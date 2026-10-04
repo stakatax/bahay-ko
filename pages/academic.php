@@ -373,14 +373,12 @@ $hasPublicAcademicCatalog =
             </span>
 
             <h1>
-                Learning pathways for every stage
+                Programs and Education Levels
             </h1>
 
             <p>
-                Our Lady of the Sacred Heart College of Guimba, Inc.
-                provides educational opportunities from Elementary
-                to College, guided by academic excellence,
-                faith, values formation, and service.
+                Explore our education levels, Senior High School
+                strands, and college degree programs.
             </p>
 
             <div class="academic-header-actions">
@@ -414,7 +412,7 @@ $hasPublicAcademicCatalog =
             <div>
 
                 <span>
-                    Educational Coverage
+                    Education Levels
                 </span>
 
                 <strong>
@@ -422,9 +420,8 @@ $hasPublicAcademicCatalog =
                 </strong>
 
                 <p>
-                    Academic information is organized according
-                    to School Division, Program or Strand,
-                    Grade or Year Level, and Section.
+                    Explore the school's education levels,
+                    Senior High School strands, and college programs.
                 </p>
 
             </div>
@@ -495,12 +492,12 @@ $hasPublicAcademicCatalog =
                         </span>
 
                         <h2>
-                            Explore our academic levels
+                            Education levels
                         </h2>
 
                         <p>
-                            Each division supports a distinct stage
-                            of student development and preparation.
+                            Find the education level that matches
+                            your stage of learning.
                         </p>
 
                     </div>
@@ -689,12 +686,11 @@ $hasPublicAcademicCatalog =
                         </span>
 
                         <h2>
-                            Available degree programs
+                            College degree programs
                         </h2>
 
                         <p>
-                            College offerings support professional preparation,
-                            technical competence, leadership, and service.
+                            Browse the degree programs offered by the school.
                         </p>
 
                     </div>
@@ -741,7 +737,7 @@ $hasPublicAcademicCatalog =
             <div>
 
                 <span class="academic-eyebrow">
-                    Digital Hub Classification
+                    Your Academic Placement
                 </span>
 
                 <h2>
@@ -749,8 +745,8 @@ $hasPublicAcademicCatalog =
                 </h2>
 
                 <p>
-                    This hierarchy supports precise announcements,
-                    notifications, analytics, and role-based dissemination.
+                    Your school division, program, year level, and section
+                    help determine which school updates you receive.
                 </p>
 
             </div>

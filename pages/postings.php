@@ -4048,7 +4048,7 @@ $errorMessage =
                             <div>
 
                                 <strong>
-                                    Allow reactions
+                                    Allow voting
                                 </strong>
 
                                 <small>

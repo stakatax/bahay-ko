@@ -233,7 +233,7 @@ $totalViews =
         ?? 0
     );
 
-$totalReactions =
+$totalVotes =
     (int) (
         $engagement['reactions']
         ?? 0
@@ -259,8 +259,8 @@ $engagementMetrics = [
         'class' => 'views'
     ],
     [
-        'label' => 'Reactions',
-        'value' => $totalReactions,
+        'label' => 'Votes',
+        'value' => $totalVotes,
         'icon' => 'fa-regular fa-heart',
         'class' => 'reactions'
     ],
@@ -282,7 +282,7 @@ $maximumEngagement =
     max(
         1,
         $totalViews,
-        $totalReactions,
+        $totalVotes,
         $totalComments,
         $totalAcknowledgments
     );
@@ -1069,12 +1069,12 @@ $currentDashboardUserId =
 
                     <strong>
                         <?= number_format(
-                            $totalReactions
+                            $totalVotes
                         ) ?>
                     </strong>
 
                     <small>
-                        Reactions
+                        Votes
                     </small>
 
                 </div>

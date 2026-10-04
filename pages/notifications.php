@@ -64,7 +64,7 @@ $notificationCategories = [
         'Engagement',
 
         'description' =>
-        'Reactions, acknowledgments, and survey responses.',
+        'Votes, acknowledgments, and survey responses.',
 
         'icon' =>
         'fa-regular fa-heart'

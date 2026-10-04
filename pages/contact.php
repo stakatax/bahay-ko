@@ -79,13 +79,12 @@ $schoolOffices = [
             </span>
 
             <h1>
-                We are here to help.
+                Contact the School
             </h1>
 
             <p>
-                Reach the appropriate school office for admissions,
-                academic concerns, records, enrollment assistance,
-                or general inquiries.
+                Find school contact details and directions,
+                or ask about admissions, enrollment, and records.
             </p>
 
             <div class="contact-header-actions">
@@ -125,12 +124,12 @@ $schoolOffices = [
                 </span>
 
                 <strong>
-                    Connect with the right office
+                    How can we help?
                 </strong>
 
                 <p>
-                    Use the contact directory or inquiry form
-                    to send your concern to the school.
+                    Contact the school about admissions, enrollment,
+                    or school records using the phone and email links.
                 </p>
 
             </div>
@@ -163,12 +162,11 @@ $schoolOffices = [
                 </span>
 
                 <h2>
-                    Official contact information
+                    School contact details
                 </h2>
 
                 <p>
-                    Use the following channels for official
-                    school communication and inquiries.
+                    Call, email, or visit the school using the details below.
                 </p>
 
             </div>
@@ -330,12 +328,11 @@ $schoolOffices = [
                     </span>
 
                     <h2>
-                        Get in touch
+                        Inquiry form
                     </h2>
 
                     <p>
-                        Complete the form and provide
-                        the details of your concern.
+                        Online inquiries are not available yet.
                     </p>
 
                 </div>
@@ -496,9 +493,8 @@ $schoolOffices = [
                 <i class="fa-solid fa-circle-info"></i>
 
                 <p>
-                    This form is currently prepared for the Contact
-                    Inquiry module. Backend email delivery and inquiry
-                    storage must be connected before production use.
+                    Please use Call the School or Send an Email above
+                    to contact us. This form cannot send messages yet.
                 </p>
 
             </div>

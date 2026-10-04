@@ -2079,18 +2079,11 @@ AND event_date > NOW()
                     );
 
                 $notificationTitle =
-                    'New reaction';
+                    'New vote';
 
                 $notificationMessage =
                     $actorName
-                    . ' reacted'
-                    . (
-                        $reaction !== ''
-                        ? ' with '
-                        . $reaction
-                        : ''
-                    )
-                    . ' to your '
+                    . ($reaction === 'Downvote' ? ' downvoted your ' : ' upvoted your ')
                     . $contentLabel
                     . ': '
                     . $contentTitle

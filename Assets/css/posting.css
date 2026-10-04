@@ -6889,6 +6889,40 @@ span span {
 .posting-trusted-sources a:focus-visible { outline: 2px solid var(--primary-red); outline-offset: 3px; }
 .posting-trusted-sources a i { margin-left: auto; flex-shrink: 0; font-size: 0.75rem; }
 .posting-trusted-sources p { margin: 0; font-size: 0.8125rem; line-height: 1.6; color: var(--text-gray); }
+
+@media (prefers-reduced-motion: no-preference) {
+    .type-btn,
+    .publisher-toggle-control {
+        transition-duration: 350ms;
+    }
+
+    .publisher-toggle-control::after {
+        transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    #toggleContentTopicChooser .fa-chevron-down {
+        transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .type-btn:not(:disabled):active {
+        transform: scale(0.98);
+        transition-duration: 180ms;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .type-btn,
+    .publisher-toggle-control,
+    .publisher-toggle-control::after,
+    #toggleContentTopicChooser .fa-chevron-down {
+        transition: none;
+    }
+
+    .type-btn:hover:not(:disabled),
+    .type-btn:active {
+        transform: none;
+    }
+}
 .posting-source-new-tab { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* Publisher typography and grouping share the root scale on every screen. */

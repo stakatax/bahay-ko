@@ -71,6 +71,9 @@ function setupProfileModals() {
         modal.classList.remove('visible');
 
         window.setTimeout(() => {
+            if (modal.classList.contains('visible')) {
+                return;
+            }
             modal.hidden = true;
 
             if (activeModal === modal) {
@@ -80,7 +83,7 @@ function setupProfileModals() {
                 );
                 returnFocus?.focus?.();
             }
-        }, 180);
+        }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400);
     };
 
     document.querySelectorAll('[data-open-modal]').forEach((button) => {

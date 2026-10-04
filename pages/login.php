@@ -125,8 +125,8 @@ $successTitle =
             </span>
 
             <h1>
-                One school.<br>
-                One trusted hub.
+                <span>One school.</span>
+                <span>One trusted hub.</span>
             </h1>
 
             <p>

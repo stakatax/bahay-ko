@@ -1711,8 +1711,8 @@ body {
         overflow: visible;
 
         transition:
-            width 0.22s ease,
-            flex-basis 0.22s ease;
+            width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+            flex-basis 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .sidebar-collapse-toggle {
@@ -1944,8 +1944,8 @@ body {
 
         transition:
             transform
-            0.22s
-            ease;
+            0.4s
+            cubic-bezier(0.22, 1, 0.36, 1);
 
         overflow: hidden;
 
@@ -2533,6 +2533,67 @@ body.session-warning-open {
     .sidebar,
     .sidebar-mobile-overlay {
         transition: none;
+    }
+}
+
+/* Shared motion uses opacity and transforms without delaying interaction. */
+@keyframes app-page-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes app-heading-enter {
+    from { transform: translateY(10px); }
+    to { transform: translateY(0); }
+}
+
+@keyframes app-content-enter {
+    from { opacity: 0.65; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .page-content {
+        animation: app-page-enter 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .page-content .page-header {
+        animation: app-heading-enter 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .app-page details[open] > :not(summary) {
+        animation: app-content-enter 320ms ease-out;
+    }
+
+    .app-button:not(:disabled):not([aria-disabled="true"]):active {
+        transform: scale(0.98);
+        transition-duration: 180ms;
+    }
+
+    .sidebar-mobile-overlay {
+        transition-duration: 400ms;
+    }
+
+    .app-button,
+    .sidebar-link,
+    .sidebar-profile,
+    .sidebar-collapse-toggle {
+        transition-duration: 300ms;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-layout *,
+    .app-layout *::before,
+    .app-layout *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+
+    .app-button:hover,
+    .app-button:active {
+        transform: none;
     }
 }
 

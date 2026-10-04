@@ -48,13 +48,16 @@ try {
         $ddl = preg_replace('/^CREATE TABLE /', 'CREATE TEMPORARY TABLE ', $ddl, 1);
         $ddl = preg_replace('/^\s*CONSTRAINT[^\n]*\n?/m', '', $ddl);
         $ddl = preg_replace('/,\n\)/', "\n)", $ddl);
+        if ($table === 'content_reaction') {
+            $ddl = str_replace("enum('Like','Love','Care','Wow')", "enum('Upvote','Downvote')", $ddl);
+        }
         $db->query($ddl);
     }
     $engagement = new ContentEngagement($db);
     foreach (['announcement', 'event', 'document', 'survey'] as $type) {
         $db->query("INSERT INTO content_view (content_type,content_id,user_id) VALUES ('$type',1,1),('$type',1,2),('$type',3,2)");
         $db->query("INSERT INTO content_acknowledgment (content_type,content_id,user_id) VALUES ('$type',1,1),('$type',3,2)");
-        $db->query("INSERT INTO content_reaction (content_type,content_id,user_id,reaction_type) VALUES ('$type',1,1,'Love'),('$type',1,2,'Like'),('$type',1,3,'Care'),('$type',1,4,'Wow'),('$type',3,2,'Love')");
+        $db->query("INSERT INTO content_reaction (content_type,content_id,user_id,reaction_type) VALUES ('$type',1,1,'Downvote'),('$type',1,2,'Upvote'),('$type',1,3,'Upvote'),('$type',1,4,'Downvote'),('$type',3,2,'Downvote')");
         $db->query("INSERT INTO content_comment (content_type,content_id,user_id,comment,status) VALUES ('$type',1,1,'Visible','Active'),('$type',1,2,'Moderated','Hidden'),('$type',3,2,'Removed','Deleted')");
         foreach ([0, 1, 2, 99] as $user) {
             $batch = $engagement->getEngagementBatch($type, [1, 2, 3], $user);
@@ -84,7 +87,7 @@ try {
     $attached = (new ReflectionMethod(PostService::class, 'attachEngagement'))->invoke($post, 'announcement', 'announcement_id', $items, 1);
     performanceCheck($db->prepares === 4, 'Actual feed attachment uses batched model');
     performanceCheck(array_column($attached, 'title') === ['third', 'first', 'invalid'], 'Card order and unrelated fields preserved');
-    performanceCheck($attached[1]['love_count'] === 1 && $attached[1]['user_reaction'] === 'Love', 'Rendered reaction fields preserved');
+    performanceCheck($attached[1]['downvote_count'] === 2 && $attached[1]['user_reaction'] === 'Downvote', 'Rendered reaction fields preserved');
     performanceCheck($attached[2] === $items[2], 'Invalid card handling preserved');
     $survey = new Survey($db);
     $db->query('INSERT INTO survey_response (survey_id,user_id) VALUES (1,1),(2,2),(3,1)');

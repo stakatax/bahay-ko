@@ -581,7 +581,7 @@ body.student-profile-modal-open {
     place-items: center;
     padding: 24px;
     opacity: 0;
-    transition: opacity 0.18s ease;
+    transition: opacity 400ms ease;
 }
 
 .student-profile-modal[hidden] {
@@ -611,11 +611,18 @@ body.student-profile-modal-open {
     background: #fff;
     box-shadow: var(--shadow-lg);
     transform: translateY(10px) scale(0.985);
-    transition: transform 0.18s ease;
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .student-profile-modal.visible .student-profile-modal-dialog {
     transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .student-profile-modal,
+    .student-profile-modal-dialog {
+        transition: none;
+    }
 }
 
 .student-profile-modal-dialog.large {

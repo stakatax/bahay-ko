@@ -2169,6 +2169,31 @@ small i {
     }
 }
 
+@keyframes calendar-result-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .calendar-app-page .day-cell {
+        transition-duration: 350ms;
+    }
+
+    .calendar-selected-event {
+        animation: calendar-result-enter 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calendar-selected-event {
+        animation: none;
+    }
+
+    .calendar-app-page .day-cell {
+        transition: none;
+    }
+}
+
 /* The maroon summary needs light text rather than white-card text colors. */
 .calendar-summary-card p {
     color: var(--text-white, #ffffff);

@@ -568,7 +568,7 @@ $contentIcons = [
                         'icon' => 'fa-regular fa-eye'
                     ],
                     [
-                        'label' => 'Reactions',
+                        'label' => 'Votes',
                         'key' => 'reactions',
                         'icon' => 'fa-regular fa-heart'
                     ],

@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync('Assets/js/news.js','utf8');
+const cards=Array.from({length:7},(_,i)=>({dataset:{type:'announcement',contentId:String(i+1),recentDate:`2026-10-0${i+1}`},querySelector(){return {};}}));
+cards.push({dataset:{type:'unknown',recentDate:'2026-10-09'},querySelector(){return {};}});
+const context=vm.createContext({hubItems:cards,Date});
+const start=source.indexOf('    let recentPostsCleared');
+const end=source.indexOf('    function renderRecentPosts()',start);
+vm.runInContext(source.slice(start,end),context);
+const result=context.recentFeedCards();
+assert.equal(result.length,5);
+assert.deepEqual(Array.from(result,card=>card.dataset.contentId),['7','6','5','4','3']);
+assert.equal(cards[0].dataset.contentId,'1');
+assert.ok(!source.includes('recentPostHistory'));
+console.log('PASS: five newest eligible rendered posts, without history dependency or changing feed order.');

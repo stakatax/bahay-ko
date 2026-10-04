@@ -35,10 +35,8 @@ class ContentEngagementService
     private NotificationService $notificationService;
 
     private array $allowedReactions = [
-        'Like',
-        'Love',
-        'Care',
-        'Wow'
+        'Upvote',
+        'Downvote'
     ];
 
     public function __construct()
@@ -168,7 +166,7 @@ class ContentEngagementService
             )
         ) {
             throw new InvalidArgumentException(
-                'Invalid reaction type.'
+                'Invalid vote type.'
             );
         }
 
@@ -197,7 +195,7 @@ class ContentEngagementService
 
         if (!$settings['allow_reactions']) {
             throw new RuntimeException(
-                'Reactions are disabled for this content.'
+                'Voting is disabled for this content.'
             );
         }
 
@@ -210,9 +208,9 @@ class ContentEngagementService
             );
 
         $reactionChanged =
-            $affectedRows > 0;
+            $affectedRows !== 0;
 
-        if ($reactionChanged) {
+        if ($affectedRows > 0) {
             $contentAuthorId =
                 (int) (
                     $content['user_id']
@@ -268,7 +266,7 @@ class ContentEngagementService
             $reactionChanged,
 
             'selected_reaction' =>
-            $reaction,
+            $affectedRows === -1 ? null : $reaction,
 
             'engagement' =>
             $this->engagement

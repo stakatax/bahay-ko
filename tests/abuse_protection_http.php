@@ -82,7 +82,7 @@ HARNESS;
     file_put_contents($entry, $bootstrap);
     $request = static function (string $action, string $mode, string $role='Student', string $method='POST', int $actor=7, array $overrides=[], bool $json=false) use ($entry, $temporary, $cgi): array {
         $post = array_replace(['identifier'=>'fixture@example.test','password'=>'secret-fixture','csrf_token'=>'fixture-csrf',
-            'content_type'=>'announcement','content_id'=>1,'reaction'=>'Like','comment'=>'Fixture','user_id'=>999], $overrides);
+            'content_type'=>'announcement','content_id'=>1,'reaction'=>'Upvote','comment'=>'Fixture','user_id'=>999], $overrides);
         $body = http_build_query($post);
         $env = getenv();
         unset($env['HTTP_COOKIE'], $env['HTTP_X_CSRF_TOKEN'], $env['HTTP_X_REQUESTED_WITH']);

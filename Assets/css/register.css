@@ -1290,3 +1290,27 @@
         padding: var(--space-control);
     }
 }
+
+/* The long form must not stretch the desktop brand panel. */
+@media (min-width: 851px) {
+    .register-shell .auth-rail {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .register-shell .auth-logo,
+    .register-shell .auth-rail-content,
+    .register-shell .auth-rail-login {
+        flex-shrink: 0;
+    }
+
+    .register-shell .auth-rail-content {
+        padding-block: 24px;
+    }
+}

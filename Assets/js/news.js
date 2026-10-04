@@ -70,25 +70,8 @@ let activeInteractionSettings = {
     ========================================== */
 
     const reactionConfig = {
-        Like: {
-            icon: 'fa-solid fa-thumbs-up',
-            className: 'reaction-like'
-        },
-
-        Love: {
-            icon: 'fa-solid fa-heart',
-            className: 'reaction-love'
-        },
-
-        Care: {
-            icon: 'fa-solid fa-hand-holding-heart',
-            className: 'reaction-care'
-        },
-
-        Wow: {
-            icon: 'fa-solid fa-face-surprise',
-            className: 'reaction-wow'
-        }
+        Upvote: { label: 'Upvote', icon: 'fa-solid fa-arrow-up', className: 'reaction-vote' },
+        Downvote: { label: 'Downvote', icon: 'fa-solid fa-arrow-down', className: 'reaction-vote' }
     };
 
     const supportedReactions =
@@ -370,7 +353,8 @@ let activeInteractionSettings = {
                                 candidate.dataset
                                     .type ??
                                 ''
-                            ) !== lastType
+                            ) !== lastType &&
+                            Number(remaining[0].dataset.rankingScore ?? 0) - Number(candidate.dataset.rankingScore ?? 0) <= 90
                     );
 
                 if (alternativeIndex >= 0) {
@@ -696,22 +680,23 @@ let activeParentCommentId =
        DRAWER HELPERS
     ========================================== */
 
+    let drawerReturnFocus = null;
+    let inlinePost = null;
+
     function openDrawer() {
-        drawer?.classList.add('active');
-        overlay?.classList.add('active');
-
-        drawer?.setAttribute(
-            'aria-hidden',
-            'false'
-        );
-
-        overlay?.setAttribute(
-            'aria-hidden',
-            'false'
-        );
-
-        document.body.style.overflow =
-            'hidden';
+        if (!drawer) return;
+        if (inlinePost) inlinePost.classList.remove('is-reader-open');
+        inlinePost = hubItems.find(item => item.dataset.type === activeContentType && Number(item.dataset.contentId) === activeContentId) ?? null;
+        if (!inlinePost) return;
+        drawerReturnFocus = document.activeElement;
+        inlinePost.classList.add('is-reader-open');
+        const content = inlinePost.querySelector('.hub-item-content');
+        const actions = content?.querySelector('.hub-item-action');
+        if (content) content.insertBefore(drawer, actions ?? null);
+        drawer.removeAttribute('inert');
+        drawer.classList.add('active');
+        drawer.setAttribute('aria-hidden', 'false');
+        closeButton?.focus({ preventScroll: true });
     }
 
     function closeDrawer() {
@@ -731,7 +716,10 @@ let activeParentCommentId =
             'true'
         );
 
-        document.body.style.overflow = '';
+        inlinePost?.classList.remove('is-reader-open');
+        inlinePost = null;
+        if (drawerReturnFocus?.isConnected) drawerReturnFocus.focus({ preventScroll: true });
+        drawer?.setAttribute('inert', '');
 
 activeContentType =
     null;
@@ -986,6 +974,62 @@ const newsCsrfToken =
         .csrfToken ||
     '';
 
+    let recentPostsCleared = false;
+    function recentFeedCards() {
+        return hubItems.filter(card => ['announcement', 'event', 'document'].includes(card.dataset.type)
+            && card.querySelector('.hub-item-content > h3'))
+            .sort((first, second) => (Date.parse(second.dataset.recentDate) || 0) - (Date.parse(first.dataset.recentDate) || 0))
+            .slice(0, 5);
+    }
+    function renderRecentPosts() {
+        const list = document.getElementById('recentPostsList');
+        if (!list) return;
+        list.replaceChildren();
+        const cards = recentPostsCleared ? [] : recentFeedCards();
+        const clear = document.getElementById('clearRecentPosts');
+        if (clear) clear.disabled = cards.length === 0;
+        let rendered = 0;
+        for (const card of cards) {
+            const entry = {type: card.dataset.type, id: Number(card.dataset.contentId)};
+            const title = card?.querySelector('.hub-item-content > h3');
+            if (!title) continue; // Only server-authorized, currently rendered posts can supply metadata.
+            const link = document.createElement('a');
+            link.className = 'hub-recent-post';
+            link.href = postPageUrl(entry.type, entry.id);
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            const meta = document.createElement('span');
+            meta.className = 'hub-recent-meta';
+            meta.textContent = card.querySelector('.hub-post-identity strong')?.textContent.trim() || 'OLSHCO Digital Hub';
+            const heading = document.createElement('strong');
+            heading.textContent = title.textContent.trim();
+            const stats = document.createElement('span');
+            stats.className = 'hub-recent-stats';
+            const upvotes = card.querySelector('[data-feed-vote-count="Upvote"]')?.textContent ?? card.dataset.recentUpvotes ?? '0';
+            const comments = card.querySelector('[data-feed-comment-count]')?.textContent ?? card.dataset.recentComments ?? '0';
+            stats.textContent = `${upvotes} upvotes / ${comments} comments`;
+            const copy = document.createElement('div');
+            copy.append(meta, heading, stats);
+            link.append(copy);
+            const media = card.querySelector('.hub-post-media img');
+            if (media) {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = media.src;
+                thumbnail.alt = '';
+                thumbnail.loading = 'lazy';
+                link.append(thumbnail);
+            }
+            list.append(link);
+            if (++rendered === 5) break;
+        }
+        if (!rendered) {
+            const empty = document.createElement('p');
+            empty.className = 'hub-recent-empty';
+            empty.textContent = recentPostsCleared ? 'Recent posts cleared. Refresh to show them again.' : 'No recent posts available in your feed.';
+            list.append(empty);
+        }
+    }
+
    async function sendRequest(
     page,
     formData
@@ -1079,33 +1123,8 @@ formData.set(
             {};
 
         return {
-            Like: Number(
-                breakdown.Like ??
-                breakdown.like ??
-                source.like_count ??
-                0
-            ),
-
-            Love: Number(
-                breakdown.Love ??
-                breakdown.love ??
-                source.love_count ??
-                0
-            ),
-
-            Care: Number(
-                breakdown.Care ??
-                breakdown.care ??
-                source.care_count ??
-                0
-            ),
-
-            Wow: Number(
-                breakdown.Wow ??
-                breakdown.wow ??
-                source.wow_count ??
-                0
-            )
+            Upvote: Number(breakdown.Upvote ?? source.upvote_count ?? 0),
+            Downvote: Number(breakdown.Downvote ?? source.downvote_count ?? 0)
         };
     }
 
@@ -1124,10 +1143,8 @@ formData.set(
 
     function resetReactionCounts() {
         const emptyCounts = {
-            Like: 0,
-            Love: 0,
-            Care: 0,
-            Wow: 0
+            Upvote: 0,
+            Downvote: 0
         };
 
         renderReactionCounts(
@@ -1204,7 +1221,7 @@ formData.set(
                         <i
                             class="${config.icon} ${config.className}"
                             title="${escapeHtml(
-                                `${reaction}: ${count}`
+                                `${config.label}: ${count}`
                             )}"
                         ></i>
                     `;
@@ -1255,10 +1272,7 @@ formData.set(
 
     if (sortedReactions.length === 0) {
         stack.innerHTML = `
-            <i class="fa-solid fa-thumbs-up reaction-like"></i>
-            <i class="fa-solid fa-heart reaction-love"></i>
-            <i class="fa-solid fa-hand-holding-heart reaction-care"></i>
-            <i class="fa-solid fa-face-surprise reaction-wow"></i>
+            <i class="fa-solid fa-arrows-up-down reaction-vote" aria-hidden="true"></i>
         `;
 
         stack.classList.add(
@@ -1278,7 +1292,7 @@ formData.set(
                     <i
                         class="${config.icon} ${config.className}"
                         title="${escapeHtml(
-                            `${reaction}: ${count}`
+                            `${config.label}: ${count}`
                         )}"
                     ></i>
                 `;
@@ -1357,7 +1371,7 @@ formData.set(
 
             indicator.innerHTML = `
                 <i class="${config.icon} ${config.className}"></i>
-                <span>${escapeHtml(reaction)}</span>
+                <span>${escapeHtml(config.label)}</span>
             `;
 
             indicator.hidden = false;
@@ -1410,7 +1424,7 @@ formData.set(
 
         indicator.innerHTML = `
             <i class="${config.icon} ${config.className}"></i>
-            <span>${escapeHtml(validReaction)}</span>
+            <span>${escapeHtml(config.label)}</span>
         `;
 
         indicator.hidden = false;
@@ -1435,6 +1449,8 @@ formData.set(
    function updateCounts(
     engagement = {}
 ) {
+    syncFeedVotes(activeContentType, activeContentId, engagement);
+
     const views =
         Number(
             engagement.view_count ??
@@ -3138,7 +3154,7 @@ try {
         button.addEventListener(
             'click',
             () => {
-                openContent(
+                openPostTab(
                     'announcement',
                     button.dataset
                         .announcementId
@@ -3155,7 +3171,7 @@ document
         button.addEventListener(
             'click',
             () => {
-                openContent(
+                openPostTab(
                     'event',
                     button.dataset
                         .eventId
@@ -3172,7 +3188,7 @@ document
         button.addEventListener(
             'click',
             () => {
-                openContent(
+                openPostTab(
                     'document',
                     button.dataset
                         .documentId
@@ -3301,19 +3317,82 @@ function openRequestedHubItem() {
         return;
     }
 
-    /*
-     * Give the browser enough time to position
-     * the selected card before opening it.
-     */
-    window.setTimeout(
-        () => {
-            openElement.click();
-        },
-        250
-    );
+    // Notification links navigate directly without opening an automatic popup.
+    if (requestedType === 'survey') {
+        window.location.assign(openElement.href);
+    } else {
+        window.location.assign(postPageUrl(requestedType, requestedId));
+    }
+
 }
 
 openRequestedHubItem();
+
+    // Feed actions use the same authorized engagement endpoint as the reader.
+    function syncFeedVotes(contentType, contentId, engagement) {
+        const counts = normalizeReactionCounts(engagement);
+        document.querySelectorAll('[data-feed-comment]').forEach(button => {
+            if (button.dataset.commentType !== contentType || Number(button.dataset.commentId) !== Number(contentId)) return;
+            const count = button.querySelector('[data-feed-comment-count]');
+            if (count) count.textContent = engagement.comment_count ?? 0;
+        });
+        document.querySelectorAll('[data-feed-votes]').forEach(group => {
+            if (group.dataset.voteType !== contentType || Number(group.dataset.voteId) !== Number(contentId)) return;
+            group.querySelectorAll('[data-feed-vote]').forEach(button => {
+                button.setAttribute('aria-pressed', String(button.dataset.feedVote === engagement.user_reaction));
+                const count = button.querySelector('[data-feed-vote-count]');
+                if (count) count.textContent = counts[button.dataset.feedVote] ?? 0;
+            });
+        });
+    }
+    document.querySelectorAll('[data-feed-votes]').forEach(group => {
+        group.querySelectorAll('[data-feed-vote]').forEach(button => {
+            button.addEventListener('click', async () => {
+                if (group.dataset.pending === 'true') return;
+                const type = group.dataset.voteType;
+                const id = Number(group.dataset.voteId);
+                const buttons = group.querySelectorAll('[data-feed-vote]');
+                group.dataset.pending = 'true';
+                group.setAttribute('aria-busy', 'true');
+                buttons.forEach(control => { control.disabled = true; });
+                const form = new FormData();
+                form.append('content_type', type);
+                form.append('content_id', String(id));
+                form.append('reaction', button.dataset.feedVote);
+                try {
+                    const data = await sendRequest('content_react', form);
+                    const engagement = data.engagement ?? {};
+                    syncFeedVotes(type, id, engagement);
+                    updateCardUserReaction(type, id, engagement.user_reaction ?? null);
+                    document.querySelectorAll(`[data-content-type="${type}"][data-engagement-id="${id}"]`).forEach(row => {
+                        const count = row.querySelector('[data-reaction-count]');
+                        if (count) count.textContent = engagement.reaction_count ?? 0;
+                        renderRowReactionStack(row, normalizeReactionCounts(engagement));
+                    });
+                    if (activeContentType === type && activeContentId === id) {
+                        updateCounts(engagement);
+                        setActiveReaction(engagement.user_reaction ?? null);
+                    }
+                } catch (error) {
+                    window.alert(error.message);
+                } finally {
+                    group.dataset.pending = 'false';
+                    group.setAttribute('aria-busy', 'false');
+                    buttons.forEach(control => { control.disabled = false; });
+                }
+            });
+        });
+    });
+    function postPageUrl(type, id, discussion = false) {
+        const parameters = new URLSearchParams({ page: 'content_post', content_type: type, content_id: String(id) });
+        return `index.php?${parameters}${discussion ? '#discussion' : ''}`;
+    }
+    function openPostTab(type, id, discussion = false) {
+        window.open(postPageUrl(type, id, discussion), '_blank', 'noopener,noreferrer');
+    }
+    document.querySelectorAll('[data-feed-comment]').forEach(button => {
+        button.addEventListener('click', () => openPostTab(button.dataset.commentType, button.dataset.commentId, true));
+    });
 
     /* ==========================================
    UNIFIED REACTIONS
@@ -3404,7 +3483,7 @@ reactionButtons.forEach((button) => {
                 setActiveReaction(
                     data.selected_reaction ??
                     engagement.user_reaction ??
-                    selectedReaction
+                    null
                 );
 
                 updateCardUserReaction(
@@ -3412,7 +3491,7 @@ reactionButtons.forEach((button) => {
     requestContentId,
     data.selected_reaction ??
         engagement.user_reaction ??
-        selectedReaction
+        null
 );
 
 
@@ -3647,23 +3726,20 @@ overlay?.addEventListener(
     closeDrawer
 );
 
-document.addEventListener(
-    'keydown',
-    (event) => {
-        if (
-            event.key === 'Escape' &&
-            drawer?.classList.contains(
-                'active'
-            )
-        ) {
-            closeDrawer();
-        }
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && drawer?.classList.contains('active') && drawer.contains(document.activeElement)) {
+        event.preventDefault();
+        closeDrawer();
     }
-);
+});
 
     /* ==========================================
        INITIALIZE
     ========================================== */
+
+document.querySelectorAll('[data-feed-body]').forEach(body => {
+    renderRichContent(body, body.dataset.feedBody, '');
+});
 
 initializeCardUserReactions();
 
@@ -3696,4 +3772,21 @@ if (restoredViewButton) {
 }
 
 updateResults();
+const postPage = document.querySelector('[data-post-page]');
+if (postPage) {
+    openContent(postPage.dataset.postType, Number(postPage.dataset.postId)).then(() => {
+        if (window.location.hash === '#discussion' && !commentsSection?.hidden) {
+            commentsSection?.scrollIntoView({ block: 'start' });
+            commentInput?.focus({ preventScroll: true });
+        }
+    });
+}
+
+document.getElementById('clearRecentPosts')?.addEventListener('click', () => {
+    recentPostsCleared = true;
+    renderRecentPosts();
+});
+window.addEventListener('focus', renderRecentPosts);
+renderRecentPosts();
+
 });

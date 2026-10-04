@@ -1289,3 +1289,70 @@ a.contact-detail-card:hover {
         scroll-margin-top: calc(84px + env(safe-area-inset-top, 0px));
     }
 }
+
+/* School information pages share a clear title, introduction, and section hierarchy. */
+:is(.contact-app-page, .public-contact-page) .contact-header-copy h1 {
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+.contact-header-copy > p {
+    max-width: 60ch;
+    margin-top: 12px;
+}
+.contact-page-header {
+    align-items: start;
+    gap: 24px;
+}
+.contact-summary-card {
+    min-height: 0;
+    padding: 24px;
+    gap: 20px;
+}
+.contact-summary-card strong {
+    font-size: 24px;
+    line-height: 1.4;
+}
+@media (max-width: 850px) {
+    :is(.contact-app-page, .public-contact-page) .contact-header-copy h1 {
+        font-size: 28px;
+    }
+    .contact-summary-card {
+        padding: 16px;
+    }
+    .contact-summary-card strong {
+        font-size: 20px;
+    }
+}
+
+/* Align School-page introductions and action rows to the same inset. */
+:is(.contact-app-page, .public-contact-page) .contact-page-header {
+    padding: 24px;
+}
+.contact-header-copy {
+    min-width: 0;
+    text-align: left;
+}
+.contact-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 24px;
+}
+.contact-header-actions .app-button {
+    min-height: 44px;
+    margin: 0;
+}
+@media (max-width: 850px) {
+    :is(.contact-app-page, .public-contact-page) .contact-page-header {
+        padding: 16px;
+    }
+    .contact-header-actions {
+        align-items: stretch;
+    }
+    .contact-header-actions .app-button {
+        min-height: 48px;
+    }
+}

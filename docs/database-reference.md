@@ -26,7 +26,7 @@ Metadata defaults are shown as returned by MariaDB. A NULL metadata default does
 | [announcements](#announcements) | Announcement content and publication workflow. |
 | [announcement_acknowledgment](#announcement-acknowledgment) | Historical announcement-specific acknowledgments; retained legacy data. |
 | [announcement_comment](#announcement-comment) | Historical announcement-specific comments; retained legacy data. |
-| [announcement_reaction](#announcement-reaction) | Historical announcement-specific reactions; retained legacy data. |
+| [announcement_reaction](#announcement-reaction) | Historical announcement-specific reaction table; old records cleared by the approved voting reset. |
 | [announcement_target](#announcement-target) | Announcement recipient criteria. |
 | [announcement_view](#announcement-view) | Historical announcement-specific views; retained legacy data. |
 | [calendar_holiday](#calendar-holiday) | Calendar holiday definitions. |
@@ -34,7 +34,7 @@ Metadata defaults are shown as returned by MariaDB. A NULL metadata default does
 | [content_comment](#content-comment) | Unified comments and reply relationships. |
 | [content_interest](#content-interest) | Content topic/interest catalog. |
 | [content_interest_assignment](#content-interest-assignment) | Topic assignments to content. |
-| [content_reaction](#content-reaction) | Unified user reactions. |
+| [content_reaction](#content-reaction) | Unified upvotes and downvotes. One vote per user and content; selecting the same vote withdraws it. Upvote means Like; Downvote means Dislike. Counts are displayed separately, with no combined score. |
 | [content_view](#content-view) | Unified content views. |
 | [department](#department) | School-division catalog. |
 | [documents](#documents) | Document metadata, storage references and publication workflow. |
@@ -747,7 +747,7 @@ Engine: `InnoDB`; collation: `utf8mb4_general_ci`.
 
 ### announcement reaction
 
-Historical announcement-specific reactions; retained legacy data.
+Historical announcement-specific reaction table; old records cleared by the approved voting reset.
 
 Engine: `InnoDB`; collation: `utf8mb4_general_ci`.
 
@@ -974,7 +974,7 @@ Engine: `InnoDB`; collation: `utf8mb4_unicode_ci`.
 
 ### content reaction
 
-Unified user reactions.
+Unified upvotes and downvotes. One vote per user and content; selecting the same vote withdraws it. Upvote means Like; Downvote means Dislike. Counts are displayed separately, with no combined score.
 
 Engine: `InnoDB`; collation: `utf8mb4_unicode_ci`.
 
@@ -984,7 +984,7 @@ Engine: `InnoDB`; collation: `utf8mb4_unicode_ci`.
 | `content_type` | `enum('announcement','event','document','survey')` | NO | NULL |  |
 | `content_id` | `int(11)` | NO | NULL |  |
 | `user_id` | `int(11)` | NO | NULL |  |
-| `reaction_type` | `enum('Like','Love','Care','Wow')` | NO | NULL |  |
+| `reaction_type` | `enum('Upvote','Downvote')` | NO | NULL |  |
 | `reacted_at` | `datetime` | NO | current_timestamp() |  |
 | `updated_at` | `datetime` | YES | NULL | on update current_timestamp() |
 

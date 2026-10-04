@@ -23,18 +23,16 @@ $pageWrapperClass =
         <div class="about-header-copy">
 
             <span class="about-eyebrow">
-                Our Institution
+                School Information
             </span>
 
             <h1>
-                About Our School
+                About OLSHCO
             </h1>
 
             <p>
-                Our Lady of the Sacred Heart College of Guimba, Inc.
-                is committed to nurturing young minds through
-                quality education, strong values, and a
-                Christ-centered learning environment.
+                Learn about OLSHCO's history, mission, and values
+                as a Catholic school serving Guimba, Nueva Ecija.
             </p>
 
 
@@ -122,7 +120,7 @@ $pageWrapperClass =
             </span>
 
             <h2>
-                Our Story
+                Our School History
             </h2>
 
             <p>
@@ -169,8 +167,8 @@ $pageWrapperClass =
                 </h2>
 
                 <p>
-                    The principles that guide the school community,
-                    its learning environment, and its service.
+                    The beliefs that guide how we teach, learn,
+                    and serve our community.
                 </p>
 
             </div>
@@ -292,8 +290,8 @@ $pageWrapperClass =
                 </h2>
 
                 <p>
-                    The outcomes the institution seeks for its
-                    students, community, and mission.
+                    What we aim to achieve for our students
+                    and school community.
                 </p>
 
             </div>

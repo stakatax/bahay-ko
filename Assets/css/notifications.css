@@ -1229,6 +1229,33 @@ input:focus-visible
     color: var(--primary-red, #8b0000);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+    .notifications-toggle-control,
+    .notification-category-channel > span {
+        transition-duration: 350ms;
+    }
+
+    .notifications-toggle-control::after,
+    .notification-category-channel > span::after {
+        transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .notification-category-chevron {
+        transition-duration: 400ms;
+        transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .notifications-toggle-control,
+    .notifications-toggle-control::after,
+    .notification-category-channel > span,
+    .notification-category-channel > span::after,
+    .notification-category-chevron {
+        transition: none;
+    }
+}
+
 .notification-category-card[open]
 .notification-category-chevron {
     transform: rotate(180deg);

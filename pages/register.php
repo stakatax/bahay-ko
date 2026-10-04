@@ -145,7 +145,8 @@ $loadError = trim(
             </span>
 
             <h1>
-                Create your Digital Hub account.
+                <span>Join your school.</span>
+                <span>Stay connected.</span>
             </h1>
 
             <p>

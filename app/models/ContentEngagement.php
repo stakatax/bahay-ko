@@ -83,62 +83,47 @@ class ContentEngagement extends BaseModel
             $contentType
         );
 
-        $stmt = $this->prepare("
-        INSERT INTO content_reaction
-        (
-            content_type,
-            content_id,
-            user_id,
-            reaction_type
-        )
-        VALUES
-        (
-            ?,
-            ?,
-            ?,
-            ?
-        )
-
-        ON DUPLICATE KEY UPDATE
-            reaction_type =
-                VALUES(reaction_type),
-
-            updated_at =
-                NOW()
-    ");
-
-        $stmt->bind_param(
-            'siis',
-            $contentType,
-            $contentId,
-            $userId,
-            $reaction
-        );
-
-        if (!$stmt->execute()) {
-            $error =
-                $stmt->error;
-
-            $stmt->close();
-
-            throw new RuntimeException(
-                'Unable to save the reaction: '
-                    . $error
-            );
+        if (!in_array($reaction, ['Upvote', 'Downvote'], true)) {
+            throw new InvalidArgumentException('Invalid vote type.');
         }
 
-        /*
-     * affected_rows:
-     * 1 = new reaction
-     * 2 = existing reaction changed
-     * 0 = same reaction submitted again
-     */
-        $affectedRows =
-            (int) $stmt->affected_rows;
+        // Serialize votes by actor, including the first vote when no row exists.
+        $this->conn->begin_transaction();
+        try {
+            $lock = $this->prepare('SELECT user_id FROM user WHERE user_id = ? FOR UPDATE');
+            $lock->bind_param('i', $userId);
+            $lock->execute();
+            if (!$lock->get_result()->fetch_assoc()) {
+                throw new InvalidArgumentException('Invalid user.');
+            }
+            $lock->close();
+            $current = $this->prepare('SELECT reaction_type FROM content_reaction
+                WHERE content_type = ? AND content_id = ? AND user_id = ? FOR UPDATE');
+            $current->bind_param('sii', $contentType, $contentId, $userId);
+            $current->execute();
+            $existing = $current->get_result()->fetch_assoc();
+            $current->close();
 
-        $stmt->close();
-
-        return $affectedRows;
+            if (($existing['reaction_type'] ?? null) === $reaction) {
+                $stmt = $this->prepare('DELETE FROM content_reaction
+                    WHERE content_type = ? AND content_id = ? AND user_id = ?');
+                $stmt->bind_param('sii', $contentType, $contentId, $userId);
+                $result = -1; // Vote withdrawn; no engagement notification.
+            } else {
+                $stmt = $this->prepare('INSERT INTO content_reaction
+                    (content_type, content_id, user_id, reaction_type) VALUES (?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE reaction_type = VALUES(reaction_type), updated_at = NOW()');
+                $stmt->bind_param('siis', $contentType, $contentId, $userId, $reaction);
+                $result = $existing ? 2 : 1;
+            }
+            $stmt->execute();
+            $stmt->close();
+            $this->conn->commit();
+            return $result;
+        } catch (Throwable $exception) {
+            $this->conn->rollback();
+            throw $exception;
+        }
     }
 
     /* ==========================================
@@ -418,7 +403,7 @@ class ContentEngagement extends BaseModel
                     'view_count' => 0, 'comment_count' => 0, 'reaction_count' => 0,
                     'acknowledgment_count' => 0, 'user_reaction' => null,
                     'user_acknowledged' => false, 'user_viewed' => false,
-                    'reaction_breakdown' => ['Like' => 0, 'Love' => 0, 'Care' => 0, 'Wow' => 0]
+                    'reaction_breakdown' => ['Upvote' => 0, 'Downvote' => 0]
                 ];
             }
             $placeholders = implode(',', array_fill(0, count($chunk), '?'));
@@ -477,16 +462,7 @@ class ContentEngagement extends BaseModel
 
             'user_viewed' => false,
 
-            'reaction_breakdown' => [
-
-                'Like' => 0,
-
-                'Love' => 0,
-
-                'Care' => 0,
-
-                'Wow' => 0
-            ]
+            'reaction_breakdown' => ['Upvote' => 0, 'Downvote' => 0]
         ];
 
         foreach (

@@ -1684,7 +1684,22 @@ body.manage-modal-open {
 }
 
 .manage-user-tab-panel.active {
-    animation: manage-tab-enter 0.18s ease;
+    animation: manage-tab-enter 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes manage-backdrop-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .manage-modal:not([hidden]) .manage-modal-card {
+        animation: manage-tab-enter 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .manage-modal:not([hidden]) .manage-modal-backdrop {
+        animation: manage-backdrop-enter 400ms ease-out;
+    }
 }
 
 .manage-user-history-empty {
@@ -1727,7 +1742,7 @@ body.manage-modal-open {
 @keyframes manage-tab-enter {
     from {
         opacity: 0;
-        transform: translateY(4px);
+        transform: translateY(8px);
     }
 
     to {
@@ -1750,7 +1765,9 @@ body.manage-modal-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .manage-user-tab-panel.active {
+    .manage-user-tab-panel.active,
+    .manage-modal-card,
+    .manage-modal-backdrop {
         animation: none;
     }
 }

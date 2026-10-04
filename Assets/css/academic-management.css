@@ -581,6 +581,38 @@
    ACADEMIC RECORD MODAL
 ========================================== */
 
+@keyframes academic-panel-enter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes academic-dialog-enter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .academic-structure-panel:not([hidden]) {
+        animation: academic-panel-enter 400ms ease-out;
+    }
+
+    .academic-modal:not([hidden]) .academic-modal-dialog {
+        animation: academic-dialog-enter 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .academic-modal:not([hidden]) .academic-modal-backdrop {
+        animation: academic-panel-enter 400ms ease-out;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .academic-structure-panel,
+    .academic-modal-dialog,
+    .academic-modal-backdrop {
+        animation: none;
+    }
+}
+
 body.academic-modal-open {
     overflow: hidden;
 }

@@ -997,13 +997,29 @@
 
 .student-survey-section.is-active {
     display: block;
-    animation: studentSurveySectionIn 0.2s ease;
+    animation: studentSurveySectionIn 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .student-survey-nav-item {
+        transition-duration: 350ms;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .student-survey-section.is-active {
+        animation: none;
+    }
+
+    .student-survey-nav-item {
+        transition: none;
+    }
 }
 
 @keyframes studentSurveySectionIn {
     from {
         opacity: 0;
-        transform: translateY(5px);
+        transform: translateY(8px);
     }
 
     to {

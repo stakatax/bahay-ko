@@ -818,7 +818,7 @@ body.account-decision-open {
     z-index: 1;
     animation:
         accountDecisionEnter
-        0.2s ease-out;
+        450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .account-decision-close {
@@ -904,6 +904,24 @@ body.account-decision-open {
 .account-approval-alert.is-hiding {
     opacity: 0;
     transform: translateY(-8px);
+}
+
+@keyframes accountDecisionBackdropEnter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .account-decision-modal:not([hidden]) .account-decision-backdrop {
+        animation: accountDecisionBackdropEnter 400ms ease-out;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .account-decision-dialog,
+    .account-decision-backdrop {
+        animation: none;
+    }
 }
 
 @keyframes accountDecisionEnter {

@@ -267,7 +267,7 @@ class ContentEngagementController extends BaseController
 
             $this->respondSuccess(
                 $data,
-                'Reaction updated successfully.'
+                'Vote updated successfully.'
             );
         } catch (DomainException $exception) {
             $this->respondError('Content not found.', 404);
@@ -294,7 +294,7 @@ class ContentEngagementController extends BaseController
             );
 
             $this->respondError(
-                'Unable to update the reaction.',
+                'Unable to update the vote.',
                 500
             );
         }

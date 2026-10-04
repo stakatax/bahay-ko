@@ -287,6 +287,9 @@ class PostService
             );
         $currentUserInterestWeights =
             $this->getCurrentUserInterestWeights();
+        require_once __DIR__ . '/FeedPreference.php';
+        $learnedTopicScores = FeedPreference::topics([$announcements, $events, $documents, $surveys]);
+
         return [
             'announcements' =>
             $announcements,
@@ -314,6 +317,8 @@ class PostService
 
             'current_user_interest_weights' =>
             $currentUserInterestWeights,
+
+            'learned_topic_scores' => $learnedTopicScores,
         ];
     }
 
@@ -403,29 +408,9 @@ class PostService
                 $engagement['reaction_breakdown']
                 ?? [];
 
-            $item['like_count'] =
-                (int) (
-                    $breakdown['Like']
-                    ?? 0
-                );
+            $item['upvote_count'] = (int) ($breakdown['Upvote'] ?? 0);
+            $item['downvote_count'] = (int) ($breakdown['Downvote'] ?? 0);
 
-            $item['love_count'] =
-                (int) (
-                    $breakdown['Love']
-                    ?? 0
-                );
-
-            $item['care_count'] =
-                (int) (
-                    $breakdown['Care']
-                    ?? 0
-                );
-
-            $item['wow_count'] =
-                (int) (
-                    $breakdown['Wow']
-                    ?? 0
-                );
         }
 
         unset($item);

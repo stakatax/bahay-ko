@@ -229,7 +229,7 @@ document.addEventListener(
                         overlayTimer =
                             null;
                     },
-                    220
+                    window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 400
                 );
 
             if (

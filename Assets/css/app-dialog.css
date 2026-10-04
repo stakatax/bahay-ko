@@ -320,4 +320,32 @@ body.app-dialog-open {
     .app-dialog {
         transition: none;
     }
+
+    .app-dialog-button {
+        transition: none;
+    }
+
+    .app-dialog-button:hover,
+    .app-dialog-button:active {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .app-dialog {
+        transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .app-dialog-overlay {
+        transition-duration: 320ms;
+    }
+
+    .app-dialog-button {
+        transition-duration: 300ms;
+    }
+
+    .app-dialog-button:not(:disabled):active {
+        transform: scale(0.98);
+        transition-duration: 180ms;
+    }
 }

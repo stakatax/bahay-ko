@@ -52,7 +52,7 @@ function deniesAccess(callable $operation, string $description): void
     } catch (RuntimeException $exception) {
         if (in_array($exception->getMessage(), [
             'Content not found.', 'Document not found.',
-            'Reactions are disabled for this content.',
+            'Voting is disabled for this content.',
             'Comments are disabled for this content.',
             'Acknowledgment is not required for this content.'
         ], true)) {
@@ -84,6 +84,9 @@ try {
         // Temporary tables cannot carry foreign keys; all other schema definitions stay intact.
         $definition = preg_replace('/^\s*CONSTRAINT[^\n]*\n?/m', '', $definition);
         $definition = preg_replace('/,\n\)/', "\n)", $definition);
+        if ($table === 'content_reaction') {
+            $definition = str_replace("enum('Like','Love','Care','Wow')", "enum('Upvote','Downvote')", $definition);
+        }
         $conn->query($definition);
     }
 
@@ -235,7 +238,7 @@ try {
     foreach (['announcement','event','document'] as $type) {
         foreach ([
             fn() => $service->open($type, 1, 3),
-            fn() => $service->react($type, 1, 3, 'Like'),
+            fn() => $service->react($type, 1, 3, 'Upvote'),
             fn() => $service->comment($type, 1, 3, 'Denied fixture'),
             fn() => $service->acknowledge($type, 1, 3)
         ] as $operation) {
@@ -252,11 +255,20 @@ try {
         $opened = $service->open($type, 1, 2);
         checkAccess(isset($opened['content']), 'Eligible content opens');
         $service->open($type, 1, 2);
-        checkAccess($service->react($type, 1, 2, 'Like')['reaction_changed'], 'First reaction saved');
-        $service->react($type, 1, 2, 'Like');
+        checkAccess($service->react($type, 1, 2, 'Upvote')['reaction_changed'], 'First reaction saved');
+        $callsBeforeWithdrawal = $notifications->calls;
+        $withdrawn = $service->react($type, 1, 2, 'Upvote');
+        checkAccess($withdrawn['selected_reaction'] === null, 'Same vote withdraws selection');
+        checkAccess($notifications->calls === $callsBeforeWithdrawal, 'Withdrawal creates no notification');
         $reactionCount = $conn->query("SELECT COUNT(*) AS total FROM content_reaction
             WHERE content_type='{$type}' AND content_id=1 AND user_id=2")->fetch_assoc()['total'];
-        checkAccess((int) $reactionCount === 1, 'Duplicate submission preserves one reaction record');
+        checkAccess((int) $reactionCount === 0, 'Withdrawal removes the vote record');
+        $service->react($type, 1, 2, 'Downvote');
+        $switched = $service->react($type, 1, 2, 'Upvote');
+        checkAccess($switched['engagement']['reaction_count'] === 1, 'Switch retains one vote per user');
+        checkAccess($switched['engagement']['reaction_breakdown'] === ['Upvote'=>1,'Downvote'=>0],
+            'Switch updates both vote totals');
+        deniesAccess(fn() => $service->react($type, 1, 2, 'Like'), 'Legacy reaction rejected');
         checkAccess($service->acknowledge($type, 1, 2)['acknowledgment_created'], 'First acknowledgment saved');
         checkAccess(!$service->acknowledge($type, 1, 2)['acknowledgment_created'], 'Duplicate acknowledgment unchanged');
         $service->comment($type, 1, 2, 'Allowed fixture');
@@ -272,7 +284,7 @@ try {
     foreach (['announcement'=>'announcements','event'=>'events','document'=>'documents'] as $type=>$table) {
         $conn->query("UPDATE {$table} SET allow_reactions=0,allow_comments=0,require_acknowledgment=0
             WHERE {$type}_id=1");
-        deniesAccess(fn() => $service->react($type, 1, 2, 'Love'), 'Reaction setting preserved');
+        deniesAccess(fn() => $service->react($type, 1, 2, 'Downvote'), 'Reaction setting preserved');
         deniesAccess(fn() => $service->comment($type, 1, 2, 'Disabled'), 'Comment setting preserved');
         deniesAccess(fn() => $service->acknowledge($type, 1, 2), 'Acknowledgment setting preserved');
     }

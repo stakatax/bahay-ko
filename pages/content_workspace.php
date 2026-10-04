@@ -274,6 +274,8 @@ function workspaceJson(
 
         <div class="page-header-copy">
 
+            <span class="page-eyebrow">Content Management</span>
+
             <h1>
                 Content workspace
             </h1>
