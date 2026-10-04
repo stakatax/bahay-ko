@@ -3394,6 +3394,40 @@ openRequestedHubItem();
         button.addEventListener('click', () => openPostTab(button.dataset.commentType, button.dataset.commentId, true));
     });
 
+    function initializePostCardLinks(cards) {
+        cards.forEach(card => {
+            const type = card.dataset.type;
+            const id = Number(card.dataset.contentId);
+            if (!['announcement', 'event', 'document'].includes(type) || !Number.isInteger(id) || id <= 0) {
+                return;
+            }
+            const title = card.querySelector('.hub-item-content > h3');
+            if (!title) {
+                return;
+            }
+            const link = document.createElement('a');
+            link.className = 'hub-post-title-link';
+            link.href = postPageUrl(type, id);
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.setAttribute('aria-label', `${title.textContent.trim()} (opens in a new tab)`);
+            while (title.firstChild) {
+                link.appendChild(title.firstChild);
+            }
+            title.appendChild(link);
+            card.classList.add('hub-item-clickable');
+            card.addEventListener('click', event => {
+                if (event.defaultPrevented || event.button !== 0 || event.target.closest('a, button, input, select, textarea, label, summary, details, audio, video, [contenteditable], #contentDrawer')) {
+                    return;
+                }
+                if (window.getSelection()?.toString().trim()) {
+                    return;
+                }
+                openPostTab(type, id);
+            });
+        });
+    }
+
     /* ==========================================
    UNIFIED REACTIONS
 ========================================== */
@@ -3740,6 +3774,8 @@ document.addEventListener('keydown', (event) => {
 document.querySelectorAll('[data-feed-body]').forEach(body => {
     renderRichContent(body, body.dataset.feedBody, '');
 });
+
+initializePostCardLinks(hubItems);
 
 initializeCardUserReactions();
 

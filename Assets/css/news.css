@@ -4208,3 +4208,9 @@
 @media (max-width: 850px) {
     .hub-recent-posts { display: none; }
 }
+
+/* Post cards open their full post; embedded controls retain their own actions. */
+.hub-item-clickable { cursor: pointer; }
+.hub-post-title-link { color: inherit; text-decoration: none; }
+.hub-post-title-link:hover { color: inherit; text-decoration: underline; }
+.hub-post-title-link:focus-visible { outline: 2px solid var(--primary-red); outline-offset: 4px; border-radius: 3px; }
