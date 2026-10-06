@@ -71,6 +71,7 @@ __pycache__/
 /deployment/namecheap/private/*.php
 /deployment/tunnel/evaluation/
 /deployment/tunnel/tools/
+/deployment/test-accounts/private/
 
 # Local diagram sources, exports and rebuilt DFD drafts.
 /docs/diagrams/

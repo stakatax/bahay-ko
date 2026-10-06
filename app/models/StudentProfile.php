@@ -5,6 +5,25 @@ require_once __DIR__
 
 class StudentProfile extends BaseModel
 {
+    private bool $sharedInterestCache = false;
+
+    public function __construct(?mysqli $connection = null)
+    {
+        parent::__construct($connection);
+        $this->sharedInterestCache = $connection === null;
+    }
+
+    /** Only public display choices are cached; validation uses the live lookup. */
+    public function getDisplayInterests(): array
+    {
+        if (!$this->sharedInterestCache) {
+            return $this->getActiveInterests();
+        }
+        require_once __DIR__ . '/PublicCatalogCache.php';
+        $cache = PublicCatalogCache::directory('student-interest-directory', 60);
+        return $cache->remember(fn(): array => $this->getActiveInterests());
+    }
+
     /* ==========================================
        STUDENT VALIDATION
     ========================================== */

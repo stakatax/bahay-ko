@@ -61,33 +61,85 @@ class ContentAudience extends BaseModel
 
     public function getTargetMap(string $contentType, array $ids): array
     {
-        if (!isset(self::TARGETS[$contentType])) {
-            throw new InvalidArgumentException('Invalid content type.');
-        }
+        return $this->getTargetSets([$contentType => $ids])[$contentType];
+    }
 
-        $ids = array_values(array_unique(array_filter(
-            array_map('intval', $ids),
-            static fn(int $id): bool => $id > 0
-        )));
-        if ($ids === []) {
-            return [];
+    /** Live target reads for this batch only; never retain authorization state. */
+    public function getTargetSets(array $sets): array
+    {
+        $map = []; $pairs = [];
+        foreach ($sets as $type => $ids) {
+            if (!isset(self::TARGETS[$type])) { throw new InvalidArgumentException('Invalid content type.'); }
+            $map[$type] = [];
+            foreach (array_unique(array_map('intval', $ids)) as $id) {
+                if ($id > 0) { $pairs[] = [$type, $id]; }
+            }
         }
-
-        [$table, $key] = self::TARGETS[$contentType];
-        $placeholders = implode(', ', array_fill(0, count($ids), '?'));
-        $rows = $this->select(
-            "SELECT {$key} AS content_id, role_id, department_id,
+        foreach (array_chunk($pairs, 500) as $chunk) {
+            $groups = [];
+            foreach ($chunk as [$type, $id]) { $groups[$type][] = $id; }
+            $queries = []; $parameters = []; $types = '';
+            foreach ($groups as $type => $ids) {
+                [$table, $key] = self::TARGETS[$type];
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $queries[] = "SELECT ? AS content_type, {$key} AS content_id, role_id, department_id,
                     education_level_id, academic_program_id, grade_level_id, section_id
-             FROM {$table} WHERE {$key} IN ({$placeholders})",
-            str_repeat('i', count($ids)),
-            $ids
-        );
-
-        $map = [];
-        foreach ($rows as $row) {
-            $map[(int) $row['content_id']][] = $row;
+                    FROM {$table} WHERE {$key} IN ({$placeholders})";
+                $parameters = [...$parameters, $type, ...$ids];
+                $types .= 's' . str_repeat('i', count($ids));
+            }
+            foreach ($this->select(implode(' UNION ALL ', $queries), $types, $parameters) as $row) {
+                $type = $row['content_type']; unset($row['content_type']);
+                $map[$type][(int) $row['content_id']][] = $row;
+            }
         }
+        return $map;
+    }
 
+    /** Display metadata only; this does not grant content access. */
+    public function getLabelSets(array $sets): array
+    {
+        $map = []; $pairs = [];
+        foreach ($sets as $type => $ids) {
+            if (!isset(self::TARGETS[$type])) { throw new InvalidArgumentException('Invalid content type for target tags.'); }
+            $map[$type] = [];
+            foreach (array_unique(array_map('intval', $ids)) as $id) {
+                if ($id > 0) { $pairs[] = [$type, $id]; }
+            }
+        }
+        foreach (array_chunk($pairs, 500) as $chunk) {
+            $groups = [];
+            foreach ($chunk as [$type, $id]) { $groups[$type][] = $id; }
+            $queries = []; $parameters = []; $types = '';
+            foreach ($groups as $type => $ids) {
+                [$table, $key] = self::TARGETS[$type];
+                $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                $queries[] = "SELECT ? AS content_type, t.{$key} AS content_id,
+                    r.role_prefix, d.department_name, el.education_level_name, ap.program_name, gl.grade_level_name, s.section_name
+                    FROM {$table} t
+                    LEFT JOIN role r ON r.role_id = t.role_id
+                    LEFT JOIN department d ON d.department_id = t.department_id
+                    LEFT JOIN education_level el ON el.education_level_id = t.education_level_id
+                    LEFT JOIN academic_program ap ON ap.academic_program_id = t.academic_program_id
+                    LEFT JOIN grade_level gl ON gl.grade_level_id = t.grade_level_id
+                    LEFT JOIN section s ON s.section_id = t.section_id
+                    WHERE t.{$key} IN ({$placeholders})";
+                $parameters = [...$parameters, $type, ...$ids];
+                $types .= 's' . str_repeat('i', count($ids));
+            }
+            $rows = $this->select(implode(' UNION ALL ', $queries), $types, $parameters);
+            foreach ($rows as $row) {
+                foreach (['role_prefix', 'department_name', 'education_level_name', 'program_name', 'grade_level_name', 'section_name'] as $field) {
+                    $label = trim((string) ($row[$field] ?? ''));
+                    if ($label !== '') { $map[$row['content_type']][(int) $row['content_id']][$label] = true; }
+                }
+            }
+        }
+        foreach ($map as &$items) {
+            foreach ($items as &$labels) { $labels = array_keys($labels); }
+            unset($labels);
+        }
+        unset($items);
         return $map;
     }
 

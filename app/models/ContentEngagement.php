@@ -394,41 +394,60 @@ class ContentEngagement extends BaseModel
     public function getEngagementBatch(string $contentType, array $contentIds, int $userId): array
     {
         $this->validateType($contentType);
-        $ids = array_values(array_unique(array_filter(array_map('intval', $contentIds), static fn(int $id): bool => $id > 0)));
-        if ($ids === []) { return []; }
+        return $this->getEngagementSets([$contentType => $contentIds], $userId)[$contentType] ?? [];
+    }
+
+    /** Four aggregate queries per 500 eligible type/ID pairs, across all feed types. */
+    public function getEngagementSets(array $sets, int $userId): array
+    {
+        $pairs = [];
         $map = [];
-        foreach (array_chunk($ids, 500) as $chunk) {
-            foreach ($chunk as $id) {
-                $map[$id] = [
+        foreach ($sets as $type => $ids) {
+            $this->validateType($type);
+            $map[$type] = [];
+            $ids = array_values(array_unique(array_filter(array_map('intval', $ids), static fn(int $id): bool => $id > 0)));
+            foreach ($ids as $id) {
+                $pairs[] = [$type, $id];
+                $map[$type][$id] = [
                     'view_count' => 0, 'comment_count' => 0, 'reaction_count' => 0,
                     'acknowledgment_count' => 0, 'user_reaction' => null,
                     'user_acknowledged' => false, 'user_viewed' => false,
                     'reaction_breakdown' => ['Upvote' => 0, 'Downvote' => 0]
                 ];
             }
-            $placeholders = implode(',', array_fill(0, count($chunk), '?'));
+        }
+        foreach (array_chunk($pairs, 500) as $chunk) {
+            $groups = [];
+            foreach ($chunk as [$type, $id]) { $groups[$type][] = $id; }
+            $conditions = []; $parameters = []; $parameterTypes = '';
+            foreach ($groups as $type => $ids) {
+                $conditions[] = '(content_type = ? AND content_id IN (' . implode(',', array_fill(0, count($ids), '?')) . '))';
+                $parameters = [...$parameters, $type, ...$ids];
+                $parameterTypes .= 's' . str_repeat('i', count($ids));
+            }
+            $where = implode(' OR ', $conditions);
             foreach (['view', 'comment', 'reaction', 'acknowledgment'] as $kind) {
                 $reactionColumn = $kind === 'reaction' ? ', reaction_type' : '';
                 // Preserve existing comment-count semantics, including moderated comments.
-                $stmt = $this->prepare("SELECT content_id{$reactionColumn}, COUNT(*) AS total,
+                $stmt = $this->prepare("SELECT content_type, content_id{$reactionColumn}, COUNT(*) AS total,
                     MAX(CASE WHEN user_id = ? THEN 1 ELSE 0 END) AS mine
-                    FROM content_{$kind} WHERE content_type = ? AND content_id IN ({$placeholders})
-                    GROUP BY content_id{$reactionColumn}");
+                    FROM content_{$kind} WHERE {$where}
+                    GROUP BY content_type, content_id{$reactionColumn}");
                 if (!$stmt) { throw new RuntimeException('Unable to load engagement totals.'); }
                 try {
-                    $values = [$userId, $contentType, ...$chunk];
-                    $stmt->bind_param('is' . str_repeat('i', count($chunk)), ...$values);
+                    $values = [$userId, ...$parameters];
+                    $stmt->bind_param('i' . $parameterTypes, ...$values);
                     if (!$stmt->execute()) { throw new RuntimeException('Unable to load engagement totals.'); }
                     foreach ($stmt->get_result()->fetch_all(MYSQLI_ASSOC) as $row) {
-                        $id = (int) $row['content_id'];
-                        $map[$id][$kind . '_count'] += (int) $row['total'];
+                        $type = $row['content_type']; $id = (int) $row['content_id'];
+                        $map[$type][$id][$kind . '_count'] += (int) $row['total'];
                         if ($kind === 'reaction') {
-                            $map[$id]['reaction_breakdown'][$row['reaction_type']] = (int) $row['total'];
-                            if ($row['mine']) { $map[$id]['user_reaction'] = $row['reaction_type']; }
+                            $map[$type][$id]['reaction_breakdown'][$row['reaction_type']] = (int) $row['total'];
+                            if ($row['mine']) { $map[$type][$id]['user_reaction'] = $row['reaction_type']; }
                         } elseif ($kind === 'view') {
-                            $map[$id]['user_viewed'] = (bool) $row['mine'];
+                            $map[$type][$id]['user_viewed'] = (bool) $row['mine'];
                         } elseif ($kind === 'acknowledgment') {
-                            $map[$id]['user_acknowledged'] = (bool) $row['mine'];
+                            $map[$type][$id]['user_acknowledged'] = (bool) $row['mine'];
                         }
                     }
                 } finally { $stmt->close(); }

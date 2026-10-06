@@ -10,7 +10,7 @@ $checks=0;
 function interestCheck(bool $ok,string $label):void { global $checks; if(!$ok)throw new RuntimeException('FAIL: '.$label);$checks++; }
 $c=databaseConfiguration();$db=new InterestTestConnection($c['host'],$c['username'],$c['password'],$c['database'],$c['port']);$db->set_charset('utf8mb4');
 try {
-    foreach(['student_profile','student_profile_interest','content_interest'] as $table) {
+    foreach(['student_profile','student_profile_interest','content_interest','content_interest_assignment'] as $table) {
         $ddl=$db->query('SHOW CREATE TABLE `'.$table.'`')->fetch_assoc()['Create Table'];
         $ddl=preg_replace('/^CREATE TABLE /','CREATE TEMPORARY TABLE ',$ddl,1);
         $ddl=preg_replace('/^\s*CONSTRAINT[^\n]*\n?/m','',$ddl);
@@ -20,6 +20,25 @@ try {
         (1,'One','one','Active',2),(2,'Two','two','Active',1),(3,'Hidden','hidden','Inactive',0)");
     $db->query("INSERT INTO student_profile (student_profile_id,user_id,completion_status,personalization_enabled) VALUES (1,1,'Completed',1)");
     $db->query("INSERT INTO student_profile_interest (student_profile_id,interest_id,preference_weight) VALUES (1,1,5),(1,2,3),(1,3,4)");
+    $db->query("INSERT INTO content_interest_assignment (content_type,content_id,interest_id) VALUES
+        ('announcement',1,1),('announcement',1,2),('announcement',1,3),('event',1,2),('document',2,1),('survey',1,1)");
+    $topics = new ContentInterest($db);
+    $db->reads = 0;
+    $sets = ['announcement' => [1, '1', 0, -1], 'event' => [1], 'document' => [2], 'survey' => [1]];
+    $mixed = $topics->getAssignmentSets($sets);
+    interestCheck($db->reads === 1, 'Mixed feed topics use one query');
+    interestCheck(array_column($mixed['announcement'][1], 'interest_id') === [2, 1], 'Topic sort and inactive filtering preserved');
+    interestCheck(array_column($mixed['event'][1], 'interest_id') === [2], 'Same numeric ID in different types stays separate');
+    foreach ($sets as $type => $ids) {
+        interestCheck($mixed[$type] === $topics->getAssignmentMap($type, $ids), 'Mixed/single topic parity');
+    }
+    $db->reads = 0;
+    interestCheck($topics->getAssignmentSets(['announcement' => [], 'event' => [0, -1]]) === ['announcement' => [], 'event' => []] && $db->reads === 0, 'Empty/invalid topic sets avoid queries');
+    $db->reads = 0;
+    $large = $topics->getAssignmentSets(['announcement' => range(1, 300), 'event' => range(1, 300)]);
+    interestCheck($db->reads === 2 && $large['announcement'] === $mixed['announcement'] && $large['event'] === $mixed['event'], 'Mixed topic chunks preserve maps');
+    try { $topics->getAssignmentSets(['invalid' => [1]]); interestCheck(false, 'Invalid topic content type rejected'); }
+    catch (InvalidArgumentException $error) { interestCheck(true, 'Invalid topic content type rejected'); }
     $model=new StudentProfile($db);
     $service=(new ReflectionClass(PostService::class))->newInstanceWithoutConstructor();
     (new ReflectionProperty(PostService::class,'studentProfile'))->setValue($service,$model);

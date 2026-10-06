@@ -77,23 +77,25 @@ class ContentAudienceService
             }
         }
 
+        $targetSets = [];
+        if ($actor['role_prefix'] !== 'Admin') {
+            $ids = [];
+            foreach ($sets as $type => $items) { $ids[$type] = array_column($items, $type . '_id'); }
+            $targetSets = $this->model->getTargetSets($ids);
+        }
         $visible = [];
         foreach ($sets as $type => $items) {
-            $visible[$type] = $this->filterResolved($type, $type . '_id', $items, $actor, $profiles);
+            $visible[$type] = $this->filterResolved($type, $type . '_id', $items, $actor, $profiles, $targetSets[$type] ?? []);
         }
         return $visible;
     }
 
     private function filterResolved(
-        string $contentType, string $idColumn, array $items, array $actor, array $profiles
+        string $contentType, string $idColumn, array $items, array $actor, array $profiles, array $targetMap
     ): array {
         if ($items === []) {
             return [];
         }
-
-        $targetMap = $actor['role_prefix'] === 'Admin'
-            ? []
-            : $this->model->getTargetMap($contentType, array_column($items, $idColumn));
 
         $visible = [];
         foreach ($items as $item) {

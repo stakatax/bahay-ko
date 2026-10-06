@@ -15,5 +15,5 @@ handler(click()); assert.equal(opened,1);
 handler(click(true)); assert.equal(opened,1);
 selection='selected text';handler(click());assert.equal(opened,1);
 selection='';handler({...click(),defaultPrevented:true});assert.equal(opened,1);
-assert.equal(title.link.target,'_blank');assert.equal(title.link.rel,'noopener noreferrer');
+assert.equal(title.link.target,undefined);assert.equal(title.link.href,'post');
 console.log('PASS: card opens post; controls, text selection, and canceled clicks do not.');

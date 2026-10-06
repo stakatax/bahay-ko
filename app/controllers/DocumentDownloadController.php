@@ -45,7 +45,7 @@ class DocumentDownloadController extends BaseController
                 $fallback = preg_replace('/[^A-Za-z0-9._-]/', '_', $file['name']) ?: 'document';
 
                 header('Content-Type: ' . ($inline ? $mime : 'application/octet-stream'));
-                header('Content-Security-Policy: sandbox');
+                header("Content-Security-Policy: sandbox; frame-ancestors 'self'");
                 header("Content-Disposition: {$disposition}; filename=\"{$fallback}\"; filename*=UTF-8''"
                     . rawurlencode($file['name']));
                 header('Content-Length: ' . (string) fstat($handle)['size']);

@@ -22,10 +22,14 @@ try {
     if ($replacements !== 1) throw new RuntimeException('Unexpected survey dependency shape.');
     // Include the actual route-specific guard, but never invoke the page controller.
     $fullSource = file_get_contents($root.'/index.php');
-    if (!preg_match("/case 'student_profile':\\s*(requirePageRoles\\([\\s\\S]*?\\);)/", $fullSource, $studentRouteGuard)) {
+    if (!preg_match("/case 'student_profile':\\s*case 'student_profile_survey':\\s*(requirePageRoles\\([\\s\\S]*?\\);)/", $fullSource, $studentRouteGuard)) {
         throw new RuntimeException('Student profile route guard not found.');
     }
-    $source .= "if (\$page === 'student_profile') {" . $studentRouteGuard[1] . "}";
+    $source .= "if (in_array(\$page, ['student_profile', 'student_profile_survey'], true)) {" . $studentRouteGuard[1] . "}";
+    if (!preg_match("/case 'government_advisories':([\\s\\S]*?)break;/", $fullSource, $retiredAdvisoryRoute)) {
+        throw new RuntimeException('Retired advisory route not found.');
+    }
+    $source .= "if (\$page === 'government_advisories') {" . $retiredAdvisoryRoute[1] . "}";
     $source .= "header('Content-Type: application/json'); echo json_encode(['reached'=>true]);";
     file_put_contents($temporary.'/index-prefix.php',$source);
     $bootstrap = '<?php define("OLSHCO_SESSION_TEST_HARNESS",true); require_once '.var_export($root.'/config/security.php',true)
@@ -84,7 +88,7 @@ HARNESS;
     [$status,$headers]=$request('guard.php',['page'=>'news'],['GUARD_ACTOR'=>'2','GUARD_MODE'=>'faculty_profile']);
     guardCheck($status===302 && str_contains($headers,'page=account_profile'),'Faculty ordinary navigation redirects to profile');
     $guards=['password'=>['password_change_required','required_password_change'],
-        'legal'=>['legal_consent_required','legal_reconsent'],'survey'=>['student_survey_required','student_profile']];
+        'legal'=>['legal_consent_required','legal_reconsent'],'survey'=>['student_survey_required','student_profile_survey']];
     $jsonRoutes=['session_keep_alive','content_open','content_react','content_comment','content_acknowledge',
         'content_redundancy_check','browser_push_configuration','browser_push_subscribe','browser_push_unsubscribe','government_advisory_preview','government_advisory_prepare'];
     foreach ($guards as $mode=>[$code,$target]) {
@@ -110,7 +114,7 @@ HARNESS;
     }
     foreach (['password'=>['required_password_change','required_password_change_action','logout'],
         'legal'=>['legal_reconsent','legal_reconsent_action','logout'],
-        'survey'=>['student_profile','student_profile_save','student_profile_survey_save','notifications','notification_open','notification_mark_all_read','logout']] as $mode=>$allowed) {
+        'survey'=>['student_profile','student_profile_survey','student_profile_save','student_profile_survey_save','notifications','notification_open','notification_mark_all_read','logout']] as $mode=>$allowed) {
         foreach ($allowed as $page) {
             [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_MODE'=>$mode,'HTTP_ACCEPT'=>'application/json']);
             guardCheck($status===200 && json_decode($body,true)['reached']===true,'required remediation/logout remains reachable');
@@ -122,19 +126,24 @@ HARNESS;
         [$status,,$body]=$request('guard.php',['page'=>'content_open'],['GUARD_MODE'=>'survey','GUARD_ACTOR'=>(string)$actor]);
         guardCheck($status===200 && json_decode($body,true)['reached'],'survey guard remains Student-only');
     }
-    foreach ([['0','news',401,'authentication_required'],['3','manage_users',403,'access_denied']] as [$actor,$page,$expected,$code]) {
+    foreach ([['0','news',401,'authentication_required'],['3','manage_users',403,'access_denied'],
+        ['0','government_advisories',401,'authentication_required'],['2','government_advisories',403,'access_denied'],
+        ['3','government_advisories',403,'access_denied'],['4','government_advisories',403,'access_denied']] as [$actor,$page,$expected,$code]) {
         [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>$actor,'HTTP_ACCEPT'=>'application/json']);
         guardCheck($status===$expected && json_decode($body,true)['code']===$code,'page authorization is request-aware');
         [$status,$headers]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>$actor]);
         guardCheck($status===302 && str_contains($headers,'Location:'),'ordinary page authorization redirect preserved');
     }
-    foreach ([['student_profile_management',[2,3,4]],['student_profile',[1,2,4]]] as [$page,$actors]) {
+    [$status,$headers,$body]=$request('guard.php',['page'=>'government_advisories'],['GUARD_ACTOR'=>'1']);
+    guardCheck($status===302 && str_contains($headers,'Location: index.php?page=postings') && $body==='',
+        'Retired advisory page redirects Admin to posting without rendering the duplicate screen');
+    foreach ([['student_profile_management',[2,3,4]],['student_profile',[1,2,4]],['student_profile_survey',[1,2,4]]] as [$page,$actors]) {
         foreach ($actors as $actor) {
             [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>(string)$actor,'HTTP_ACCEPT'=>'application/json']);
             guardCheck($status===403 && json_decode($body,true)['code']==='access_denied','Profile page rejects unauthorized role: '.$page.'/'.$actor);
         }
     }
-    foreach ([['student_profile_management',1],['student_profile',3]] as [$page,$actor]) {
+    foreach ([['student_profile_management',1],['student_profile',3],['student_profile_survey',3]] as [$page,$actor]) {
         [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>(string)$actor,'HTTP_ACCEPT'=>'application/json']);
         guardCheck($status===200 && json_decode($body,true)['reached'],'Authorized profile role reaches route boundary');
     }

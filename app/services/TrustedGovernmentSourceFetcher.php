@@ -29,6 +29,11 @@ class TrustedGovernmentSourceFetcher
         string $url,
         ?string $manualTitle = null
     ): array {
+        return $this->fetchValidated($url, $manualTitle, 0);
+    }
+
+    private function fetchValidated(string $url, ?string $manualTitle, int $redirects): array
+    {
         $normalizedUrl =
             $this->normalizeAndValidateUrl(
                 $url
@@ -54,11 +59,12 @@ class TrustedGovernmentSourceFetcher
             );
         }
 
-        $this->assertPublicHost(
+        $addresses = $this->assertPublicHost(
             $host
         );
 
         $body = '';
+        $location = null;
 
         $responseTooLarge =
             false;
@@ -79,7 +85,16 @@ class TrustedGovernmentSourceFetcher
             false,
 
             CURLOPT_FOLLOWLOCATION =>
-            true,
+            false,
+
+            // Pin the checked address: cURL must not resolve a different address later.
+            CURLOPT_RESOLVE => [$host . ':443:' . $addresses[0]],
+            CURLOPT_PROXY => '',
+            CURLOPT_HEADERFUNCTION => static function ($handle, string $line) use (&$location): int {
+                if (stripos($line, 'HTTP/') === 0) { $location = null; }
+                if (stripos($line, 'Location:') === 0) { $location = trim(substr($line, 9)); }
+                return strlen($line);
+            },
 
             CURLOPT_MAXREDIRS =>
             3,
@@ -201,6 +216,16 @@ class TrustedGovernmentSourceFetcher
                         : 'Unknown network error.'
                     )
             );
+        }
+
+        if (in_array($statusCode, [301, 302, 303, 307, 308], true) && $location !== null) {
+            if ($redirects >= 3) {
+                throw new RuntimeException('The government source exceeded the redirect limit.');
+            }
+            $next = $this->validatedRedirect($normalizedUrl, $location, (int) $source['government_source_id']);
+            $result = $this->fetchValidated($next, $manualTitle, $redirects + 1);
+            $result['requested_url'] = $normalizedUrl;
+            return $result;
         }
 
         if (
@@ -597,9 +622,22 @@ class TrustedGovernmentSourceFetcher
        PUBLIC DNS SAFETY
     ========================================== */
 
+    private function validatedRedirect(string $currentUrl, string $location, int $sourceId): string
+    {
+        $next = (string) \GuzzleHttp\Psr7\UriResolver::resolve(
+            new \GuzzleHttp\Psr7\Uri($currentUrl), new \GuzzleHttp\Psr7\Uri($location)
+        );
+        $next = $this->normalizeAndValidateUrl($next);
+        $source = $this->model->findActiveSourceByHost((string) parse_url($next, PHP_URL_HOST));
+        if (!$source || (int) $source['government_source_id'] !== $sourceId) {
+            throw new RuntimeException('The government source redirected outside its approved domain.');
+        }
+        return $next;
+    }
+
     private function assertPublicHost(
         string $host
-    ): void {
+    ): array {
         $addresses =
             gethostbynamel(
                 $host
@@ -618,7 +656,8 @@ class TrustedGovernmentSourceFetcher
                     $address,
                     FILTER_VALIDATE_IP,
                     FILTER_FLAG_NO_PRIV_RANGE |
-                        FILTER_FLAG_NO_RES_RANGE
+                        FILTER_FLAG_NO_RES_RANGE |
+                        FILTER_FLAG_GLOBAL_RANGE
                 );
 
             if ($isPublic === false) {
@@ -627,6 +666,7 @@ class TrustedGovernmentSourceFetcher
                 );
             }
         }
+        return $addresses;
     }
 
     /* ==========================================

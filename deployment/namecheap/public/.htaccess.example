@@ -12,12 +12,13 @@ RewriteRule ^Assets/(?:documents|documents-covers|post)(?:/|$) - [F,L,NC]
 # Preserve .well-known for certificate validation; block other hidden paths.
 RewriteRule (?:^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
 
-<FilesMatch "(?i)(?:\.(?:env|ini|log|sql|bak|backup|old|example|md|zip|tar|gz|7z)$|^(?:composer\.(?:json|lock)|AGENTS\.md|rule\.md|project-structure\.txt)$)">
+<FilesMatch "(?i)(?:\.(?:env|ini|log|sql|bak|backup|old|example|md|zip|tar|gz|7z|pem|key|p12|pfx)$|^(?:composer\.(?:json|lock)|AGENTS\.md|rule\.md|project-structure\.txt)$)">
     Require all denied
 </FilesMatch>
 
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
 # Enable cPanel's Force HTTPS Redirect AFTER the certificate works.

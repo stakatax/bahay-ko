@@ -110,6 +110,11 @@ function installRequestErrorHandling(): void
     static $installed = false;
     if ($installed) return;
     $installed = true;
+    if (PHP_SAPI !== 'cli' && !headers_sent()) {
+        header('X-Frame-Options: SAMEORIGIN');
+        header("Content-Security-Policy: frame-ancestors 'self'");
+        header('X-Content-Type-Options: nosniff');
+    }
     ini_set('display_errors', '0');
     ini_set('display_startup_errors', '0');
     ini_set('log_errors', '1');

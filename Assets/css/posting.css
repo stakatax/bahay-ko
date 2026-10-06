@@ -3695,7 +3695,7 @@ body:has(.publisher-page) .publisher-page {
             #858c96
         );
 
-    font-size: 0.46rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.065em;
     text-transform: uppercase;
@@ -3712,7 +3712,7 @@ body:has(.publisher-page) .publisher-page {
             #20242a
         );
 
-    font-size: 0.6rem;
+    font-size: 0.875rem;
 }
 
 

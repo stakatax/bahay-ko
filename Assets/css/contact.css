@@ -1356,3 +1356,16 @@ a.contact-detail-card:hover {
         min-height: 48px;
     }
 }
+.contact-inquiry-fields {
+    display: grid;
+    gap: inherit;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.contact-inquiry-fields :disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}

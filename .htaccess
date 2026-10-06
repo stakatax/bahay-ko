@@ -1,0 +1,17 @@
+Options -Indexes
+DirectoryIndex index.php
+RewriteEngine On
+
+# Direct HTTP access only; internal PHP includes and CLI workers remain available.
+RewriteRule ^(?:app|config|include|pages|vendor|scripts|database|dev|docs|tests|logs|deployment|private)(?:/|$) - [F,L,NC]
+RewriteRule ^Assets/(?:documents|documents-covers|post)(?:/|$) - [F,L,NC]
+RewriteRule (?:^|/)\.(?!well-known(?:/|$)) - [F,L,NC]
+
+<FilesMatch "(?i)(?:\.(?:env|ini|log|sql|bak|backup|old|example|md|zip|tar|gz|7z|pem|key|p12|pfx)$|^(?:composer\.(?:json|lock)|AGENTS\.md|rule\.md|project-structure\.txt)$)">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>

@@ -6,6 +6,21 @@ require_once __DIR__
 class AcademicStructure extends BaseModel
 {
 
+    private ?PublicCatalogCache $catalogCache = null;
+    private bool $catalogTransaction = false;
+    private ?PublicCatalogCache $registrationCache = null;
+
+    public function __construct(?mysqli $connection = null)
+    {
+        parent::__construct($connection);
+        // Injected connections may use temporary tables; never share their cache.
+        if ($connection === null) {
+            require_once __DIR__ . '/PublicCatalogCache.php';
+            $this->catalogCache = PublicCatalogCache::directory('public-catalog');
+            $this->registrationCache = PublicCatalogCache::directory('registration-academics');
+        }
+    }
+
     private const ENTITY_MAP = [
         'department' => [
             'table' => 'department',
@@ -61,6 +76,14 @@ class AcademicStructure extends BaseModel
 ========================================== */
 
     public function getPublicCatalog(): array
+    {
+        if ($this->catalogCache !== null && !$this->catalogTransaction) {
+            return $this->catalogCache->remember(fn(): array => $this->loadPublicCatalog());
+        }
+        return $this->loadPublicCatalog();
+    }
+
+    private function loadPublicCatalog(): array
     {
         /*
      * Public pages need only active academic
@@ -836,6 +859,7 @@ class AcademicStructure extends BaseModel
             (int) $this->conn->insert_id;
 
         $stmt->close();
+        if (!$this->catalogTransaction) { $this->clearDisplayCaches(); }
 
         return $entityId;
     }
@@ -976,6 +1000,7 @@ class AcademicStructure extends BaseModel
         }
 
         $stmt->close();
+        if (!$this->catalogTransaction) { $this->clearDisplayCaches(); }
     }
 
     /* ==========================================
@@ -1045,6 +1070,7 @@ class AcademicStructure extends BaseModel
         }
 
         $stmt->close();
+        if (!$this->catalogTransaction) { $this->clearDisplayCaches(); }
     }
 
     public function getHistory(
@@ -1442,16 +1468,26 @@ class AcademicStructure extends BaseModel
     public function beginTransaction(): void
     {
         $this->conn->begin_transaction();
+        $this->catalogTransaction = true;
     }
 
     public function commit(): void
     {
         $this->conn->commit();
+        $this->catalogTransaction = false;
+        $this->clearDisplayCaches();
+    }
+
+    private function clearDisplayCaches(): void
+    {
+        $this->catalogCache?->clear();
+        $this->registrationCache?->clear();
     }
 
     public function rollback(): void
     {
         $this->conn->rollback();
+        $this->catalogTransaction = false;
     }
 
     /* ==========================================

@@ -17,7 +17,7 @@ try {
         file_put_contents($path, $contents);
         $files[$path] = true;
     };
-    foreach (['database', 'security', 'email', 'push'] as $name) {
+    foreach (['database', 'security', 'email', 'push', 'push-endpoint'] as $name) {
         $write('config/' . $name . '.php', file_get_contents($root . '/config/' . $name . '.php'));
     }
     $write('scripts/check_deployment_configuration.php', file_get_contents($root . '/scripts/check_deployment_configuration.php'));

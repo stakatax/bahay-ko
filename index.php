@@ -21,6 +21,7 @@ enforceCurrentAccountSession($conn);
 ========================================== */
 
 require_once __DIR__ . '/app/controllers/EventController.php';
+require_once __DIR__ . '/app/controllers/ContactController.php';
 require_once __DIR__ . '/app/controllers/DocumentDownloadController.php';
 require_once __DIR__ . '/app/controllers/PostController.php';
 require_once __DIR__ . '/app/controllers/AuthController.php';
@@ -131,6 +132,8 @@ $adminPages = [
 ];
 
 $actionRoutes = [
+
+  'contact_submit',
 
   'login_action',
   'register_action',
@@ -545,6 +548,9 @@ try {
 ========================================== */
 
 switch ($page) {
+
+  case 'contact_submit':
+    (new ContactController())->submit();
 
   /* ------------------------------------------
        AUTHENTICATION ACTIONS
@@ -1435,19 +1441,8 @@ switch ($page) {
     break;
 
   case 'government_advisories':
-    $viewData =
-      (new GovernmentAdvisoryController())
-      ->index();
-
-    $title =
-      'Government Advisory Intake';
-
-    $pageCSS =
-      'government-advisories.css';
-
-    $pageJS =
-      'government-advisories.js';
-
+    requirePageRoles($isLoggedIn, $role, ['Admin']);
+    redirectToPage('postings');
     break;
 
   /* ------------------------------------------
@@ -1587,6 +1582,7 @@ switch ($page) {
   case 'contact':
     $title = 'Contact';
     $pageCSS = 'contact.css';
+    $pageJS = 'contact.js';
     break;
 
   case 'home':
@@ -1733,6 +1729,8 @@ function assetVersion(string $relativePath): string
 
   <meta charset="UTF-8">
 
+  <script src="Assets/js/theme.js?v=<?= assetVersion('Assets/js/theme.js') ?>"></script>
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0">
@@ -1744,6 +1742,11 @@ function assetVersion(string $relativePath): string
       'UTF-8'
     ) ?>
   </title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="Assets/Images/ulsco.png?v=<?= assetVersion('Assets/Images/ulsco.png') ?>">
 
   <link
     rel="stylesheet"
@@ -1809,11 +1812,18 @@ function assetVersion(string $relativePath): string
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <link rel="stylesheet" href="Assets/css/theme.css?v=<?= assetVersion('Assets/css/theme.css') ?>">
+
 </head>
 
-<body>
+<body data-page-css="<?= htmlspecialchars((string) ($pageCSS ?? ''), ENT_QUOTES, 'UTF-8') ?>">
 
   <?php if ($isAuthPage): ?>
+
+    <button type="button" class="theme-toggle theme-toggle-auth" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
+      <i class="fa-solid fa-moon" aria-hidden="true"></i>
+      <span data-theme-label>Dark mode</span>
+    </button>
 
     <!-- MINIMALIST AUTHENTICATION SHELL -->
 

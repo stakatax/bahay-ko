@@ -4052,12 +4052,12 @@ $errorMessage =
                                 </strong>
 
                                 <small>
-                                    Like, Love, Care, and Wow
+                                    Let readers upvote or downvote this post.
                                 </small>
 
                             </div>
 
-                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
 
                         </label>
 

@@ -25,6 +25,13 @@ class RequestRateLimitService
         $this->enforce('registration_ip', self::normalizeIp($ip), 30, 3600);
     }
 
+    public function contact(string $email, string $ip): void
+    {
+        $this->enforce('contact_ip', self::normalizeIp($ip), 5, 3600);
+        $this->enforce('contact_email', mb_strtolower(trim($email)), 3, 3600);
+        $this->enforce('contact_global', 'inquiry', 30, 3600);
+    }
+
     public function engagement(string $action, int $userId): void
     {
         $limits = ['open'=>120, 'react'=>60, 'comment'=>10, 'acknowledge'=>60];

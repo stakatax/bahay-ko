@@ -29,7 +29,7 @@ class StudentProfileService
         return [
             'interests' =>
             $this->profile
-                ->getActiveInterests(),
+                ->getDisplayInterests(),
 
             'profile' =>
             $this->profile

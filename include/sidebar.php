@@ -580,6 +580,11 @@ function sidebarUserCanAccess(
 
     <div class="sidebar-footer">
 
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+            <span data-theme-label>Dark mode</span>
+        </button>
+
         <?php if ($currentRole === 'Guest'): ?>
 
             <div class="sidebar-guest-summary">

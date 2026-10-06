@@ -1,0 +1,11 @@
+# Contact inquiry verification — 6 October 2026
+
+Public route: POST index.php?page=contact_submit. The existing Contact page supplies CSRF and one-use session form tokens. Other methods return 405 with Allow: POST. The endpoint uses the existing authenticated SMTP sender and a fixed recipient, sapinjanfortun1@gmail.com; visitors cannot supply a recipient or SMTP From header. Visitor email/name/type/message are included as escaped email body content by EmailSender, not interpreted as HTML or SQL.
+
+Server validation checks scalar strings, full name length/control characters, valid email, an allowlisted inquiry type and message length 10–1,500/control characters. Existing shared input validation also applies. RequestRateLimitService uses the existing table and private HMAC identities: five attempts per IP/hour, three per email/hour and thirty globally/hour. No schema change was made.
+
+Confirmed SMTP success consumes the form token and redirects with HTTP 303, preventing refresh from repeating a successful POST. Client JavaScript prevents duplicate taps while sending. Failed validation/delivery preserves escaped field values; internal SMTP/configuration details are not shown. There is no persistent inquiry table or durable retry worker: a failed send needs a visitor retry or fallback email/phone contact. Inquiries are explicit public messages, separate from account notification delivery preferences.
+
+Verification: changed PHP files pass syntax checks; contact.js passes node --check. tests/contact_inquiry.php passed 24 validation/fixed-destination/limiter/failure checks using a fake sender and no operational writes or mail. Controlled HTTP checks passed for enabled form markup, GET rejection, missing CSRF, wrong form token and escaped preserved script text. One clearly identified test inquiry was submitted through the real form to the requested recipient; SMTP accepted it, and the success message appeared. Recipient inbox receipt has not been independently confirmed.
+
+Evaluator tasks: confirm the test message in Inbox/Spam, submit a designated valid inquiry, verify failure feedback and limits in isolated fixtures, confirm replies use the visitor email shown in the message, and rerun SMTP/connectivity checks on the chosen deployment host. Do not infer hosted delivery from this local result.

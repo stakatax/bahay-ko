@@ -589,7 +589,7 @@ class DashboardExcelExporter
                 'reactions' =>
                 [
                     'Votes',
-                    'Like, Love, Care, and Wow'
+                    'Upvotes and downvotes'
                 ],
 
                 'comments' =>

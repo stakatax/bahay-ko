@@ -996,8 +996,6 @@ const newsCsrfToken =
             const link = document.createElement('a');
             link.className = 'hub-recent-post';
             link.href = postPageUrl(entry.type, entry.id);
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
             const meta = document.createElement('span');
             meta.className = 'hub-recent-meta';
             meta.textContent = card.querySelector('.hub-post-identity strong')?.textContent.trim() || 'OLSHCO Digital Hub';
@@ -3388,7 +3386,7 @@ openRequestedHubItem();
         return `index.php?${parameters}${discussion ? '#discussion' : ''}`;
     }
     function openPostTab(type, id, discussion = false) {
-        window.open(postPageUrl(type, id, discussion), '_blank', 'noopener,noreferrer');
+        window.location.assign(postPageUrl(type, id, discussion));
     }
     document.querySelectorAll('[data-feed-comment]').forEach(button => {
         button.addEventListener('click', () => openPostTab(button.dataset.commentType, button.dataset.commentId, true));
@@ -3408,9 +3406,7 @@ openRequestedHubItem();
             const link = document.createElement('a');
             link.className = 'hub-post-title-link';
             link.href = postPageUrl(type, id);
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.setAttribute('aria-label', `${title.textContent.trim()} (opens in a new tab)`);
+            link.setAttribute('aria-label', title.textContent.trim());
             while (title.firstChild) {
                 link.appendChild(title.firstChild);
             }

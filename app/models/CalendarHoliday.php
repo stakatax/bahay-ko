@@ -5,6 +5,14 @@ require_once __DIR__
 
 class CalendarHoliday extends BaseModel
 {
+    private bool $sharedHolidayCache = false;
+
+    public function __construct(?mysqli $connection = null)
+    {
+        parent::__construct($connection);
+        $this->sharedHolidayCache = $connection === null;
+    }
+
     /* ==========================================
        ACTIVE HOLIDAYS BY YEAR
     ========================================== */
@@ -21,6 +29,16 @@ class CalendarHoliday extends BaseModel
                 )
             );
 
+        if ($this->sharedHolidayCache) {
+            require_once __DIR__ . '/PublicCatalogCache.php';
+            $cache = PublicCatalogCache::directory('calendar-holidays', 300, $year);
+            return $cache->remember(fn(): array => $this->loadActiveByYear($year));
+        }
+        return $this->loadActiveByYear($year);
+    }
+
+    private function loadActiveByYear(int $year): array
+    {
         $startDate =
             sprintf(
                 '%04d-01-01',
@@ -69,11 +87,15 @@ class CalendarHoliday extends BaseModel
 
         $stmt->execute();
 
-        return $stmt
-            ->get_result()
-            ->fetch_all(
-                MYSQLI_ASSOC
-            );
+        try {
+            return $stmt
+                ->get_result()
+                ->fetch_all(
+                    MYSQLI_ASSOC
+                );
+        } finally {
+            $stmt->close();
+        }
     }
 
     /* ==========================================

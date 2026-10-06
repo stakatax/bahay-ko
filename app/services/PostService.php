@@ -82,7 +82,7 @@ class PostService
     public function getContentInterests(): array
     {
         return $this->contentInterest
-            ->getActiveInterests();
+            ->getDisplayInterests();
     }
 
 
@@ -197,94 +197,38 @@ class PostService
         $totalSurveyCount =
             count($surveys);
 
-        $announcements =
-            $this->attachEngagement(
-                'announcement',
-                'announcement_id',
-                $announcements,
-                $userId
-            );
+        $feedEngagement = $this->engagement->getEngagementSets([
+            'announcement' => array_column($announcements, 'announcement_id'),
+            'event' => array_column($events, 'event_id'),
+            'document' => array_column($documents, 'document_id'),
+            'survey' => array_column($surveys, 'survey_id')
+        ], $userId);
+        $announcements = $this->attachEngagement('announcement', 'announcement_id', $announcements, $userId, $feedEngagement['announcement']);
+        $events = $this->attachEngagement('event', 'event_id', $events, $userId, $feedEngagement['event']);
+        $documents = $this->attachEngagement('document', 'document_id', $documents, $userId, $feedEngagement['document']);
+        $surveys = $this->attachEngagement('survey', 'survey_id', $surveys, $userId, $feedEngagement['survey']);
 
-        $events =
-            $this->attachEngagement(
-                'event',
-                'event_id',
-                $events,
-                $userId
-            );
+        $feedLabels = (new ContentAudience($this->announcement->getDatabaseConnection()))->getLabelSets([
+            'announcement' => array_column($announcements, 'announcement_id'),
+            'event' => array_column($events, 'event_id'),
+            'document' => array_column($documents, 'document_id'),
+            'survey' => array_column($surveys, 'survey_id')
+        ]);
+        $announcements = $this->attachTargetTags('announcement', 'announcement_id', $announcements, $feedLabels['announcement']);
+        $events = $this->attachTargetTags('event', 'event_id', $events, $feedLabels['event']);
+        $documents = $this->attachTargetTags('document', 'document_id', $documents, $feedLabels['document']);
+        $surveys = $this->attachTargetTags('survey', 'survey_id', $surveys, $feedLabels['survey']);
 
-        $documents =
-            $this->attachEngagement(
-                'document',
-                'document_id',
-                $documents,
-                $userId
-            );
-
-        $surveys =
-            $this->attachEngagement(
-                'survey',
-                'survey_id',
-                $surveys,
-                $userId
-            );
-
-        $announcements =
-            $this->attachTargetTags(
-                'announcement',
-                'announcement_id',
-                $announcements
-            );
-
-        $surveys =
-            $this->attachTargetTags(
-                'survey',
-                'survey_id',
-                $surveys
-            );
-
-        $events =
-            $this->attachTargetTags(
-                'event',
-                'event_id',
-                $events
-            );
-
-        $documents =
-            $this->attachTargetTags(
-                'document',
-                'document_id',
-                $documents
-            );
-
-
-        $announcements =
-            $this->attachContentInterests(
-                'announcement',
-                'announcement_id',
-                $announcements
-            );
-
-        $events =
-            $this->attachContentInterests(
-                'event',
-                'event_id',
-                $events
-            );
-
-        $documents =
-            $this->attachContentInterests(
-                'document',
-                'document_id',
-                $documents
-            );
-
-        $surveys =
-            $this->attachContentInterests(
-                'survey',
-                'survey_id',
-                $surveys
-            );
+        $feedTopics = $this->contentInterest->getAssignmentSets([
+            'announcement' => array_column($announcements, 'announcement_id'),
+            'event' => array_column($events, 'event_id'),
+            'document' => array_column($documents, 'document_id'),
+            'survey' => array_column($surveys, 'survey_id')
+        ]);
+        $announcements = $this->attachContentInterests('announcement', 'announcement_id', $announcements, $feedTopics['announcement']);
+        $events = $this->attachContentInterests('event', 'event_id', $events, $feedTopics['event']);
+        $documents = $this->attachContentInterests('document', 'document_id', $documents, $feedTopics['document']);
+        $surveys = $this->attachContentInterests('survey', 'survey_id', $surveys, $feedTopics['survey']);
         $currentUserInterestWeights =
             $this->getCurrentUserInterestWeights();
         require_once __DIR__ . '/FeedPreference.php';
@@ -384,9 +328,10 @@ class PostService
         string $contentType,
         string $idColumn,
         array $items,
-        int $userId
+        int $userId,
+        ?array $engagementMap = null
     ): array {
-        $engagementMap = $this->engagement->getEngagementBatch($contentType, array_column($items, $idColumn), $userId);
+        $engagementMap ??= $this->engagement->getEngagementBatch($contentType, array_column($items, $idColumn), $userId);
         foreach ($items as &$item) {
             $contentId = (int) (
                 $item[$idColumn]
@@ -476,7 +421,8 @@ class PostService
     private function attachContentInterests(
         string $contentType,
         string $idColumn,
-        array $items
+        array $items,
+        ?array $assignmentMap = null
     ): array {
         if ($items === []) {
             return $items;
@@ -497,7 +443,7 @@ class PostService
             }
         }
 
-        $assignmentMap =
+        $assignmentMap ??=
             $this->contentInterest
             ->getAssignmentMap(
                 $contentType,
@@ -541,233 +487,17 @@ class PostService
     private function attachTargetTags(
         string $contentType,
         string $idColumn,
-        array $items
+        array $items,
+        ?array $targetMap = null
     ): array {
-        if (empty($items)) {
-            return $items;
-        }
-
-        $conn = $this->announcement->getDatabaseConnection();
-
-        $targetTables = [
-            'announcement' =>
-            'announcement_target',
-
-            'event' =>
-            'event_target',
-
-            'document' =>
-            'document_target',
-
-            'survey' =>
-            'survey_target'
-        ];
-        $foreignKeys = [
-            'announcement' =>
-            'announcement_id',
-
-            'event' =>
-            'event_id',
-
-            'document' =>
-            'document_id',
-
-            'survey' =>
-            'survey_id'
-        ];
-
-        if (
-            !isset(
-                $targetTables[$contentType],
-                $foreignKeys[$contentType]
-            )
-        ) {
-            throw new InvalidArgumentException(
-                'Invalid content type for target tags.'
-            );
-        }
-
-        $targetTable =
-            $targetTables[$contentType];
-
-        $foreignKey =
-            $foreignKeys[$contentType];
-
-        $contentIds = [];
-
-        foreach ($items as $item) {
-            $contentId = (int) (
-                $item[$idColumn]
-                ?? 0
-            );
-
-            if ($contentId > 0) {
-                $contentIds[] =
-                    $contentId;
-            }
-        }
-
-        $contentIds = array_values(
-            array_unique(
-                $contentIds
-            )
-        );
-
-        if (empty($contentIds)) {
-            return $items;
-        }
-
-        $placeholders = implode(
-            ', ',
-            array_fill(
-                0,
-                count($contentIds),
-                '?'
-            )
-        );
-
-        $types = str_repeat(
-            'i',
-            count($contentIds)
-        );
-
-        $stmt = $conn->prepare("
-        SELECT
-            t.{$foreignKey} AS content_id,
-
-            r.role_prefix,
-            d.department_name,
-            el.education_level_name,
-            ap.program_name,
-            gl.grade_level_name,
-            s.section_name
-
-        FROM {$targetTable} t
-
-        LEFT JOIN role r
-            ON r.role_id =
-               t.role_id
-
-        LEFT JOIN department d
-            ON d.department_id =
-               t.department_id
-
-        LEFT JOIN education_level el
-            ON el.education_level_id =
-               t.education_level_id
-
-        LEFT JOIN academic_program ap
-            ON ap.academic_program_id =
-               t.academic_program_id
-
-        LEFT JOIN grade_level gl
-            ON gl.grade_level_id =
-               t.grade_level_id
-
-        LEFT JOIN section s
-            ON s.section_id =
-               t.section_id
-
-        WHERE t.{$foreignKey}
-            IN ({$placeholders})
-    ");
-
-        if (!$stmt) {
-            throw new RuntimeException(
-                'Unable to prepare target tag query: '
-                    . $conn->error
-            );
-        }
-
-        $stmt->bind_param(
-            $types,
-            ...$contentIds
-        );
-
-        if (!$stmt->execute()) {
-            $error =
-                $stmt->error;
-
-            $stmt->close();
-
-            throw new RuntimeException(
-                'Unable to load target tags: '
-                    . $error
-            );
-        }
-
-        $result =
-            $stmt->get_result();
-
-        $targetMap = [];
-
-        while (
-            $row =
-            $result->fetch_assoc()
-        ) {
-            $contentId = (int) (
-                $row['content_id']
-                ?? 0
-            );
-
-            if ($contentId <= 0) {
-                continue;
-            }
-
-            $labels = [
-                $row['role_prefix']
-                    ?? '',
-
-                $row['department_name']
-                    ?? '',
-
-                $row['education_level_name']
-                    ?? '',
-
-                $row['program_name']
-                    ?? '',
-
-                $row['grade_level_name']
-                    ?? '',
-
-                $row['section_name']
-                    ?? ''
-            ];
-
-            foreach ($labels as $label) {
-                $label = trim(
-                    (string) $label
-                );
-
-                if ($label === '') {
-                    continue;
-                }
-
-                $targetMap[$contentId][$label] =
-                    true;
-            }
-        }
-
-        $stmt->close();
-
+        if ($items === []) { return $items; }
+        $targetMap ??= (new ContentAudience($this->announcement->getDatabaseConnection()))->getLabelSets([
+            $contentType => array_column($items, $idColumn)
+        ])[$contentType];
         foreach ($items as &$item) {
-            $contentId = (int) (
-                $item[$idColumn]
-                ?? 0
-            );
-
-            $item['target_tags'] =
-                isset(
-                    $targetMap[$contentId]
-                )
-                ? array_keys(
-                    $targetMap[$contentId]
-                )
-                : [];
+            $item['target_tags'] = $targetMap[(int) ($item[$idColumn] ?? 0)] ?? [];
         }
-
         unset($item);
-
         return $items;
     }
 

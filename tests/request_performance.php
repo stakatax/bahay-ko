@@ -66,6 +66,23 @@ try {
             }
         }
     }
+    foreach ([0, 1, 2, 99] as $user) {
+        $db->resetCounts();
+        $mixed = $engagement->getEngagementSets(array_fill_keys(['announcement', 'event', 'document', 'survey'], [1, 2, 3]), $user);
+        performanceCheck($db->prepares === 4, 'Mixed feed uses only four engagement queries');
+        foreach ($mixed as $type => $summaries) {
+            foreach ($summaries as $id => $summary) {
+                performanceCheck($summary === $engagement->getEngagement($type, $id, $user), 'Mixed type/ID parity: ' . $type . '/' . $id . '/' . $user);
+            }
+        }
+    }
+    $db->resetCounts();
+    performanceCheck($engagement->getEngagementSets(['announcement' => [], 'event' => [0, -1]], 1) === ['announcement' => [], 'event' => []] && $db->prepares === 0, 'Mixed empty and invalid IDs use no queries');
+    $db->resetCounts();
+    $mixedLarge = $engagement->getEngagementSets(['announcement' => range(1, 300), 'event' => range(1, 300)], 1);
+    performanceCheck(count($mixedLarge['announcement']) === 300 && count($mixedLarge['event']) === 300 && $db->prepares === 8, 'Mixed batch chunks total pairs without merging same-number IDs');
+    try { $engagement->getEngagementSets(['invalid' => [1]], 1); performanceCheck(false, 'Mixed invalid type rejected'); }
+    catch (InvalidArgumentException $exception) { performanceCheck(true, 'Mixed invalid type rejected'); }
     $db->resetCounts();
     $engagement->getEngagementBatch('announcement', range(1, 100), 1);
     performanceCheck($db->prepares === 4, '100 feed cards use four engagement queries');

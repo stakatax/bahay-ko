@@ -280,7 +280,7 @@ Ask the technical operator to inspect the worker and queues when scheduled conte
 
 Required fields must be completed with valid displayed selections. Unexpected field formats, invalid record selections and invalid links are rejected by the server. Review the message and correct the form; do not repeatedly click Save or Publish. A government advisory link must pass verification before its announcement can be saved. Attaching a link does not replace your announcement title or caption.
 
-The Contact inquiry submission is not operational yet. Use the school contact details displayed on that page instead of relying on the form for an inquiry.
+The Contact form emails inquiries to sapinjanfortun1@gmail.com. Enter your name, a valid reply email, an inquiry type and a message of 10–1,500 characters, then choose Send Inquiry. Wait for the result before resubmitting. Success confirms acceptance by the email service, not final inbox delivery. If sending fails, your entries remain available; use the displayed email or phone link as a fallback. Submission limits protect the inbox from abuse.
 
 ## Troubleshooting
 

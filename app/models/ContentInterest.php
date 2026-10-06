@@ -5,6 +5,25 @@ require_once __DIR__
 
 class ContentInterest extends BaseModel
 {
+    private bool $sharedTopicCache = false;
+
+    public function __construct(?mysqli $connection = null)
+    {
+        parent::__construct($connection);
+        $this->sharedTopicCache = $connection === null;
+    }
+
+    /** Display-only cache. Submission validation always uses getActiveInterests(). */
+    public function getDisplayInterests(): array
+    {
+        if (!$this->sharedTopicCache) {
+            return $this->getActiveInterests();
+        }
+        require_once __DIR__ . '/PublicCatalogCache.php';
+        $cache = PublicCatalogCache::directory('topic-directory', 60);
+        return $cache->remember(fn(): array => $this->getActiveInterests());
+    }
+
     private const CONTENT_MAP = [
         'announcement' => [
             'table' =>
@@ -215,168 +234,55 @@ class ContentInterest extends BaseModel
     }
 
 
-    public function getAssignmentMap(
-        string $contentType,
-        array $contentIds
-    ): array {
-        $contentType =
-            strtolower(
-                trim(
-                    $contentType
-                )
-            );
+    public function getAssignmentMap(string $contentType, array $contentIds): array
+    {
+        $contentType = strtolower(trim($contentType));
+        return $this->getAssignmentSets([$contentType => $contentIds])[$contentType] ?? [];
+    }
 
-        $this->getContentDefinition(
-            $contentType
-        );
-
-        $contentIds =
-            array_values(
-                array_unique(
-                    array_filter(
-                        array_map(
-                            static fn(
-                                mixed $contentId
-                            ): int =>
-                            (int) $contentId,
-                            $contentIds
-                        ),
-                        static fn(
-                            int $contentId
-                        ): bool =>
-                        $contentId > 0
-                    )
-                )
-            );
-
-        if ($contentIds === []) {
-            return [];
-        }
-
-        $placeholders =
-            implode(
-                ', ',
-                array_fill(
-                    0,
-                    count($contentIds),
-                    '?'
-                )
-            );
-
-        $parameterTypes =
-            's'
-            . str_repeat(
-                'i',
-                count($contentIds)
-            );
-
-        $parameters = [
-            $contentType,
-            ...$contentIds
-        ];
-
-        $stmt =
-            $this->conn->prepare("
-            SELECT
-                cia.content_id,
-                cia.interest_id,
-                ci.interest_name,
-                ci.interest_slug
-
-            FROM content_interest_assignment cia
-
-            INNER JOIN content_interest ci
-                ON ci.interest_id =
-                    cia.interest_id
-               AND ci.status = 'Active'
-
-            WHERE cia.content_type = ?
-              AND cia.content_id
-                  IN ({$placeholders})
-
-            ORDER BY
-                cia.content_id ASC,
-                ci.sort_order ASC,
-                ci.interest_name ASC
-        ");
-
-        if (!$stmt) {
-            throw new RuntimeException(
-                'Unable to prepare bulk content topic lookup: '
-                    . $this->conn->error
-            );
-        }
-
-        $stmt->bind_param(
-            $parameterTypes,
-            ...$parameters
-        );
-
-        if (!$stmt->execute()) {
-            $error =
-                $stmt->error;
-
-            $stmt->close();
-
-            throw new RuntimeException(
-                'Unable to load bulk content topics: '
-                    . $error
-            );
-        }
-
-        $rows =
-            $stmt->get_result()
-            ->fetch_all(
-                MYSQLI_ASSOC
-            );
-
-        $stmt->close();
-
-        $assignmentMap = [];
-
-        foreach ($rows as $row) {
-            $contentId =
-                (int) (
-                    $row['content_id']
-                    ?? 0
-                );
-
-            $interestId =
-                (int) (
-                    $row['interest_id']
-                    ?? 0
-                );
-
-            if (
-                $contentId <= 0 ||
-                $interestId <= 0
-            ) {
-                continue;
+    /** Feed caller supplies only IDs that passed recipient eligibility. */
+    public function getAssignmentSets(array $sets): array
+    {
+        $map = []; $pairs = [];
+        foreach ($sets as $type => $ids) {
+            $type = strtolower(trim($type));
+            $this->getContentDefinition($type);
+            $map[$type] ??= [];
+            foreach (array_unique(array_map('intval', $ids)) as $id) {
+                if ($id > 0) { $pairs[$type . ':' . $id] = [$type, $id]; }
             }
-
-            $assignmentMap[$contentId][] = [
-                'interest_id' =>
-                $interestId,
-
-                'interest_name' =>
-                trim(
-                    (string) (
-                        $row['interest_name']
-                        ?? ''
-                    )
-                ),
-
-                'interest_slug' =>
-                trim(
-                    (string) (
-                        $row['interest_slug']
-                        ?? ''
-                    )
-                )
-            ];
         }
-
-        return $assignmentMap;
+        foreach (array_chunk(array_values($pairs), 500) as $chunk) {
+            $groups = [];
+            foreach ($chunk as [$type, $id]) { $groups[$type][] = $id; }
+            $conditions = []; $parameters = []; $types = '';
+            foreach ($groups as $type => $ids) {
+                $conditions[] = '(cia.content_type = ? AND cia.content_id IN (' . implode(',', array_fill(0, count($ids), '?')) . '))';
+                $parameters = [...$parameters, $type, ...$ids];
+                $types .= 's' . str_repeat('i', count($ids));
+            }
+            $where = implode(' OR ', $conditions);
+            $stmt = $this->conn->prepare("SELECT cia.content_type, cia.content_id, cia.interest_id, ci.interest_name, ci.interest_slug
+                FROM content_interest_assignment cia
+                INNER JOIN content_interest ci ON ci.interest_id = cia.interest_id AND ci.status = 'Active'
+                WHERE {$where}
+                ORDER BY cia.content_type ASC, cia.content_id ASC, ci.sort_order ASC, ci.interest_name ASC");
+            if (!$stmt) { throw new RuntimeException('Unable to prepare bulk content topic lookup.'); }
+            try {
+                $stmt->bind_param($types, ...$parameters);
+                if (!$stmt->execute()) { throw new RuntimeException('Unable to load bulk content topics.'); }
+                foreach ($stmt->get_result()->fetch_all(MYSQLI_ASSOC) as $row) {
+                    $id = (int) $row['content_id']; $interestId = (int) $row['interest_id'];
+                    if ($id <= 0 || $interestId <= 0) { continue; }
+                    $map[$row['content_type']][$id][] = [
+                        'interest_id' => $interestId,
+                        'interest_name' => trim((string) ($row['interest_name'] ?? '')),
+                        'interest_slug' => trim((string) ($row['interest_slug'] ?? ''))
+                    ];
+                }
+            } finally { $stmt->close(); }
+        }
+        return $map;
     }
 
     /* ==========================================

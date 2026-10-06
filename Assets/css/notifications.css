@@ -1619,6 +1619,55 @@ input:focus-visible
     }
 }
 
+/* Consistent, readable delivery switches with a full touch target. */
+.notifications-toggle,
+.notification-category-channel { min-height:44px; }
+.notifications-toggle-control,
+.notification-category-channel > span {
+    width:52px;
+    height:30px;
+    flex:0 0 52px;
+    background:#747e8b;
+    border:1px solid #747e8b;
+}
+.notifications-toggle-control::after,
+.notification-category-channel > span::after {
+    width:22px;
+    height:22px;
+    top:3px;
+    left:3px;
+    background:#fff;
+}
+.notifications-toggle input,
+.notification-category-channel > input[type="checkbox"] {
+    width:52px;
+    height:44px;
+    top:50%;
+}
+.notifications-toggle input { transform:translateY(-50%); }
+.notification-category-channel > input[type="checkbox"] { transform:translate(-50%,-50%); }
+.notifications-toggle input:checked + .notifications-toggle-control::after,
+.notification-category-channel > input[type="checkbox"]:checked + span::after { transform:translateX(22px); }
+.notifications-toggle input:focus-visible + .notifications-toggle-control,
+.notification-category-channel > input[type="checkbox"]:focus-visible + span {
+    outline:3px solid var(--accent-orange);
+    outline-offset:3px;
+}
+.notifications-toggle-copy { min-width:0; }
+.notifications-toggle-copy strong { font-size:.875rem; line-height:1.5; }
+.notifications-toggle-copy small { font-size:.8125rem; line-height:1.6; }
+.notification-category-channel small { font-size:.75rem; line-height:1.5; }
+@media(max-width:850px) {
+    .notification-category-channel { grid-template-columns:52px minmax(0,1fr); }
+    .notification-category-channel > input[type="checkbox"] { left:0; transform:translateY(-50%); }
+}
+@media(prefers-reduced-motion:reduce) {
+    .notifications-toggle-control,
+    .notifications-toggle-control::after,
+    .notification-category-channel > span,
+    .notification-category-channel > span::after { transition:none; }
+}
+
 /* Separate delivery sections without distancing their labels and actions. */
 .notifications-page { gap: var(--space-section, 24px); }
 .notifications-preference-card { padding: var(--space-section, 24px); gap: var(--space-group, 20px); }

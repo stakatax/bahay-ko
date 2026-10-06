@@ -13,8 +13,13 @@ class FeedAudienceFixture extends ContentAudience
     public function findActor(int $userId): ?array { $this->actors++; return $userId > 0 ? $this->viewer : null; }
     public function getVerifiedStudentProfiles(int $parentId): array { $this->profiles++; return $this->children; }
     public function getTargetMap(string $contentType, array $ids): array {
-        $this->targets++;
         return [2 => [['role_id'=>0, 'department_id'=>10]], 3 => [['role_id'=>0, 'department_id'=>20]]];
+    }
+    public function getTargetSets(array $sets): array {
+        $this->targets++;
+        $result = [];
+        foreach ($sets as $type => $ids) { $result[$type] = $this->getTargetMap($type, $ids); }
+        return $result;
     }
     public function resetCounts(): void { $this->actors = $this->profiles = $this->targets = 0; }
 }
@@ -46,7 +51,7 @@ foreach (['Admin', 'Faculty', 'Student', 'Parent', 'Unknown'] as $role) {
             $model->resetCounts();
             feedCheck($service->filterSetsForUser($sets, 1, true) === $expected, 'Exact visibility, ordering and specificity parity');
             feedCheck($model->actors === 1 && $model->profiles === (int)($oldProfiles > 0), 'Viewer and linked profiles resolved once');
-            feedCheck($model->targets === $oldTargets, 'Per-type target checks preserved');
+            feedCheck($model->targets === (int)($oldTargets > 0), 'Live targets resolved once per batch');
         }
     }
 }

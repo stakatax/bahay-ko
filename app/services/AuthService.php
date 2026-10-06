@@ -1413,27 +1413,16 @@ class AuthService
 
     public function getRegistrationOptions(): array
     {
-        return [
-            'departments' =>
-            $this->user
-                ->getActiveDepartments(),
-
-            'education_levels' =>
-            $this->user
-                ->getActiveEducationLevels(),
-
-            'academic_programs' =>
-            $this->user
-                ->getActiveAcademicPrograms(),
-
-            'grade_levels' =>
-            $this->user
-                ->getActiveGradeLevels(),
-
-            'sections' =>
-            $this->user
-                ->getActiveSections(),
-
+        require_once __DIR__ . '/../models/PublicCatalogCache.php';
+        $cache = PublicCatalogCache::directory('registration-academics');
+        $academics = $cache->remember(fn(): array => [
+            'departments' => $this->user->getActiveDepartments(),
+            'education_levels' => $this->user->getActiveEducationLevels(),
+            'academic_programs' => $this->user->getActiveAcademicPrograms(),
+            'grade_levels' => $this->user->getActiveGradeLevels(),
+            'sections' => $this->user->getActiveSections()
+        ]);
+        return array_merge($academics, [
             'legal_documents' =>
             $this->user
                 ->getActiveLegalDocumentVersions(),
@@ -1449,6 +1438,6 @@ class AuthService
                 'Relative',
                 'Other'
             ]
-        ];
+        ]);
     }
 }

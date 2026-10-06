@@ -40,7 +40,7 @@ The application is not documented as a full enrollment, grading, attendance, pay
 - Hosting/TLS topology and public URL are not finalized. Production cookie/proxy validation and unattended worker configuration remain pending.
 - The original schema plus migrations 027/028/029/030 defines the current 65-table expectation. A scratch-only bootstrap rehearsal is not a general production installer or completed production seed/Administrator provisioning.
 - Unknown routes return HTTP 404 using the shared themed HTML/JSON error renderer. Status-specific standalone designs are not required for each status.
-- The Contact inquiry form has no durable submission backend and remains deferred; displayed school contact details are the supported fallback.
+- Contact inquiries now send directly through SMTP to sapinjanfortun1@gmail.com (6 October update), with validation, CSRF/form-token protection and rate limiting. They have no durable inquiry storage/retry queue; SMTP acceptance is not proof of final inbox delivery. Contact links remain fallback methods.
 - The main workspace totals are uncapped, while displayed content lists still have per-type caps. A count larger than the visible list is not proof of missing records.
 - Automated tests are focused checks. Full browser, accessibility, load, real delivery and full database/uploads restore acceptance must be recorded separately.
 - Survey small-group suppression reduces disclosure risk; free text and repeated observation can still identify people. It is not an anonymity guarantee.

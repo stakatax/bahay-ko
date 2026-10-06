@@ -1,5 +1,11 @@
 <?php
 
+$contactFlash = $_SESSION['contact_flash'] ?? [];
+unset($_SESSION['contact_flash']);
+$contactOld = is_array($contactFlash['input'] ?? null) ? $contactFlash['input'] : [];
+$contactEscape = static fn(string $value): string => htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+$_SESSION['contact_form_token'] ??= bin2hex(random_bytes(32));
+
 $isLoggedIn =
     !empty($_SESSION['user_id']);
 
@@ -24,8 +30,8 @@ $contactDetails = [
     [
         'icon' => 'fa-solid fa-envelope',
         'label' => 'Email Address',
-        'value' => 'olshco@gmail.com',
-        'href' => 'mailto:olshco@gmail.com'
+        'value' => 'sapinjanfortun1@gmail.com',
+        'href' => 'mailto:sapinjanfortun1@gmail.com'
     ],
     [
         'icon' => 'fa-brands fa-facebook-f',
@@ -98,7 +104,7 @@ $schoolOffices = [
                 </a>
 
                 <a
-                    href="mailto:olshco@gmail.com"
+                    href="mailto:sapinjanfortun1@gmail.com"
                     class="app-button secondary">
                     <i class="fa-solid fa-envelope"></i>
 
@@ -332,7 +338,7 @@ $schoolOffices = [
                     </h2>
 
                     <p>
-                        Online inquiries are not available yet.
+                        Send your question and provide an email address where we can reply.
                     </p>
 
                 </div>
@@ -348,8 +354,20 @@ $schoolOffices = [
             <form
                 id="contactForm"
                 class="contact-inquiry-form"
-                action="#"
+                action="index.php?page=contact_submit"
                 method="POST">
+
+                <?= csrfInput() ?>
+                <input type="hidden" name="contact_token" value="<?= $contactEscape($_SESSION['contact_form_token']) ?>">
+                <?php foreach (['error', 'success'] as $contactStatus): ?>
+                    <?php if (!empty($contactFlash[$contactStatus])): ?>
+                        <p role="<?= $contactStatus === 'error' ? 'alert' : 'status' ?>" class="contact-form-notice">
+                            <?= $contactEscape($contactFlash[$contactStatus]) ?>
+                        </p>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+
+                <fieldset aria-describedby="contactFormNotice" class="contact-inquiry-fields">
 
                 <div class="contact-form-grid">
 
@@ -367,6 +385,7 @@ $schoolOffices = [
                                 type="text"
                                 id="contactName"
                                 name="name"
+                                value="<?= $contactEscape($contactOld['name'] ?? '') ?>"
                                 maxlength="150"
                                 autocomplete="name"
                                 required>
@@ -389,6 +408,7 @@ $schoolOffices = [
                                 type="email"
                                 id="contactEmail"
                                 name="email"
+                                value="<?= $contactEscape($contactOld['email'] ?? '') ?>"
                                 maxlength="150"
                                 autocomplete="email"
                                 required>
@@ -418,31 +438,31 @@ $schoolOffices = [
                                 Select inquiry type
                             </option>
 
-                            <option value="Admissions">
+                            <option value="Admissions" <?= ($contactOld['subject'] ?? '') === 'Admissions' ? 'selected' : '' ?>>
                                 Admissions
                             </option>
 
-                            <option value="Enrollment">
+                            <option value="Enrollment" <?= ($contactOld['subject'] ?? '') === 'Enrollment' ? 'selected' : '' ?>>
                                 Enrollment
                             </option>
 
-                            <option value="Academic Records">
+                            <option value="Academic Records" <?= ($contactOld['subject'] ?? '') === 'Academic Records' ? 'selected' : '' ?>>
                                 Academic Records
                             </option>
 
-                            <option value="Basic Education">
+                            <option value="Basic Education" <?= ($contactOld['subject'] ?? '') === 'Basic Education' ? 'selected' : '' ?>>
                                 Basic Education
                             </option>
 
-                            <option value="College">
+                            <option value="College" <?= ($contactOld['subject'] ?? '') === 'College' ? 'selected' : '' ?>>
                                 College
                             </option>
 
-                            <option value="Technical Support">
+                            <option value="Technical Support" <?= ($contactOld['subject'] ?? '') === 'Technical Support' ? 'selected' : '' ?>>
                                 Digital Hub Support
                             </option>
 
-                            <option value="General Inquiry">
+                            <option value="General Inquiry" <?= ($contactOld['subject'] ?? '') === 'General Inquiry' ? 'selected' : '' ?>>
                                 General Inquiry
                             </option>
 
@@ -465,7 +485,8 @@ $schoolOffices = [
                             name="message"
                             maxlength="1500"
                             rows="7"
-                            required></textarea>
+                            minlength="10"
+                            required><?= $contactEscape($contactOld['message'] ?? '') ?></textarea>
 
                     </div>
 
@@ -486,15 +507,17 @@ $schoolOffices = [
                     <i class="fa-solid fa-paper-plane"></i>
                 </button>
 
+                </fieldset>
+
             </form>
 
             <div class="contact-form-notice">
 
                 <i class="fa-solid fa-circle-info"></i>
 
-                <p>
-                    Please use Call the School or Send an Email above
-                    to contact us. This form cannot send messages yet.
+                <p id="contactFormNotice">
+                    Your inquiry is emailed to sapinjanfortun1@gmail.com.
+                    Include only the information needed to answer your question.
                 </p>
 
             </div>
