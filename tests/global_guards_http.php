@@ -20,12 +20,19 @@ try {
     $source = str_replace('__DIR__',var_export($root,true),$source);
     $source = str_replace('(new StudentProfileService())','(new GuardSurveyService())',$source,$replacements);
     if ($replacements !== 1) throw new RuntimeException('Unexpected survey dependency shape.');
+    $source = str_replace('(new StudentPlacement())', '(new GuardPlacementService())', $source);
     // Include the actual route-specific guard, but never invoke the page controller.
     $fullSource = file_get_contents($root.'/index.php');
     if (!preg_match("/case 'student_profile':\\s*case 'student_profile_survey':\\s*(requirePageRoles\\([\\s\\S]*?\\);)/", $fullSource, $studentRouteGuard)) {
         throw new RuntimeException('Student profile route guard not found.');
     }
     $source .= "if (in_array(\$page, ['student_profile', 'student_profile_survey'], true)) {" . $studentRouteGuard[1] . "}";
+    foreach (['student_profile_account', 'student_profile_account_save', 'student_profile_placement_review'] as $placementRoute) {
+        if (!preg_match("/case '" . $placementRoute . "':\\s*(requirePageRoles\\([\\s\\S]*?\\);)/", $fullSource, $placementGuard)) {
+            throw new RuntimeException('Placement route guard missing.');
+        }
+        $source .= 'if ($page === ' . var_export($placementRoute, true) . ') {' . $placementGuard[1] . '}';
+    }
     if (!preg_match("/case 'government_advisories':([\\s\\S]*?)break;/", $fullSource, $retiredAdvisoryRoute)) {
         throw new RuntimeException('Retired advisory route not found.');
     }
@@ -49,7 +56,10 @@ if (in_array($mode,['password','all'],true)) $conn->query('UPDATE user SET must_
 $_SESSION['legal_reconsent_required'] = in_array($mode,['legal','all'],true);
 class GuardSurveyService extends StudentProfileService {
     public function __construct() {}
-    public function requiresSurveyCompletion(int $userId): bool { return in_array(getenv('GUARD_MODE'),['survey','all'],true); }
+    public function requiresSurveyCompletion(int $userId): bool { return in_array(getenv('GUARD_MODE'),['survey','all','survey_unconfirmed'],true); }
+}
+class GuardPlacementService {
+    public function currentDetailsConfirmed(int $userId): bool { return getenv('GUARD_MODE') !== 'survey_unconfirmed'; }
 }
 register_shutdown_function(static function() use ($conn) { $conn->close(); });
 require __DIR__.'/index-prefix.php';
@@ -134,16 +144,22 @@ HARNESS;
         [$status,$headers]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>$actor]);
         guardCheck($status===302 && str_contains($headers,'Location:'),'ordinary page authorization redirect preserved');
     }
+    [$status,,$body]=$request('guard.php',['page'=>'news'],['GUARD_MODE'=>'survey_unconfirmed','HTTP_ACCEPT'=>'application/json']);
+    guardCheck($status===403 && json_decode($body,true)['redirect_url']==='index.php?page=student_profile_account','New update starts with account confirmation');
+    [$status,,$body]=$request('guard.php',['page'=>'student_profile_survey'],['GUARD_MODE'=>'survey_unconfirmed','HTTP_ACCEPT'=>'application/json']);
+    guardCheck($status===403 && json_decode($body,true)['code']==='account_confirmation_required','Questionnaire cannot bypass confirmation');
+    [$status,,$body]=$request('guard.php',['page'=>'news','urgent_only'=>'1'],['GUARD_MODE'=>'survey_unconfirmed','HTTP_ACCEPT'=>'application/json']);
+    guardCheck($status===200 && json_decode($body,true)['reached'],'Urgent feed exception remains reachable');
     [$status,$headers,$body]=$request('guard.php',['page'=>'government_advisories'],['GUARD_ACTOR'=>'1']);
     guardCheck($status===302 && str_contains($headers,'Location: index.php?page=postings') && $body==='',
         'Retired advisory page redirects Admin to posting without rendering the duplicate screen');
-    foreach ([['student_profile_management',[2,3,4]],['student_profile',[1,2,4]],['student_profile_survey',[1,2,4]]] as [$page,$actors]) {
+    foreach ([['student_profile_management',[2,3,4]],['student_profile',[1,2,4]],['student_profile_survey',[1,2,4]],['student_profile_account',[1,2,4]]] as [$page,$actors]) {
         foreach ($actors as $actor) {
             [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>(string)$actor,'HTTP_ACCEPT'=>'application/json']);
             guardCheck($status===403 && json_decode($body,true)['code']==='access_denied','Profile page rejects unauthorized role: '.$page.'/'.$actor);
         }
     }
-    foreach ([['student_profile_management',1],['student_profile',3],['student_profile_survey',3]] as [$page,$actor]) {
+    foreach ([['student_profile_management',1],['student_profile',3],['student_profile_survey',3],['student_profile_account',3]] as [$page,$actor]) {
         [$status,,$body]=$request('guard.php',['page'=>$page],['GUARD_ACTOR'=>(string)$actor,'HTTP_ACCEPT'=>'application/json']);
         guardCheck($status===200 && json_decode($body,true)['reached'],'Authorized profile role reaches route boundary');
     }

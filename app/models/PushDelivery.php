@@ -5,6 +5,11 @@ require_once __DIR__
 
 class PushDelivery extends BaseModel
 {
+    public function suppressStaleProfileReminder(int $deliveryId): void
+    {
+        $statement = $this->conn->prepare("UPDATE push_delivery SET delivery_status='Failed', attempt_count=GREATEST(attempt_count,3), last_error='Profile update no longer requires a reminder', last_attempt_at=NOW() WHERE delivery_id=? AND delivery_status IN ('Pending','Failed')");
+        $statement->bind_param('i', $deliveryId); $statement->execute(); $statement->close();
+    }
     /* ==========================================
        QUEUE NEW ELIGIBLE NOTIFICATIONS
     ========================================== */
@@ -190,6 +195,7 @@ class PushDelivery extends BaseModel
                     notification.message,
                     notification.content_type,
                     notification.content_id,
+                    notification.deduplication_key,
                     notification.created_at,
 
                     push_subscription.endpoint,

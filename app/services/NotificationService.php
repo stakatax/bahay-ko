@@ -416,7 +416,7 @@ class NotificationService
             $notificationMessage .= ' Opens on ' . date('F j, Y, g:i A', $opensTimestamp) . '.';
         }
         $notificationMessage .=
-            ' Open your Student Profile to review and submit your responses.';
+            ' Confirm your account details, complete the questionnaire, then review and submit your profile update.';
 
         $deduplicationKey =
             'student-profile-cycle-assigned:cycle:'
@@ -2212,8 +2212,8 @@ AND event_date > NOW()
             );
 
         if ($notificationType === 'reminder'
-            && preg_match('/^student-profile-cycle-assigned:cycle:[1-9][0-9]*$/', $deduplicationKey)) {
-            return 'index.php?page=student_profile_survey';
+            && preg_match('/^student-profile-cycle-(?:assigned|reminder):cycle:[1-9][0-9]*(?::day:\d{4}-\d{2}-\d{2})?$/', $deduplicationKey)) {
+            return 'index.php?page=student_profile_account';
         }
 
         /*

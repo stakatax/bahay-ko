@@ -142,6 +142,8 @@ try {
      * from large bursts.
      */
     $profileResult = (new NotificationService())->recoverStudentProfileNotifications(100);
+    require_once __DIR__ . '/../app/services/StudentProfileReminderService.php';
+    $periodicProfileResult = (new StudentProfileReminderService())->dispatch(100);
 
     $emailResult =
         (
@@ -180,6 +182,8 @@ try {
         . (int) ($releaseResult['notifications']['failed'] ?? 0)
         . ' | Profile reminders: ' . (int) ($profileResult['created'] ?? 0)
         . ' | Profile reminder failures: ' . (int) ($profileResult['failed'] ?? 0)
+        . ' | Periodic profile reminders: ' . (int) ($periodicProfileResult['created'] ?? 0)
+        . ' | Periodic profile failures: ' . (int) ($periodicProfileResult['failed'] ?? 0)
         . ' | Reminder failures: '
         . (int) ($reminderResult['failed'] ?? 0)
         . ' | Reminders: '
@@ -231,7 +235,7 @@ try {
         fwrite(STDERR, "Worker summary log could not be written.\n");
     }
 
-    $hasDeliveryFailure =
+    $hasDeliveryFailure = (int) ($periodicProfileResult['failed'] ?? 0) > 0 ||
         !$logWritten
         || (int) ($releaseResult['notifications']['failed'] ?? 0) > 0
         || (int) ($reminderResult['failed'] ?? 0) > 0

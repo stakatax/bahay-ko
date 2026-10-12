@@ -32,7 +32,7 @@ try {
  cycleNoticeCheck($service->recoverStudentProfileNotifications()['eligible']===0,'Successful reminders no longer pending');
  cycleNoticeCheck((int)$db->query('SELECT COUNT(*) n FROM notification')->fetch_assoc()['n']===2,'No duplicate notifications');
  $items=$service->getForUser(1);
- cycleNoticeCheck($items[0]['action_url']==='index.php?page=student_profile_survey','Reminder opens survey');
+ cycleNoticeCheck($items[0]['action_url']==='index.php?page=student_profile_account','Reminder opens account confirmation');
  cycleNoticeCheck(str_contains($items[0]['message'],'2099'),'Future opening appears in message');
  $dupe=$service->notifyStudentProfileCycleAssigned([1,1],1,'Future update');
  cycleNoticeCheck($dupe['created']===0 && $dupe['duplicates']===1,'Concurrent/stale retry deduplicates');
@@ -46,5 +46,39 @@ try {
  cycleNoticeCheck((int)$db->query('SELECT in_system_visible FROM notification')->fetch_assoc()['in_system_visible']===0,'Reminder preference respected');
  $guard=file_get_contents(__DIR__.'/../index.php');preg_match('/\$allowedDuringStudentSurvey = \[(.*?)\];/s',$guard,$match);
  cycleNoticeCheck(str_contains($match[1],"'notifications'") && str_contains($match[1],"'notification_open'") && !str_contains($match[1],"'news'"),'Guard permits notification access without releasing content access');
+ require_once __DIR__.'/../app/services/StudentProfileReminderService.php';
+ $periodic = new StudentProfileReminderService($db);
+ $db->query('DELETE FROM notification');
+ $db->query('DELETE FROM notification_category_preference');
+ $db->query("UPDATE student_profile_cycle SET opens_at=DATE_SUB(NOW(),INTERVAL 6 DAY),activated_at=DATE_SUB(NOW(),INTERVAL 6 DAY),due_at=DATE_ADD(NOW(),INTERVAL 8 DAY) WHERE student_profile_cycle_id=1");
+ $db->query("UPDATE student_profile_cycle_assignment SET assignment_status='Assigned' WHERE student_profile_cycle_id=1 AND student_profile_id=1");
+ cycleNoticeCheck($periodic->dispatch()['created']===1,'Every-three-day reminder created for incomplete Student');
+ cycleNoticeCheck($periodic->dispatch()['eligible']===0,'Same-day reminder deduplicated');
+ $notice=$db->query('SELECT * FROM notification WHERE user_id=1')->fetch_assoc();
+ cycleNoticeCheck($periodic->isDeliveryCurrent($notice),'Pending reminder deliverable while incomplete');
+ cycleNoticeCheck($service->getForUser(1)[0]['action_url']==='index.php?page=student_profile_account','Periodic reminder opens account confirmation');
+ $db->query("UPDATE student_profile_cycle_assignment SET assignment_status='Completed' WHERE student_profile_cycle_id=1 AND student_profile_id=1");
+ cycleNoticeCheck(!$periodic->isDeliveryCurrent($notice),'Completed Student queued reminder suppressed');
+ cycleNoticeCheck($periodic->dispatch()['eligible']===0,'Completion stops periodic generation');
+ $db->query("UPDATE student_profile_cycle_assignment SET assignment_status='Assigned' WHERE student_profile_cycle_id=1 AND student_profile_id=1");
+ $db->query("UPDATE student_profile_cycle SET status='Closed' WHERE student_profile_cycle_id=1");
+ cycleNoticeCheck(!$periodic->isDeliveryCurrent($notice),'Closing suppresses queued reminder');
+ cycleNoticeCheck($periodic->dispatch()['eligible']===0,'Closing stops periodic generation');
+ $db->query('DELETE FROM notification');
+ $db->query("UPDATE student_profile_cycle SET status='Active',opens_at=DATE_SUB(NOW(),INTERVAL 5 DAY),activated_at=DATE_SUB(NOW(),INTERVAL 5 DAY),due_at=DATE_ADD(NOW(),INTERVAL 1 DAY) WHERE student_profile_cycle_id=1");
+ cycleNoticeCheck($periodic->dispatch()['created']===1,'Day-before-deadline reminder independent of three-day interval');
+ $db->query('DELETE FROM notification');
+ $db->query("UPDATE student_profile_cycle SET due_at=NOW() WHERE student_profile_cycle_id=1");
+ cycleNoticeCheck($periodic->dispatch()['created']===1,'Deadline-day reminder generated');
+ $db->query('DELETE FROM notification');
+ $db->query("UPDATE student_profile_cycle SET opens_at=DATE_ADD(NOW(),INTERVAL 5 DAY) WHERE student_profile_cycle_id=1");
+ cycleNoticeCheck($periodic->dispatch()['eligible']===0,'Future update generates no periodic reminder');
+ cycleNoticeCheck($periodic->isDeliveryCurrent(['deduplication_key'=>'unrelated','user_id'=>1]),'Unrelated notifications unchanged');
+ require_once __DIR__.'/../app/services/EmailSender.php';
+ $sender=(new ReflectionClass(EmailSender::class))->newInstanceWithoutConstructor();
+ $presentation=new ReflectionMethod(EmailSender::class,'buildNotificationPresentation');
+ foreach (['student-profile-cycle-assigned:cycle:1','student-profile-cycle-reminder:cycle:1:day:2026-10-10'] as $key) {
+  cycleNoticeCheck($presentation->invoke($sender,'Please update your profile',['deduplication_key'=>$key])['action_label']==='Update my profile','Profile email uses actionable button wording');
+ }
  echo "PASS: $checks profile reminder checks; temporary tables, no email or push.\n";
 } finally { $db->close(); }

@@ -869,6 +869,8 @@
 ========================================== */
 
 .register-legal-modal {
+    background: var(--bg-card, #ffffff) !important;
+    color: var(--text-dark, #20242a);
     width: min(720px, calc(100vw - 32px)) !important;
     max-height: calc(100vh - 32px);
 
@@ -913,10 +915,14 @@
 
     background: #ffffff;
 
-    scrollbar-width: thin;
-    scrollbar-color:
-        rgba(139, 0, 0, 0.45)
-        #f3f4f6;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.register-legal-content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 .register-legal-content h3 {

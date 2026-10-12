@@ -6,6 +6,10 @@ $viewData =
     ? $viewData
     : [];
 
+if (!empty($_SESSION['student_survey_required']) && ($_GET['urgent_only'] ?? '') === '1') {
+    echo '<div class="page-card" style="padding:20px;margin-bottom:20px"><strong>Urgent school announcements</strong><p>Your profile update is still required.</p><a href="index.php?page=student_profile_account">Continue my profile update</a></div>';
+}
+
 $announcements =
     $viewData['announcements']
     ?? [];

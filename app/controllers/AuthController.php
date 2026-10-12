@@ -137,7 +137,13 @@ class AuthController extends BaseController
     private function storeUserSession(
         array $user
     ): void {
-        $_SESSION['auth_credential_version'] = hash('sha256', (string) $user['password']);
+        $credentialVersion = isset($user['password'])
+            ? hash('sha256', (string) $user['password'])
+            : (string) ($user['auth_credential_version'] ?? '');
+        if (!preg_match('/^[a-f0-9]{64}$/D', $credentialVersion)) {
+            throw new RuntimeException('The authenticated credential version is unavailable.');
+        }
+        $_SESSION['auth_credential_version'] = $credentialVersion;
 
         $_SESSION['user_id'] =
             (int) $user['user_id'];

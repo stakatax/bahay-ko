@@ -2,13 +2,13 @@
 
 OLSHCO Digital Hub is a school information and content-management system built with PHP, MySQL/MariaDB, JavaScript and CSS. The repository directory is `bahay-ko`; its scope extends beyond the original institutional landing page.
 
-This README describes the implementation reviewed on **2 October 2026**. The current focus is stabilization, security, deployment readiness and evaluation. Local verification does not establish production readiness or independent certification.
+The current focus is stabilization, security, deployment readiness and evaluation. For a fresh clone, start with [local development setup](docs/local-development-setup.md), updated for the 66-table schema and Student placement/profile-update workflow. Local verification does not establish production readiness or independent certification.
 
 ## Documentation for evaluation and users
 
 - [System evaluation guide](docs/system-evaluation.md): objectives, architecture, permissions, security, testing evidence, installation and operations.
 - [Separate user manual](docs/user-manual.md): task instructions for Administrator, Faculty, Student and Parent.
-- [Database reference](docs/database-reference.md) and ER diagram source (local only: `docs/database-schema.mmd`): 65 tables, 624 columns, indexes and declared relationships.
+- [Current schema-only baseline](database/baselines/current-development-schema.sql): 66 tables, 637 columns, indexes and declared relationships. Older database-reference documents describe earlier checkpoints.
 - DFD, use-case and UML diagrams (local only: `docs/system-diagrams.md`): current process, role, class, publication sequence and content-state models.
 - [Latest deployment re-audit](docs/deployment-re-audit-2026-10-02.md): fixed issues, 47 regression suites and remaining launch gates.
 - [Complete route reference](docs/routes-reference.md): all 86 registered pages and actions.
@@ -92,14 +92,16 @@ Routes use `index.php?page=...`. The complete registry is the route groups and s
 
 ## Runtime and local setup
 
+**Fresh clone:** follow [the complete local setup guide](docs/local-development-setup.md). It imports the current schema into a new isolated local database and provisions an Administrator using your own password. Existing installations must use the upgrade instructions there, not the fresh-install import. The older scratch rehearsal below is historical and is not the current clone setup path.
+
 [composer.json](composer.json) requires **PHP ^8.2** (compatible PHP 8.x starting at 8.2). Use [composer.lock](composer.lock) for dependency versions; PHP 7.4 is not supported. Dependencies include PHPMailer, Web Push support and PDF parsing.
 
 The verified local environment is XAMPP at `C:\xampp\htdocs\bahay-ko`, with database `olshcodb`. PHP capabilities checked by the preflight include `mysqli`, `fileinfo`, `mbstring`, `openssl`, `curl`, DOM/libxml, Phar and sessions. Confirm the locked dependencies' platform requirements for both web and CLI PHP.
 
 1. Place the application in the intended local web directory and install locked dependencies using `composer install`. Use `composer check-platform-reqs` to verify the runtime.
 2. Configure database settings, a stable application key, canonical application URL, email and browser push as described in [config/README.md](config/README.md) and [deployment configuration](docs/deployment-configuration.md). Use the provided `.local.php.example` files for development. There is no automatic dotenv loader; do not commit secrets.
-3. For a new database, follow the [schema baseline guide](docs/database-baseline-readiness.md) and [fresh-install rehearsal](docs/fresh-install-bootstrap.md). The rehearsal tool is restricted to its named scratch database; it is not a general production installer. Review school reference data, legal text and Administrator provisioning separately.
-4. Preserve the original 62-table [schema snapshot](olshcodb-structure.sql), then account for additive migrations 027 (publication notification outbox), 028 (request rate limits), and 029 (verified child records). The current expected schema has 65 tables. Do not import the destructive snapshot over a populated database or blindly replay historical migrations.
+3. For a new local database, use [local development setup](docs/local-development-setup.md): import the current schema-only baseline into an empty `olshco_development` database, then use the guarded reference-data/Administrator setup. Review school reference data and legal text before a real deployment.
+4. Existing installations must preserve private settings, back up records/uploads and review only their missing upgrades. The current expected schema has 66 tables. The original 62-table [schema snapshot](olshcodb-structure.sql) and [scratch rehearsal](docs/fresh-install-bootstrap.md) are historical references; do not import them over a populated database or blindly replay migrations.
 5. Configure writable uploads/session/temp/log locations and web-server access restrictions using the deployment guide. Open `http://localhost/bahay-ko/index.php` for local development.
 
 Safe inspection commands from the project root (use `C:/xampp/php/php.exe` if PHP is not on PATH):

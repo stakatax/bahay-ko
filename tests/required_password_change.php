@@ -44,6 +44,7 @@ foreach(['Admin','Faculty','Student','Parent'] as $role) {
     $result=$service->changeRequiredPassword(1,'Permanent!456','Permanent!456',$proof);
     checkRequired(password_verify('Permanent!456',$model->row['password']) && !$model->row['must_change_password'],'Success for '.$role);
     checkRequired(!isset($result['password']),'No credential disclosure');
+    checkRequired(hash_equals(hash('sha256',$model->row['password']), $result['auth_credential_version'] ?? ''), 'Session proof reflects the new credential without returning its hash');
     try { $service->changeRequiredPassword(1,'NextPrivate!789','NextPrivate!789',$proof); throw new LogicException('Repeated change allowed'); }
     catch(RuntimeException $e) { checkRequired($model->writes===1,'Repeated change rejected'); }
 }

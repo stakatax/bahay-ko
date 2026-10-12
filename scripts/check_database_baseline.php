@@ -46,18 +46,8 @@ if (realpath($_SERVER['SCRIPT_FILENAME'] ?? '') !== __FILE__) return;
 
 try {
     require_once __DIR__ . '/../config/database.php';
-    $snapshot = __DIR__ . '/../olshcodb-structure.sql';
+    $snapshot = __DIR__ . '/../database/baselines/current-development-schema.sql';
     $expected = readBaselineTables($snapshot);
-    // Preserve the original snapshot and verify the explicitly approved additive migration.
-    $expected += readBaselineTables(__DIR__ . '/../database/baselines/027_publication_notification_outbox.sql');
-    $expected += readBaselineTables(__DIR__ . '/../database/baselines/028_request_rate_limit.sql');
-    $expected += readBaselineTables(__DIR__ . '/../database/baselines/029_parent_child_record.sql');
-    // Migration 030 permits Faculty-owned details to be pending at provisioning.
-    $expected['user'] = str_replace(
-        ["`gender` enum('Male','Female','Other') NOT NULL", "`age` int(11) NOT NULL"],
-        ["`gender` enum('Male','Female','Other') DEFAULT NULL", "`age` int(11) DEFAULT NULL"],
-        $expected['user']
-    );
     $connection = openDatabaseConnection();
     try {
         $rows = $connection->query("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_TYPE='BASE TABLE' ORDER BY TABLE_NAME")->fetch_all(MYSQLI_ASSOC);

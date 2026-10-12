@@ -37,6 +37,13 @@ $escape = static fn(mixed $value): string => htmlspecialchars(
 );
 $selectedVersionId = (int) ($selectedVersion['survey_version'] ?? 0);
 $selectedCycleId = (int) ($selectedCycle['student_profile_cycle_id'] ?? 0);
+$defaultUpdateVersionId = 0;
+foreach ($versions as $version) {
+    if (($version['status'] ?? '') === 'Active') {
+        $defaultUpdateVersionId = (int) ($version['survey_version'] ?? 0);
+        break;
+    }
+}
 $canEditQuestions = ($selectedVersion['status'] ?? '') === 'Draft';
 $questionsBySection = [];
 
@@ -163,12 +170,189 @@ foreach (
     <?php endif; ?>
 
     <div class="student-profile-summary-grid">
-        <article><i class="fa-solid fa-layer-group"></i><span>Questionnaire versions</span><strong><?= count($versions) ?></strong></article>
+        <article><i class="fa-solid fa-layer-group"></i><span>Questionnaires</span><strong><?= count($versions) ?></strong></article>
         <article><i class="fa-solid fa-list-check"></i><span>Selected questions</span><strong><?= count($questions) ?></strong></article>
-        <article><i class="fa-solid fa-arrows-rotate"></i><span>Profile cycles</span><strong><?= count($cycles) ?></strong></article>
-        <article><i class="fa-solid fa-user-check"></i><span>Selected assignments</span><strong><?= count($assignments) ?></strong></article>
+        <article><i class="fa-solid fa-arrows-rotate"></i><span>Profile updates</span><strong><?= count($cycles) ?></strong></article>
+        <article><i class="fa-solid fa-user-check"></i><span>Students in this update</span><strong><?= count($assignments) ?></strong></article>
     </div>
 
+    <section class="student-profile-workspace-card">
+        <header class="student-profile-card-header">
+            <div>
+                <span class="student-profile-card-eyebrow">
+                    Update scheduling
+                </span>
+                <h2>Profile update requests</h2>
+                <p>
+                    Create a Draft, verify its recipients,
+                    then activate it when ready.
+                </p>
+            </div>
+
+            <?php if ($selectedCycle !== null): ?>
+                <span class="student-profile-status <?= strtolower($escape($selectedCycle['status'] ?? '')) ?>">
+                    <?= $escape($selectedCycle['status'] ?? '') ?>
+                </span>
+            <?php endif; ?>
+        </header>
+
+        <div class="student-profile-cycle-layout">
+            <nav
+                class="student-profile-cycle-list"
+                aria-label="Student profile cycles">
+                <?php foreach ($cycles as $cycle): ?>
+                    <?php $cycleId = (int) ($cycle['student_profile_cycle_id'] ?? 0); ?>
+                    <a
+                        href="index.php?page=student_profile_management&survey_version=<?= $selectedVersionId ?>&cycle_id=<?= $cycleId ?>"
+                        class="<?= $cycleId === $selectedCycleId ? 'active' : '' ?>">
+                        <strong><?= $escape($cycle['cycle_name'] ?? '') ?></strong>
+                        <span>
+                            <?= $escape($cycle['status'] ?? '') ?> ·
+                            Version <?= (int) ($cycle['survey_version'] ?? 0) ?>
+                        </span>
+                        <small>
+                            <?= (int) ($cycle['completed_count'] ?? 0) ?> completed of
+                            <?= (int) ($cycle['assignment_count'] ?? 0) ?>
+                        </small>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+
+            <div class="student-profile-cycle-detail">
+                <?php if ($selectedCycle === null): ?>
+                    <div class="student-profile-empty-state">
+                        <i class="fa-solid fa-calendar"></i>
+                        <strong>No update request selected</strong>
+                    </div>
+                <?php else: ?>
+                    <header>
+                        <div>
+                            <span>Selected update request</span>
+                            <h3><?= $escape($selectedCycle['cycle_name'] ?? '') ?></h3>
+                            <?php
+                            $cycleQuestionnaireName = 'Version ' . (int) ($selectedCycle['survey_version'] ?? 0);
+                            foreach ($versions as $version) {
+                                if ((int) $version['survey_version'] === (int) ($selectedCycle['survey_version'] ?? 0)) {
+                                    $cycleQuestionnaireName = (string) $version['version_name'];
+                                    break;
+                                }
+                            }
+                            $cycleDateLabel = static function ($value, string $fallback): string {
+                                $timestamp = is_string($value) && $value !== '' ? strtotime($value) : false;
+                                return $timestamp === false ? $fallback : date('M j, Y, g:i A', $timestamp);
+                            };
+                            ?>
+                            <p><?= $escape($cycleQuestionnaireName) ?> &middot; <?= $escape(($selectedCycle['academic_year'] ?? '') ?: 'Academic year not specified') ?></p>
+                        </div>
+
+                        <div class="student-profile-cycle-actions">
+                            <?php if (($selectedCycle['status'] ?? '') === 'Draft' && $cyclePreview !== null): ?>
+                                <form
+                                    method="post"
+                                    action="index.php?page=student_profile_cycle_activate"
+                                    data-confirm-form
+                                    data-confirm-title="Send this update request?"
+                                    data-confirm-text="<?= (int) ($cyclePreview['target_count'] ?? 0) ?> Student(s) will be assigned and notified.">
+                                    <?= csrfInput() ?>
+                                    <input type="hidden" name="cycle_id" value="<?= $selectedCycleId ?>">
+                                    <input type="hidden" name="confirmed" value="1">
+                                    <button
+                                        type="submit"
+                                        class="app-button primary"
+                                        <?= (int) ($cyclePreview['target_count'] ?? 0) <= 0 ? 'disabled' : '' ?>>
+                                        <i class="fa-solid fa-bolt"></i>
+                                        Send update request
+                                    </button>
+                                </form>
+                            <?php elseif (($selectedCycle['status'] ?? '') === 'Active' && empty($selectedCycle['is_default'])): ?>
+                                <form
+                                    method="post"
+                                    action="index.php?page=student_profile_cycle_close"
+                                    data-confirm-form
+                                    data-confirm-title="Close this profile update?"
+                                    data-confirm-text="Students will no longer be required to complete this cycle.">
+                                    <?= csrfInput() ?>
+                                    <input type="hidden" name="cycle_id" value="<?= $selectedCycleId ?>">
+                                    <input type="hidden" name="confirmed" value="1">
+                                    <button type="submit" class="app-button danger">
+                                        <i class="fa-solid fa-lock"></i>
+                                        Close update
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </header>
+
+                    <?php
+                    $visibleStudents =
+                        ($selectedCycle['status'] ?? '') === 'Draft'
+                        ? ($cyclePreview['targets'] ?? [])
+                        : $assignments;
+                    ?>
+                    <dl class="student-profile-request-schedule">
+                        <div><dt>Opens</dt><dd><?= $escape($cycleDateLabel($selectedCycle['opens_at'] ?? null, 'When sent')) ?></dd></div>
+                        <div><dt>Due</dt><dd><?= $escape($cycleDateLabel($selectedCycle['due_at'] ?? null, ($selectedCycle['status'] ?? '') === 'Draft' ? '14 days after opening' : 'No deadline')) ?></dd></div>
+                    </dl>
+                    <?php if (($selectedCycle['status'] ?? '') === 'Draft'): ?>
+                        <p class="student-profile-request-guidance">
+                            <strong><?= (int) ($cyclePreview['target_count'] ?? 0) ?> eligible students.</strong>
+                            <?= $cyclePreview === null ? 'Recipient preview is unavailable.' : ((int) ($cyclePreview['target_count'] ?? 0) > 0
+                                ? 'Review the list below. Send the update request to assign and notify these students.'
+                                : 'No students match this request. Activation is unavailable.') ?>
+                        </p>
+                    <?php else: ?>
+                        <div class="student-profile-cycle-metrics">
+                            <article><span>Not started</span><strong><?= (int) ($cycleData['counts']['assigned'] ?? 0) ?></strong></article>
+                            <article><span>In progress</span><strong><?= (int) ($cycleData['counts']['in_progress'] ?? 0) ?></strong></article>
+                            <article><span>Completed</span><strong><?= (int) ($cycleData['counts']['completed'] ?? 0) ?></strong></article>
+                        </div>
+                    <?php endif; ?>
+                    <div class="student-profile-recipient-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Student ID</th>
+                                    <th>Academic assignment</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($visibleStudents === []): ?>
+                                    <tr><td colspan="4">No students to display for this update.</td></tr>
+                                <?php endif; ?>
+                                <?php foreach ($visibleStudents as $student): ?>
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                <?= $escape(trim(($student['first_name'] ?? '') . ' ' . ($student['last_name'] ?? ''))) ?>
+                                            </strong>
+                                            <span><?= $escape($student['email'] ?? '') ?></span>
+                                        </td>
+                                        <td><?= $escape($student['studID'] ?? '') ?></td>
+                                        <td>
+                                            <?= $escape(
+                                                $student['section_name']
+                                                    ?? $student['program_code']
+                                                    ?? $student['grade_level_name']
+                                                    ?? $student['education_level_name']
+                                                    ?? 'Unassigned'
+                                            ) ?>
+                                        </td>
+                                        <td><?= $escape(['Assigned' => 'Not started', 'InProgress' => 'In progress', 'Completed' => 'Completed', 'Exempt' => 'Exempt'][$student['assignment_status'] ?? ''] ?? 'Will be assigned') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+    <?php require __DIR__ . '/../include/components/student-placement-review.php'; ?>
+
+    <details class="student-profile-questionnaire-settings" <?= isset($_GET['survey_version']) ? 'open' : '' ?>>
+        <summary>Review or edit questionnaire questions</summary>
     <section class="student-profile-workspace-card">
         <header class="student-profile-card-header">
             <div>
@@ -393,179 +577,8 @@ foreach (
         </div>
     </section>
 
-    <section class="student-profile-workspace-card">
-        <header class="student-profile-card-header">
-            <div>
-                <span class="student-profile-card-eyebrow">
-                    Update scheduling
-                </span>
-                <h2>Profile update requests</h2>
-                <p>
-                    Create a Draft, verify its recipients,
-                    then activate it when ready.
-                </p>
-            </div>
+    </details>
 
-            <?php if ($selectedCycle !== null): ?>
-                <span class="student-profile-status <?= strtolower($escape($selectedCycle['status'] ?? '')) ?>">
-                    <?= $escape($selectedCycle['status'] ?? '') ?>
-                </span>
-            <?php endif; ?>
-        </header>
-
-        <div class="student-profile-cycle-layout">
-            <nav
-                class="student-profile-cycle-list"
-                aria-label="Student profile cycles">
-                <?php foreach ($cycles as $cycle): ?>
-                    <?php $cycleId = (int) ($cycle['student_profile_cycle_id'] ?? 0); ?>
-                    <a
-                        href="index.php?page=student_profile_management&survey_version=<?= $selectedVersionId ?>&cycle_id=<?= $cycleId ?>"
-                        class="<?= $cycleId === $selectedCycleId ? 'active' : '' ?>">
-                        <strong><?= $escape($cycle['cycle_name'] ?? '') ?></strong>
-                        <span>
-                            <?= $escape($cycle['status'] ?? '') ?> ·
-                            Version <?= (int) ($cycle['survey_version'] ?? 0) ?>
-                        </span>
-                        <small>
-                            <?= (int) ($cycle['completed_count'] ?? 0) ?> completed of
-                            <?= (int) ($cycle['assignment_count'] ?? 0) ?>
-                        </small>
-                    </a>
-                <?php endforeach; ?>
-            </nav>
-
-            <div class="student-profile-cycle-detail">
-                <?php if ($selectedCycle === null): ?>
-                    <div class="student-profile-empty-state">
-                        <i class="fa-solid fa-calendar"></i>
-                        <strong>No update request selected</strong>
-                    </div>
-                <?php else: ?>
-                    <header>
-                        <div>
-                            <span>Selected update request</span>
-                            <h3><?= $escape($selectedCycle['cycle_name'] ?? '') ?></h3>
-                            <?php
-                            $cycleQuestionnaireName = 'Version ' . (int) ($selectedCycle['survey_version'] ?? 0);
-                            foreach ($versions as $version) {
-                                if ((int) $version['survey_version'] === (int) ($selectedCycle['survey_version'] ?? 0)) {
-                                    $cycleQuestionnaireName = (string) $version['version_name'];
-                                    break;
-                                }
-                            }
-                            $cycleDateLabel = static function ($value, string $fallback): string {
-                                $timestamp = is_string($value) && $value !== '' ? strtotime($value) : false;
-                                return $timestamp === false ? $fallback : date('M j, Y, g:i A', $timestamp);
-                            };
-                            ?>
-                            <p><?= $escape($cycleQuestionnaireName) ?> &middot; <?= $escape(($selectedCycle['academic_year'] ?? '') ?: 'Academic year not specified') ?></p>
-                        </div>
-
-                        <div class="student-profile-cycle-actions">
-                            <?php if (($selectedCycle['status'] ?? '') === 'Draft' && $cyclePreview !== null): ?>
-                                <form
-                                    method="post"
-                                    action="index.php?page=student_profile_cycle_activate"
-                                    data-confirm-form
-                                    data-confirm-title="Activate this profile update?"
-                                    data-confirm-text="<?= (int) ($cyclePreview['target_count'] ?? 0) ?> Student(s) will be assigned and notified.">
-                                    <?= csrfInput() ?>
-                                    <input type="hidden" name="cycle_id" value="<?= $selectedCycleId ?>">
-                                    <input type="hidden" name="confirmed" value="1">
-                                    <button
-                                        type="submit"
-                                        class="app-button primary"
-                                        <?= (int) ($cyclePreview['target_count'] ?? 0) <= 0 ? 'disabled' : '' ?>>
-                                        <i class="fa-solid fa-bolt"></i>
-                                        Activate update
-                                    </button>
-                                </form>
-                            <?php elseif (($selectedCycle['status'] ?? '') === 'Active' && empty($selectedCycle['is_default'])): ?>
-                                <form
-                                    method="post"
-                                    action="index.php?page=student_profile_cycle_close"
-                                    data-confirm-form
-                                    data-confirm-title="Close this profile update?"
-                                    data-confirm-text="Students will no longer be required to complete this cycle.">
-                                    <?= csrfInput() ?>
-                                    <input type="hidden" name="cycle_id" value="<?= $selectedCycleId ?>">
-                                    <input type="hidden" name="confirmed" value="1">
-                                    <button type="submit" class="app-button danger">
-                                        <i class="fa-solid fa-lock"></i>
-                                        Close update
-                                    </button>
-                                </form>
-                            <?php endif; ?>
-                        </div>
-                    </header>
-
-                    <?php
-                    $visibleStudents =
-                        ($selectedCycle['status'] ?? '') === 'Draft'
-                        ? ($cyclePreview['targets'] ?? [])
-                        : $assignments;
-                    ?>
-                    <dl class="student-profile-request-schedule">
-                        <div><dt>Opens</dt><dd><?= $escape($cycleDateLabel($selectedCycle['opens_at'] ?? null, 'When activated')) ?></dd></div>
-                        <div><dt>Due</dt><dd><?= $escape($cycleDateLabel($selectedCycle['due_at'] ?? null, 'No deadline')) ?></dd></div>
-                    </dl>
-                    <?php if (($selectedCycle['status'] ?? '') === 'Draft'): ?>
-                        <p class="student-profile-request-guidance">
-                            <strong><?= (int) ($cyclePreview['target_count'] ?? 0) ?> eligible students.</strong>
-                            <?= $cyclePreview === null ? 'Recipient preview is unavailable.' : ((int) ($cyclePreview['target_count'] ?? 0) > 0
-                                ? 'Review the list below. Activate the update to assign and notify these students.'
-                                : 'No students match this request. Activation is unavailable.') ?>
-                        </p>
-                    <?php else: ?>
-                        <div class="student-profile-cycle-metrics">
-                            <article><span>Not started</span><strong><?= (int) ($cycleData['counts']['assigned'] ?? 0) ?></strong></article>
-                            <article><span>In progress</span><strong><?= (int) ($cycleData['counts']['in_progress'] ?? 0) ?></strong></article>
-                            <article><span>Completed</span><strong><?= (int) ($cycleData['counts']['completed'] ?? 0) ?></strong></article>
-                        </div>
-                    <?php endif; ?>
-                    <div class="student-profile-recipient-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Student</th>
-                                    <th>Student ID</th>
-                                    <th>Academic assignment</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($visibleStudents === []): ?>
-                                    <tr><td colspan="4">No students to display for this update.</td></tr>
-                                <?php endif; ?>
-                                <?php foreach ($visibleStudents as $student): ?>
-                                    <tr>
-                                        <td>
-                                            <strong>
-                                                <?= $escape(trim(($student['first_name'] ?? '') . ' ' . ($student['last_name'] ?? ''))) ?>
-                                            </strong>
-                                            <span><?= $escape($student['email'] ?? '') ?></span>
-                                        </td>
-                                        <td><?= $escape($student['studID'] ?? '') ?></td>
-                                        <td>
-                                            <?= $escape(
-                                                $student['section_name']
-                                                    ?? $student['program_code']
-                                                    ?? $student['grade_level_name']
-                                                    ?? $student['education_level_name']
-                                                    ?? 'Unassigned'
-                                            ) ?>
-                                        </td>
-                                        <td><?= $escape($student['assignment_status'] ?? 'Will be assigned') ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
 </section>
 
 <div class="student-profile-modal" data-profile-modal="draft" hidden>
@@ -743,26 +756,10 @@ foreach (
             method="post"
             action="index.php?page=student_profile_cycle_create"
             data-cycle-form
-            data-confirm-form
-            data-confirm-title="Save this profile update draft?"
-            data-confirm-text="Review the recipients next. Students are assigned and notified only when you activate the update.">
+>
             <?= csrfInput() ?>
             <div class="student-profile-form-grid">
                 <label class="full"><span>Request name</span><input type="text" name="cycle_name" maxlength="150" placeholder="First semester profile update" required></label>
-                <label>
-                    <span>Questionnaire</span>
-                    <select name="survey_version" required>
-                        <option value="">Select a version</option>
-                        <?php foreach ($versions as $version): ?>
-                            <?php if (in_array($version['status'] ?? '', ['Draft', 'Active'], true)): ?>
-                                <option value="<?= (int) ($version['survey_version'] ?? 0) ?>">
-                                    Version <?= (int) ($version['survey_version'] ?? 0) ?> —
-                                    <?= $escape($version['version_name'] ?? '') ?>
-                                </option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
                 <fieldset class="full student-profile-scope-picker">
                     <legend>
                         Who must complete this profile update?
@@ -819,7 +816,7 @@ foreach (
                         <?php endforeach; ?>
                     </div>
                 </fieldset>
-                <div class="full student-profile-request-heading"><h3>Schedule</h3></div>
+                <div class="full student-profile-request-heading"><h3>Period and deadline</h3></div>
                 <label><span>Academic year</span><input type="text" name="academic_year" maxlength="30" placeholder="2027-2028"></label>
                 <label><span>For which period?</span><select name="update_period" required>
                         <option value="SchoolYear">Whole school year</option>
@@ -828,12 +825,30 @@ foreach (
                         <option value="Summer">Summer</option>
                         <option value="Custom">Other</option>
                     </select></label>
+                <details class="full student-profile-schedule-dates" <?= $defaultUpdateVersionId === 0 ? 'open' : '' ?>>
+                    <summary>Questionnaire: <span data-cycle-questionnaire-label><?= $defaultUpdateVersionId > 0 ? 'current active version selected' : 'choose a questionnaire' ?></span></summary>
+                    <p>Reuse the current questionnaire, or choose a different version for this update.</p>
+                <label>
+                    <span>Questionnaire</span>
+                    <select name="survey_version" required>
+                        <option value="">Select a questionnaire</option>
+                        <?php foreach ($versions as $version): ?>
+                            <?php if (in_array($version['status'] ?? '', ['Draft', 'Active'], true)): ?>
+                                <option value="<?= (int) ($version['survey_version'] ?? 0) ?>" <?= (int) ($version['survey_version'] ?? 0) === $defaultUpdateVersionId ? 'selected' : '' ?>>
+                                    Version <?= (int) ($version['survey_version'] ?? 0) ?> —
+                                    <?= $escape($version['version_name'] ?? '') ?>
+                                </option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                </details>
                 <details class="full student-profile-schedule-dates">
                     <summary>Set dates (optional)</summary>
-                    <p>Without dates, this update opens when activated and has no deadline.</p>
+                    <p>Without dates, this update opens when sent and is due 14 days after opening.</p>
                     <div class="student-profile-form-grid">
-                        <label><span>Opening date</span><input type="datetime-local" name="opens_at"><small>Leave blank to open when activated.</small></label>
-                        <label><span>Due date</span><input type="datetime-local" name="due_at"><small>Leave blank for no deadline.</small></label>
+                        <label><span>Opening date</span><input type="datetime-local" name="opens_at"><small>Leave blank to open when sent.</small></label>
+                        <label><span>Due date</span><input type="datetime-local" name="due_at"><small>Leave blank for the default 14-day deadline.</small></label>
                     </div>
                 </details>
 
@@ -843,7 +858,7 @@ foreach (
                     Cancel
                 </button>
                 <button type="submit" class="app-button primary">
-                    Save draft and preview
+                    Review students
                 </button>
             </footer>
         </form>

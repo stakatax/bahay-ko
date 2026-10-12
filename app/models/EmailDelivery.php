@@ -5,6 +5,11 @@ require_once __DIR__
 
 class EmailDelivery extends BaseModel
 {
+    public function suppressStaleProfileReminder(int $deliveryId): void
+    {
+        $statement = $this->conn->prepare("UPDATE email_delivery SET delivery_status='Failed', attempt_count=GREATEST(attempt_count,3), last_error='Profile update no longer requires a reminder', last_attempt_at=NOW() WHERE delivery_id=? AND delivery_status IN ('Pending','Failed')");
+        $statement->bind_param('i', $deliveryId); $statement->execute(); $statement->close();
+    }
     private const MAX_ATTEMPTS = 3;
 
     // Registration decisions reach applicants before they can set email preferences.

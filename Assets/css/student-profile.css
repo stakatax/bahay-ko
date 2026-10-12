@@ -1897,3 +1897,10 @@
         font-weight: 700;
     }
 }
+.student-profile-placement-summary {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: var(--bg-card, #fff);
+    color: var(--text-dark, #20242a);
+    overflow-wrap: anywhere;
+}

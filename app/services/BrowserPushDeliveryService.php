@@ -6,6 +6,7 @@ require_once __DIR__
 require_once __DIR__
     . '/../../config/push.php';
 require_once __DIR__ . '/../../config/push-endpoint.php';
+require_once __DIR__ . '/StudentProfileReminderService.php';
 
 require_once __DIR__
     . '/../../vendor/autoload.php';
@@ -101,6 +102,10 @@ class BrowserPushDeliveryService
                 );
 
             try {
+                if (!(new StudentProfileReminderService($this->deliveries->getDatabaseConnection()))->isDeliveryCurrent($delivery)) {
+                    $this->deliveries->suppressStaleProfileReminder($deliveryId);
+                    continue;
+                }
                 validateBrowserPushEndpoint($delivery['endpoint'] ?? '');
 
                 $subscription =

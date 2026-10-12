@@ -1206,6 +1206,11 @@ class StudentProfile extends BaseModel
                 );
             }
 
+            if ($completed && ($assignment['assignment_status'] ?? '') !== 'Completed') {
+                require_once __DIR__ . '/StudentPlacement.php';
+                (new StudentPlacement($this->conn))->applyOnCompletion($userId, $cycleAssignmentId);
+            }
+
             if (
                 (
                     $assignment['assignment_status']

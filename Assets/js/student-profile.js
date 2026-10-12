@@ -871,8 +871,8 @@ function setupExpandedStudentSurvey() {
 
     form.addEventListener(
         'submit',
-        (event) => {
-            if (isSubmitting) {
+        async (event) => {
+            if (isSubmitting || form.dataset.reviewing === 'true') {
                 event.preventDefault();
                 return;
             }
@@ -893,7 +893,24 @@ function setupExpandedStudentSurvey() {
             }
 
 
-                        const actionInput =
+            const placementSummary = document.getElementById('profilePlacementSummary');
+            if (completing && placementSummary) {
+                event.preventDefault();
+                const placement = JSON.parse(placementSummary.textContent);
+                const message = `Previous placement: ${placement.previous}\nConfirmed placement: ${placement.reported}\n\nConfirm that your details and questionnaire answers are correct. Any placement change takes effect on submission and is recorded for school review.`;
+                form.dataset.reviewing = 'true';
+                let confirmed;
+                try {
+                    confirmed = window.AppDialog?.confirm
+                        ? await window.AppDialog.confirm({title: 'Step 3 of 3 — Review and submit', message, confirmText: 'Submit profile update', cancelText: 'Keep reviewing'})
+                        : window.confirm(message);
+                } finally {
+                    delete form.dataset.reviewing;
+                }
+                if (!confirmed) return;
+            }
+
+            const actionInput =
                 document.createElement(
                     'input'
                 );
@@ -940,6 +957,7 @@ function setupExpandedStudentSurvey() {
                     }
                 `;
             }
+            if (completing && placementSummary) HTMLFormElement.prototype.submit.call(form);
         }
     );
 

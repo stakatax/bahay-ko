@@ -165,6 +165,26 @@ html[data-theme-transition="colors"] body,html[data-theme-transition="colors"] b
 '''
 
 
+def page_rules(name, ancestors=()):
+    """Include inherited local styles under the importing page's scope."""
+    if name in ancestors:
+        raise RuntimeError('Circular stylesheet import: ' + name)
+    path = (CSS / name).resolve()
+    if path.parent != CSS.resolve() or not path.is_file():
+        raise RuntimeError('Invalid local stylesheet import: ' + name)
+    rules = tinycss2.parse_stylesheet(path.read_text(encoding='utf-8-sig'), skip_comments=True, skip_whitespace=True)
+    expanded = []
+    for rule in rules:
+        if rule.type == 'at-rule' and rule.lower_at_keyword == 'import':
+            match = re.fullmatch(r'''\s*url\(\s*['"]?([\w.-]+\.css)['"]?\s*\)\s*''', tinycss2.serialize(rule.prelude))
+            if not match:
+                raise RuntimeError('Review unsupported stylesheet import in ' + name)
+            expanded.extend(page_rules(match.group(1), (*ancestors, name)))
+        else:
+            expanded.append(rule)
+    return expanded
+
+
 def build():
     parts = [BASE]
     # Match the existing head order; page rules apply only to their own page.
@@ -174,8 +194,7 @@ def build():
         prefix = 'html[data-theme="dark"]'
         if name not in SHARED:
             prefix += ' body[data-page-css="' + name + '"]'
-        source = (CSS / name).read_text(encoding='utf-8-sig')
-        compiled = compile_rules(tinycss2.parse_stylesheet(source, skip_comments=True, skip_whitespace=True), prefix)
+        compiled = compile_rules(page_rules(name), prefix)
         parts.append('/* ' + name + ' */\n' + compiled)
     parts.append('''html[data-theme="dark"] :is(input,textarea,select) { color:var(--theme-text); border-color:var(--theme-border); }
 /* The school crest is artwork with a white backing, not a themed page surface. */

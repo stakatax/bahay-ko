@@ -358,6 +358,7 @@ class AuthService
      * Never return a password hash outside
      * the authentication service.
      */
+        $updatedUser['auth_credential_version'] = hash('sha256', (string) $updatedUser['password']);
         unset(
             $updatedUser['password']
         );

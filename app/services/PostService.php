@@ -166,6 +166,13 @@ class PostService
         $documents = $visible['document'];
         $surveys = $visible['survey'];
 
+        if (!empty($_SESSION['student_survey_required']) && ($_SESSION['role'] ?? '') === 'Student'
+            && ($_GET['urgent_only'] ?? '') === '1') {
+            $announcements = array_values(array_filter($announcements, static fn(array $item): bool =>
+                in_array(strtolower($item['priority'] ?? ''), ['emergency', 'important'], true)));
+            $events = $documents = $surveys = [];
+        }
+
         $respondedSurveyIds = $this->survey->getRespondedSurveyIds(array_column($surveys, 'survey_id'), $userId);
         foreach ($surveys as &$surveyItem) {
             $surveyId =

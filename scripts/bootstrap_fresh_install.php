@@ -22,10 +22,12 @@ final class FreshInstallBootstrap
     ];
     private mysqli $connection;
     private array $tables;
+    private bool $localDevelopment;
 
-    public function __construct(mysqli $connection, array $bundle)
+    public function __construct(mysqli $connection, array $bundle, bool $localDevelopment = false)
     {
         $this->connection = $connection;
+        $this->localDevelopment = $localDevelopment;
         $this->assertTarget();
         if (($bundle['format'] ?? null) !== 1 || array_keys($bundle['tables'] ?? []) !== array_keys(self::COLUMNS)) {
             throw new RuntimeException('Unexpected reference bundle format or tables.');
@@ -51,13 +53,25 @@ final class FreshInstallBootstrap
     public function assertTarget(): void
     {
         $name = $this->connection->query('SELECT DATABASE() AS name')->fetch_assoc()['name'];
-        if ($name !== self::TARGET) throw new RuntimeException('Bootstrap is restricted to the approved scratch database.');
+        $target = $this->localDevelopment ? 'olshco_development' : self::TARGET;
+        if ($name !== $target) throw new RuntimeException('Bootstrap is restricted to its isolated setup database.');
+        if ($this->localDevelopment) {
+            $config = databaseConfiguration();
+            $localPath = __DIR__ . '/../config/database.local.php';
+            $local = is_file($localPath) ? require $localPath : [];
+            $mode = strtolower((string) (getenv('OLSHCO_APP_ENV') ?: ($local['environment'] ?? 'production')));
+            if (!in_array($config['host'], ['localhost', '127.0.0.1', '::1'], true)
+                || !in_array($mode, ['development', 'test'], true)) {
+                throw new RuntimeException('Development setup is local only.');
+            }
+        }
     }
 
     public function inspect(): array
     {
         $this->assertTarget();
-        $expected = readBaselineTables(__DIR__ . '/../olshcodb-structure.sql');
+        $expected = readBaselineTables(__DIR__ . ($this->localDevelopment
+            ? '/../database/baselines/current-development-schema.sql' : '/../olshcodb-structure.sql'));
         $rows = $this->connection->query("SELECT TABLE_NAME,ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_TYPE='BASE TABLE'")->fetch_all(MYSQLI_ASSOC);
         $actual = [];
         foreach ($rows as $row) {

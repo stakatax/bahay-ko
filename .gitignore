@@ -76,6 +76,7 @@ __pycache__/
 # Local diagram sources, exports and rebuilt DFD drafts.
 /docs/diagrams/
 /docs/dfd-rebuilt/
+/docs/it-expert-evaluation/diagrams/
 /docs/database-schema.mmd
 /docs/system-diagrams.md
 /normal.drawio

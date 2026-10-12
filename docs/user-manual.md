@@ -109,7 +109,7 @@ Content surveys differ from the required Student profile questionnaire. Results 
 
 ### Manage notifications
 
-1. Open **Notifications** and select a notice. Content notices open their eligible item; account-approval notices open My Account; Student profile-cycle notices open the assigned profile survey.
+1. Open **Notifications** and select a notice. Content notices open their eligible item; account-approval notices open My Account; Student profile-update notices start account confirmation or resume the assigned questionnaire.
 2. Use **Mark All as Read** when appropriate.
 3. Set the in-system notification preference and use **Save Preference**.
 4. Review the email and browser channel controls. For browser notifications, use the displayed enable action and respond to the browser permission prompt.
@@ -135,12 +135,12 @@ Interest preferences support relevance within your permitted audience. They do n
 
 ### School profile survey
 
-1. Open the profile-update notification, or **My Interests** in the sidebar, then choose **School profile survey**. A required assignment may redirect you to this page.
+1. Open the profile-update notification. A required update first opens **Confirm your account details**. Review your placement, select any changed grade/year, strand/course and section, then **Save details and continue**. Student ID, identity and login email remain read-only. Saved placement changes do not take effect yet. Confirmed students resume the questionnaire; **Review account details** returns to the first step.
 2. Review the **School profile survey** instructions. The section counter and required-answer count show your progress.
 3. Answer required operational questions. Read each optional-consent explanation before supplying sensitive answers; those answers are stored only with the corresponding consent.
 4. Use **Next** and **Previous** to move between sections. These buttons do not save. The unsaved-changes notice tells you when answers need saving; leaving the page may trigger a browser warning.
 5. Use **Save and continue later** to preserve partial work. This does not mark the assignment complete or remove a completion requirement.
-6. On the last section, choose **Complete Survey** and confirm completion. A completed survey may display **Update Completed Survey** when the current assignment permits updates.
+6. On the last section, choose **Complete Survey**. Review the old and confirmed placement in the submission dialog, then submit. Final completion applies a placement change and records it for Administrator review. A completed survey may display **Update Completed Survey** when the current assignment permits updates; this does not reopen a completed placement-change request.
 7. Verify the completion/saved indication. If the questionnaire is unavailable, ask the Administrator to inspect the active assignment and version.
 
 A new cycle may request updated information later. You cannot edit the questionnaire definition or another Student's answers.
@@ -242,17 +242,17 @@ Administrators may also use **Create Post** to create content and choose authori
 
 ### Manage Student profile questionnaires and cycles
 
-1. Open **Student Profiles** and select a questionnaire under **Questionnaire Versions**.
+1. Open **Student Profiles**. Profile update requests and completion monitoring appear first. Expand **Review or edit questionnaire questions** to manage questions; the active questionnaire is selected automatically for routine requests.
 2. Use **Copy questionnaire** when you need a new editable Draft based on an existing version.
 3. In a Draft, use **Add Question** or the edit/status controls. Enter the question, category, optional instructions, answer format and choices. Review required, analytics, sensitive-answer and consent settings. The system generates the internal identifier automatically and preserves it during edits. Set display order as needed.
 4. Non-Draft question definitions cannot be edited. Keep historical versions intact.
 5. Choose **Request profile update**. Enter a request name, choose the questionnaire, and select All Active Students, College Students or IBED Students.
-6. Under **Schedule**, enter the academic year if needed and select the period. Expand **Set dates (optional)** only when you need an opening date or deadline. Blank dates mean opening on activation and no deadline.
-7. Select **Save draft and preview**. Check the questionnaire, dates and eligible Student list. Saving the draft does not assign or notify Students.
-8. Choose **Activate update** and confirm. The system assigns eligible Students and attempts their reminders. Remaining or failed reminders are retried by the notification worker. A future opening date is included in the reminder; Students can answer when the update opens.
+6. Enter the academic year and period. Choose optional opening and due dates. A blank opening date means opening when sent; a blank due date defaults to 14 days after opening when the request is activated.
+7. Select **Review students**. Check the questionnaire, dates and eligible Student list. Saving the draft does not assign or notify Students.
+8. Confirm **Send update request**. The system assigns eligible Students and attempts initial reminders. Remaining or failed reminders are retried by the notification worker. A future opening date is included in the reminder; Students can answer when the update opens.
 9. Monitor **Not started**, **In progress**, and **Completed**. Choose **Close update** when finished; closing preserves answers and history.
 
-Profile reminders open the school profile survey. Students can access Notifications while a survey is required, but other restricted pages remain blocked until completion. Notification preferences apply; email and browser push also require configured delivery and running workers. If delivery is delayed, ask the operator to check the worker rather than activating a duplicate request.
+Profile reminders start account confirmation or resume the questionnaire. Students can access Notifications and eligible Emergency/Important announcements while an update is required; other restricted pages remain blocked until completion. Reminders run every three days, the day before the deadline, and on the deadline, without same-day duplicates. Completion or closure stops new reminders and suppresses stale queued deliveries. Notification preferences apply; email and browser push require configured delivery and running workers. Late submission remains available until the update is closed. Review student-reported placement changes below the update monitor, using school verification notes.
 
 The current UI exposes Draft creation and cycle activation. Do not assume there is a separate general-purpose questionnaire-version activation screen. If the required version is unavailable for a cycle, ask the technical maintainer to inspect the configured version policy.
 

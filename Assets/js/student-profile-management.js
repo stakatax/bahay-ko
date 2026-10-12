@@ -326,6 +326,18 @@ function setupCycleTargeting() {
     }
 
     // Reveal a collapsed date field before native validation focuses it.
+    const questionnaire = form.querySelector('select[name="survey_version"]');
+    const questionnaireLabel = form.querySelector('[data-cycle-questionnaire-label]');
+    const syncQuestionnaireLabel = () => {
+        if (questionnaire && questionnaireLabel) {
+            questionnaireLabel.textContent = questionnaire.value
+                ? questionnaire.selectedOptions[0].textContent.trim()
+                : 'choose a questionnaire';
+        }
+    };
+    questionnaire?.addEventListener('change', syncQuestionnaireLabel);
+    syncQuestionnaireLabel();
+
     form.addEventListener('invalid', (event) => {
         const details = event.target.closest('details');
         if (details) details.open = true;
@@ -397,9 +409,20 @@ function setupCycleTargeting() {
 }
 
 function setupConfirmationForms() {
+    document.querySelector('[data-cycle-form]')?.addEventListener('submit', (event) => {
+        const form = event.currentTarget;
+        if (form.dataset.submitting === 'true') {
+            event.preventDefault();
+            return;
+        }
+        form.dataset.submitting = 'true';
+        form.querySelector('button[type="submit"]').disabled = true;
+    });
     document.querySelectorAll('[data-confirm-form]').forEach((form) => {
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            if (form.dataset.confirming === 'true') return;
 
             if (!form.checkValidity()) {
                 form.reportValidity();
@@ -410,6 +433,7 @@ function setupConfirmationForms() {
             const text = form.dataset.confirmText ||
                 'Please confirm this action.';
             let confirmed = false;
+            form.dataset.confirming = 'true';
 
             if (window.Swal?.fire) {
                 const result = await window.Swal.fire({
@@ -430,6 +454,7 @@ function setupConfirmationForms() {
             }
 
             if (!confirmed) {
+                delete form.dataset.confirming;
                 return;
             }
 

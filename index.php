@@ -25,6 +25,7 @@ require_once __DIR__ . '/app/controllers/ContactController.php';
 require_once __DIR__ . '/app/controllers/DocumentDownloadController.php';
 require_once __DIR__ . '/app/controllers/PostController.php';
 require_once __DIR__ . '/app/controllers/AuthController.php';
+require_once __DIR__ . '/app/controllers/StudentPlacementController.php';
 require_once __DIR__
   . '/app/controllers/PasswordRecoveryController.php';
 require_once __DIR__
@@ -109,6 +110,7 @@ $authenticatedPages = [
   'notifications',
   'student_profile',
   'student_profile_survey',
+  'student_profile_account',
   'account_profile',
   'legal_reconsent',
   'required_password_change'
@@ -174,6 +176,8 @@ $actionRoutes = [
 
   'student_profile_save',
   'student_profile_survey_save',
+  'student_profile_account_save',
+  'student_profile_placement_review',
 
   'account_profile_update_details',
   'account_profile_photo_upload',
@@ -461,6 +465,8 @@ if (
 }
 
 $allowedDuringStudentSurvey = [
+  'student_profile_account',
+  'student_profile_account_save',
   'student_profile',
   'student_profile_survey',
   'student_profile_save',
@@ -471,6 +477,24 @@ $allowedDuringStudentSurvey = [
   'logout'
 ];
 
+$profileUpdateStep = 'student_profile_survey';
+if ($requiresStudentSurvey) {
+  if (!(new StudentPlacement())->currentDetailsConfirmed((int) $_SESSION['user_id'])) $profileUpdateStep = 'student_profile_account';
+  if ($page === 'news' && ($_GET['urgent_only'] ?? '') === '1') $allowedDuringStudentSurvey[] = 'news';
+  if (in_array($page, ['content_post', 'content_open', 'content_acknowledge'], true)) {
+    $request = $page === 'content_post' ? $_GET : $_POST;
+    $urgentId = filter_var($request['content_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    $urgentPost = ($request['content_type'] ?? '') === 'announcement' && $urgentId
+      ? (new Announcement($conn))->findById($urgentId) : null;
+    if ($urgentPost && in_array(strtolower($urgentPost['priority'] ?? ''), ['emergency', 'important'], true)) {
+      $allowedDuringStudentSurvey[] = $page;
+    }
+  }
+  if ($page === 'student_profile_survey' && $profileUpdateStep === 'student_profile_account') {
+    stopForRouteGuard($profileUpdateStep, 'account_confirmation_required', 'Confirm your account details before answering the questionnaire.');
+  }
+}
+
 if (
   $requiresStudentSurvey &&
   !in_array(
@@ -480,9 +504,9 @@ if (
   )
 ) {
   stopForRouteGuard(
-    'student_profile_survey',
+    $profileUpdateStep,
     'student_survey_required',
-    'Please complete your required Student profile survey before continuing.'
+    'Please confirm your account details and complete your required profile update.'
   );
 }
 
@@ -904,6 +928,16 @@ switch ($page) {
     (new StudentProfileController())
       ->save();
 
+    exit;
+
+  case 'student_profile_account_save':
+    requirePageRoles($isLoggedIn, $role, ['Student']);
+    (new StudentPlacementController())->save();
+    exit;
+
+  case 'student_profile_placement_review':
+    requirePageRoles($isLoggedIn, $role, ['Admin']);
+    (new StudentPlacementController())->review();
     exit;
 
   case 'student_profile_survey_save':
@@ -1376,6 +1410,14 @@ switch ($page) {
 
     break;
 
+  case 'student_profile_account':
+    requirePageRoles($isLoggedIn, $role, ['Student']);
+    $viewData = (new StudentPlacementController())->index();
+    $title = 'Confirm Account Details';
+    $pageCSS = 'student-profile-management.css';
+    $pageJS = 'student-profile-account.js';
+    break;
+
   case 'student_profile':
   case 'student_profile_survey':
     requirePageRoles(
@@ -1413,6 +1455,10 @@ switch ($page) {
     $viewData =
       (new StudentProfileManagementController())
       ->index();
+
+    $viewData['placement_changes'] = (new StudentPlacement())->reviewDirectory((int) $_SESSION['user_id']);
+    $viewData['placement_review_message'] = $_SESSION['placement_review_message'] ?? '';
+    unset($_SESSION['placement_review_message']);
 
     $title =
       'Student Profile Management';

@@ -94,6 +94,10 @@ class EmailSender
             '#fff1f1'
         ];
 
+        if (preg_match('/^student-profile-cycle-(?:assigned|reminder):cycle:[1-9][0-9]*(?::day:\d{4}-\d{2}-\d{2})?$/', $deduplicationKey)) {
+            return array_merge($presentation, ['eyebrow'=>'Student profile update', 'action_label'=>'Update my profile']);
+        }
+
         if (
             str_contains(
                 $deduplicationKey,

@@ -1,4 +1,6 @@
 .student-profile-management-page {
+    --surface-color: var(--bg-card, #fff);
+    --text-muted: var(--text-gray, #64748b);
     display: grid;
     gap: 22px;
     width: 100%;
@@ -1316,4 +1318,49 @@ body.student-profile-modal-open {
     .student-profile-modal-dialog footer {
         gap: var(--space-related);
     }
+}
+.student-profile-questionnaire-settings > summary {
+    padding: 18px 20px;
+    min-height: 48px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-dark, #20242a);
+    background: var(--bg-card, #ffffff);
+    border: 1px solid var(--border-color, #e2e5e9);
+    border-radius: 14px;
+}
+
+.student-profile-questionnaire-settings > summary:focus-visible {
+    outline: 3px solid var(--accent-color, #e87924);
+    outline-offset: 3px;
+}
+
+.student-profile-questionnaire-settings[open] > summary {
+    margin-bottom: 16px;
+}
+
+.student-profile-account-form {
+    padding: 20px;
+}
+
+.student-profile-account-page [data-placement-fields][hidden] {
+    display: none;
+}
+
+.student-profile-account-page .student-profile-form-grid label > span,
+#placement-changes .student-profile-form-grid label > span {
+    font-size: 0.95rem;
+}
+
+.student-profile-account-page select,
+#placement-changes select,
+#placement-changes textarea {
+    font-size: 1rem;
+    min-height: 48px;
+}
+
+.student-profile-account-page p,
+#placement-changes p {
+    overflow-wrap: anywhere;
+    line-height: 1.6;
 }

@@ -48,6 +48,9 @@ class StudentProfileController extends BaseController
             $_SESSION['student_profile_flash']
             ?? [];
 
+        require_once __DIR__ . '/../models/StudentPlacement.php';
+        $surveyData['placement_state'] = (new StudentPlacement())->pageData($userId);
+
         unset(
             $_SESSION['student_profile_flash']
         );

@@ -8,6 +8,7 @@ require_once __DIR__
 
 require_once __DIR__ . '/../models/Announcement.php';
 require_once __DIR__ . '/ContentAudienceService.php';
+require_once __DIR__ . '/StudentProfileReminderService.php';
 
 class EmailDeliveryService
 {
@@ -68,6 +69,10 @@ class EmailDeliveryService
             $summary['processed']++;
 
             try {
+                if (!(new StudentProfileReminderService($this->delivery->getDatabaseConnection()))->isDeliveryCurrent($delivery)) {
+                    $this->delivery->suppressStaleProfileReminder($deliveryId);
+                    continue;
+                }
                 $recipientName =
                     $this->buildRecipientName(
                         $delivery

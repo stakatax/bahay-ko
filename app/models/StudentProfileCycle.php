@@ -5,6 +5,41 @@ require_once __DIR__
 
 class StudentProfileCycle extends BaseModel
 {
+    public function getDuePeriodicReminders(int $limit): array
+    {
+        $limit = max(1, min(500, $limit));
+        $statement = $this->conn->prepare("SELECT u.user_id,c.student_profile_cycle_id,c.cycle_name,c.due_at,CURDATE() AS reminder_day
+            FROM student_profile_cycle_assignment a
+            INNER JOIN student_profile p ON p.student_profile_id=a.student_profile_id
+            INNER JOIN user u ON u.user_id=p.user_id INNER JOIN role r ON r.role_id=u.role_id
+            INNER JOIN student_profile_cycle c ON c.student_profile_cycle_id=a.student_profile_cycle_id
+            WHERE c.status='Active' AND c.is_default=0 AND a.assignment_status IN ('Assigned','InProgress')
+              AND u.status='Active' AND r.role_prefix='Student' AND (c.opens_at IS NULL OR c.opens_at<=NOW())
+              AND DATEDIFF(CURDATE(),DATE(GREATEST(COALESCE(c.opens_at,c.activated_at,a.assigned_at),COALESCE(c.activated_at,a.assigned_at))))>0
+              AND (MOD(DATEDIFF(CURDATE(),DATE(GREATEST(COALESCE(c.opens_at,c.activated_at,a.assigned_at),COALESCE(c.activated_at,a.assigned_at)))),3)=0
+                   OR DATE(c.due_at) IN (CURDATE(),DATE_ADD(CURDATE(),INTERVAL 1 DAY)))
+              AND NOT EXISTS (SELECT 1 FROM notification n WHERE n.user_id=u.user_id
+                AND n.created_at>=CURDATE() AND n.created_at<DATE_ADD(CURDATE(),INTERVAL 1 DAY)
+                AND (n.deduplication_key=CONCAT('student-profile-cycle-assigned:cycle:',c.student_profile_cycle_id)
+                  OR n.deduplication_key=CONCAT('student-profile-cycle-reminder:cycle:',c.student_profile_cycle_id,':day:',CURDATE())))
+            ORDER BY a.student_profile_cycle_assignment_id LIMIT ?");
+        $statement->bind_param('i', $limit); $statement->execute();
+        $rows = $statement->get_result()->fetch_all(MYSQLI_ASSOC); $statement->close();
+        return $rows;
+    }
+
+    public function hasIncompleteAssignment(int $userId, int $cycleId): bool
+    {
+        $statement = $this->conn->prepare("SELECT 1 FROM student_profile_cycle_assignment a
+            INNER JOIN student_profile p ON p.student_profile_id=a.student_profile_id
+            INNER JOIN user u ON u.user_id=p.user_id INNER JOIN role r ON r.role_id=u.role_id
+            INNER JOIN student_profile_cycle c ON c.student_profile_cycle_id=a.student_profile_cycle_id
+            WHERE p.user_id=? AND c.student_profile_cycle_id=? AND c.status='Active'
+              AND a.assignment_status IN ('Assigned','InProgress') AND u.status='Active' AND r.role_prefix='Student' LIMIT 1");
+        $statement->bind_param('ii', $userId, $cycleId); $statement->execute();
+        $exists = $statement->get_result()->num_rows > 0; $statement->close(); return $exists;
+    }
+
     /** Committed assignments are the durable source for missing reminders. */
     public function getMissingAssignmentNotifications(int $limit = 100, ?int $cycleId = null): array
     {
@@ -1284,6 +1319,7 @@ class StudentProfileCycle extends BaseModel
                         status = 'Active',
                         activated_by = ?,
                         activated_at = NOW(),
+                        due_at = COALESCE(due_at, DATE_ADD(GREATEST(COALESCE(opens_at, NOW()), NOW()), INTERVAL 14 DAY)),
                         updated_at = NOW()
 
                     WHERE student_profile_cycle_id = ?

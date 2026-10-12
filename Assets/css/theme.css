@@ -1206,6 +1206,45 @@ html[data-theme="dark"] body[data-page-css="notifications.css"] .notification-ca
 html[data-theme="dark"] body[data-page-css="notifications.css"] .notifications-toggle-control,html[data-theme="dark"] body[data-page-css="notifications.css"] .notification-category-channel > span{border:1px solid var(--theme-border);}
 html[data-theme="dark"] body[data-page-css="notifications.css"] .notifications-toggle-control::after,html[data-theme="dark"] body[data-page-css="notifications.css"] .notification-category-channel > span::after{background:var(--theme-surface);}
 /* password-recovery.css */
+html[data-theme="dark"] body[data-page-css="password-recovery.css"]{background:var(--theme-surface);color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-shell{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-logo img{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-eyebrow{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card{border:1px solid var(--theme-border);background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card-icon{background:var(--theme-surface);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card-header h2{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card-header p{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-field label{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-field small{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control{border:1px solid var(--theme-border);background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control:focus-within{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control > i{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control input,html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control select{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-control input::placeholder{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .password-toggle{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-text-button{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-checkbox{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card-footer{border-top:1px solid var(--theme-border);color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-card-footer a,html[data-theme="dark"] body[data-page-css="password-recovery.css"] .register-header > a{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-notice{border:1px solid var(--theme-border);background:var(--theme-surface);color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-notice i{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-error-card{border:1px solid var(--theme-border);background:var(--theme-surface);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-error-icon{background:var(--theme-warm);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-error-card p{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-error-dismiss{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-error-dismiss:hover{background:var(--theme-warm);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-field.has-error
+.auth-control{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-field.has-error
+.auth-control > i{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-caps-lock-warning{color:#edb47e!important;}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-caps-lock-warning i{color:#edb47e;}
+@media (max-width: 850px){
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-shell:has(#loginForm) .auth-text-button{color:var(--theme-brand-text);}
+}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-shell:has(#loginForm) .auth-card .auth-eyebrow{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-shell:has(#loginForm) .auth-text-button{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-shell:has(#loginForm) .auth-rail a:focus-visible{outline-color:var(--theme-border);}
 html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-password-toggle{color:var(--theme-muted);}
 html[data-theme="dark"] body[data-page-css="password-recovery.css"] .auth-password-toggle:hover{background:var(--theme-raised);color:var(--theme-brand-text);}
 html[data-theme="dark"] body[data-page-css="password-recovery.css"] .password-recovery-status.is-error{border-color:var(--theme-border);background:var(--theme-surface);color:var(--theme-brand-text);}
@@ -1499,6 +1538,45 @@ html[data-theme="dark"] body[data-page-css="posting.css"] .publisher-preview-gov
 html[data-theme="dark"] body[data-page-css="posting.css"] .publisher-preview-government > a{color:var(--theme-brand-text);}
 html[data-theme="dark"] body[data-page-css="posting.css"] .posting-trusted-sources a{color:var(--theme-brand-text);}
 /* register.css */
+html[data-theme="dark"] body[data-page-css="register.css"]{background:var(--theme-surface);color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-shell{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-logo img{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-eyebrow{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card{border:1px solid var(--theme-border);background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card-icon{background:var(--theme-surface);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card-header h2{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card-header p{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-field label{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-field small{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-control{border:1px solid var(--theme-border);background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-control:focus-within{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-control > i{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-control input,html[data-theme="dark"] body[data-page-css="register.css"] .auth-control select{color:var(--theme-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-control input::placeholder{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .password-toggle{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-text-button{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-checkbox{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card-footer{border-top:1px solid var(--theme-border);color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-card-footer a,html[data-theme="dark"] body[data-page-css="register.css"] .register-header > a{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-notice{border:1px solid var(--theme-border);background:var(--theme-surface);color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-notice i{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-error-card{border:1px solid var(--theme-border);background:var(--theme-surface);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-error-icon{background:var(--theme-warm);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-error-card p{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-error-dismiss{color:var(--theme-muted);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-error-dismiss:hover{background:var(--theme-warm);color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-field.has-error
+.auth-control{background:var(--theme-surface);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-field.has-error
+.auth-control > i{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-caps-lock-warning{color:#edb47e!important;}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-caps-lock-warning i{color:#edb47e;}
+@media (max-width: 850px){
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-shell:has(#loginForm) .auth-text-button{color:var(--theme-brand-text);}
+}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-shell:has(#loginForm) .auth-card .auth-eyebrow{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-shell:has(#loginForm) .auth-text-button{color:var(--theme-brand-text);}
+html[data-theme="dark"] body[data-page-css="register.css"] .auth-shell:has(#loginForm) .auth-rail a:focus-visible{outline-color:var(--theme-border);}
 html[data-theme="dark"] body[data-page-css="register.css"] .register-header{border-bottom:1px solid var(--theme-border);}
 html[data-theme="dark"] body[data-page-css="register.css"] .register-header h2{color:var(--theme-text);}
 html[data-theme="dark"] body[data-page-css="register.css"] .register-header p{color:var(--theme-muted);}
