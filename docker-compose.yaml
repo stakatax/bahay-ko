@@ -1,0 +1,59 @@
+x-runtime: &runtime
+  OLSHCO_APP_ENV: production
+  OLSHCO_APP_URL: ${OLSHCO_APP_URL:?}
+  OLSHCO_APP_KEY: ${OLSHCO_APP_KEY:?}
+  OLSHCO_DB_HOST: ${OLSHCO_DB_HOST:?}
+  OLSHCO_DB_PORT: ${OLSHCO_DB_PORT:-3306}
+  OLSHCO_DB_NAME: ${OLSHCO_DB_NAME:-olshcodb}
+  OLSHCO_DB_USER: ${OLSHCO_DB_USER:-olshco_app}
+  OLSHCO_DB_PASSWORD: ${OLSHCO_DB_PASSWORD:?}
+  OLSHCO_TRUSTED_PROXY_CIDRS: ${OLSHCO_TRUSTED_PROXY_CIDRS:?}
+  OLSHCO_EMAIL_ENABLED: ${OLSHCO_EMAIL_ENABLED:-0}
+  OLSHCO_SMTP_HOST: ${OLSHCO_SMTP_HOST:-}
+  OLSHCO_SMTP_PORT: ${OLSHCO_SMTP_PORT:-587}
+  OLSHCO_SMTP_ENCRYPTION: ${OLSHCO_SMTP_ENCRYPTION:-tls}
+  OLSHCO_SMTP_USER: ${OLSHCO_SMTP_USER:-}
+  OLSHCO_SMTP_PASSWORD: ${OLSHCO_SMTP_PASSWORD:-}
+  OLSHCO_EMAIL_FROM: ${OLSHCO_EMAIL_FROM:-}
+  OLSHCO_EMAIL_REPLY_TO: ${OLSHCO_EMAIL_REPLY_TO:-}
+  OLSHCO_VAPID_SUBJECT: ${OLSHCO_VAPID_SUBJECT:-}
+  OLSHCO_VAPID_PUBLIC_KEY: ${OLSHCO_VAPID_PUBLIC_KEY:-}
+  OLSHCO_VAPID_PRIVATE_KEY: ${OLSHCO_VAPID_PRIVATE_KEY:-}
+
+services:
+  server:
+    build:
+      context: .
+    restart: unless-stopped
+    environment: *runtime
+    expose:
+      - "80"
+    volumes:
+      - uploads:/var/www/html/Assets/uploads
+      - runtime-logs:/var/www/html/logs
+      - runtime-sessions:/var/lib/olshco/sessions
+      - worker-locks:/var/lib/olshco/tmp
+    healthcheck:
+      test: ["CMD", "php", "/opt/olshco/healthcheck.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+  worker:
+    build:
+      context: .
+    restart: unless-stopped
+    command: ["/opt/olshco/worker.sh"]
+    environment:
+      <<: *runtime
+      OLSHCO_WORKER_ENABLED: ${OLSHCO_WORKER_ENABLED:-0}
+    volumes:
+      - uploads:/var/www/html/Assets/uploads
+      - runtime-logs:/var/www/html/logs
+      - worker-locks:/var/lib/olshco/tmp
+
+volumes:
+  uploads:
+  runtime-logs:
+  runtime-sessions:
+  worker-locks:
