@@ -1,6 +1,6 @@
 x-runtime: &runtime
   OLSHCO_APP_ENV: production
-  OLSHCO_APP_URL: ${OLSHCO_APP_URL:?}
+  OLSHCO_APP_URL: https://olshco-digihub.aleczr.link
   OLSHCO_APP_KEY: ${OLSHCO_APP_KEY:?}
   OLSHCO_DB_HOST: ${OLSHCO_DB_HOST:?}
   OLSHCO_DB_PORT: ${OLSHCO_DB_PORT:-3306}
